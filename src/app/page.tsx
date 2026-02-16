@@ -13,6 +13,7 @@ export default function Home() {
           priority
         />
         <h1 className="text-3xl font-bold">Welcome to Insight AI</h1>
+        <h2>this is hasan branch</h2>
       </main>
     </div>
   );
