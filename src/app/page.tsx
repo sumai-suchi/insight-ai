@@ -14,6 +14,7 @@ export default function Home() {
         />
         <h1 className="text-3xl font-bold">Welcome to Insight AI</h1>
         <h2>this is hasan branch</h2>
+        <h3>test perpose</h3>
       </main>
     </div>
   );
