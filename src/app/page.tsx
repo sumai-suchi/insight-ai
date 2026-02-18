@@ -5,7 +5,6 @@ import HowItWorks from "@/components/homepage/HowItWorks";
 import Testimonials from "@/components/homepage/Testimonials";
 import TrendingNews from "@/components/homepage/TrendingNews";
 import Navbar from "@/components/navbar";
-import Image from "next/image";
 
 export default function Home() {
   return (
@@ -21,5 +20,6 @@ export default function Home() {
         <Footer />
       </main>
     </>
+
   );
 }
