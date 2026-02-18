@@ -42,6 +42,7 @@ export default function SignUp() {
       if (result.error || !result.success) {
         setError(result.error ?? "Failed to sign up");
       } else {
+        router.refresh();
         router.push("/dashboard");
       }
     } catch {

@@ -11,6 +11,7 @@ export default function SignOutButton() {
     <DropdownMenuItem
       onClick={async () => {
         const result = await signOut();
+        router.refresh();
         if (result.success) {
           router.push("/sign-in");
         } else {
