@@ -7,6 +7,11 @@ import { RiNewspaperLine } from 'react-icons/ri';
 
 const Footer = () => {
     
+const currentYear = new Date().getFullYear();
+    
+
+    
+    
 
     return (
         <footer className='bg-[#111827]'>
@@ -53,7 +58,30 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                
+                <div className="mt-12 pt-8 border-t border-gray-800">
+                    <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                        <p className="text-sm text-gray-400">
+                            © {currentYear} SynapseNews All rights reserved. | Made By <span className="text-[#FBBF24]"></span> Bug SlayerS
+                        </p>
+                        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+                            <Link href="/privacy" className="text-sm text-gray-400 hover:text-[#3B82F6] transition-colors">
+                                Privacy
+                            </Link>
+                            <Link href="/terms" className="text-sm text-gray-400 hover:text-[#3B82F6] transition-colors">
+                                Terms
+                            </Link>
+                            <Link href="/cookies" className="text-sm text-gray-400 hover:text-[#FBBF24] transition-colors">
+                                Cookies
+                            </Link>
+                            <Link href="/sitemap" className="text-sm text-gray-400 hover:text-[#10B981] transition-colors">
+                                Sitemap
+                            </Link>
+                            <Link href="/accessibility" className="text-sm text-gray-400 hover:text-[#3B82F6] transition-colors">
+                                Accessibility
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </footer>
     );
