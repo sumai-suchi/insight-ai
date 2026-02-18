@@ -6,10 +6,15 @@ import Image from "next/image";
 import { RiNewspaperLine } from 'react-icons/ri';
 
 const Footer = () => {
-    
-const currentYear = new Date().getFullYear();
-    
+    const currentYear = new Date().getFullYear();
 
+    
+const quickLinks = [
+        { name: 'About Us', href: '/about' },
+        { name: 'Contact', href: '/contact' },
+        { name: 'Privacy Policy', href: '/privacy' },
+        { name: 'Terms of Service', href: '/terms' },
+    ];
     
     
 
@@ -43,11 +48,55 @@ const currentYear = new Date().getFullYear();
                             Company
                         </h3>
                         <ul className="mt-4 space-y-3">
-                            
+                            {quickLinks.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-gray-300 hover:text-[#3B82F6] text-sm transition-colors duration-200 flex items-center group"
+                                    >
+                                        <span className="w-1 h-1 bg-gray-600 rounded-full mr-2 group-hover:bg-[#3B82F6]"></span>
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                     <div className="lg:col-span-5">
-                        
+                        <div className="bg-[#1F2937] rounded-xl p-6 border border-gray-700">
+                            <div className="flex items-center space-x-2 mb-3">
+                                <RiNewspaperLine className="h-5 w-5 text-[#3B82F6]" />
+                                <h3 className="text-sm font-semibold text-[#F9FAFB] uppercase tracking-wider">
+                                    Newsletter
+                                </h3>
+                            </div>
+                            <p className="text-sm text-gray-300 mb-4">
+                                Get weekly AI writing tips, platform updates, and industry news.
+                            </p>
+
+                            <form className="space-y-3">
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        
+                                    </div>
+                                    <input
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        className="block w-full pl-10 pr-3 py-2.5 bg-[#111827] border border-gray-700 rounded-lg text-[#F9FAFB] placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent text-sm"
+                                        required
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full cursor-pointer px-4 py-2.5 bg-[#3B82F6] hover:bg-[#3B82F6]/90 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center group"
+                                >
+                                    Subscribe Now
+                                    
+                                </button>
+                                <p className="text-xs text-gray-500 text-center">
+                                    Join 10,000+ content creators. No spam, ever.
+                                </p>
+                            </form>
+                        </div>
                         <div className="mt-6">
                             <h4 className="text-sm font-medium text-[#F9FAFB] mb-3">
                                 Connect With Us
