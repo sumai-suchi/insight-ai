@@ -3,11 +3,9 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Img from "../../public/NavLogo.png";
-import { getSession, signOut } from "@/lib/auth/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
@@ -46,16 +44,13 @@ export default function Navbar() {
           />
         </Link>
         <div className="flex items-center gap-4">
+          <Link href="/dashboard">
+            <Button variant="ghost" className="text-gray-700 hover:text-black">
+              Dashboard
+            </Button>
+          </Link>
           {user ? (
             <>
-              <Link href="/dashboard">
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-black"
-                >
-                  Dashboard
-                </Button>
-              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
