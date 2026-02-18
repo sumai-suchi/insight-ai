@@ -9,7 +9,6 @@ import Navbar from "@/components/navbar";
 export default function Home() {
   return (
     <>
-      {" "}
       <Navbar />
       <main className="flex min-h-screen w-full max-w-7xl flex-col items-center justify-center mx-auto gap-10 py-32 px-16 bg-white dark:bg-black sm:items-start">
         <Hero />
