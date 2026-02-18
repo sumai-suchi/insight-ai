@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Img from "../../public/NavLogo.png";
-import { getSession, signOut } from "@/lib/auth/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
