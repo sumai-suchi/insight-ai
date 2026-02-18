@@ -43,10 +43,11 @@ const Hero = () => {
         <div className="md:w-1/2 mt-16 md:mt-0 flex justify-center relative w-full h-[350px] md:h-[500px]">
           <div className="relative w-full h-full drop-shadow-2xl">
             <Image
-              src="/Hero.jpg"
+              src="/Hero1.jpg"
               alt="AI Content Platform Interface Preview"
               fill
-              className="object-contain"
+              className="object-contain 
+              rounded-3xl"
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
             />
