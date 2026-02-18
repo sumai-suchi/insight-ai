@@ -1,11 +1,18 @@
-function DashboardPage() {
+"use client";
+import { useState } from "react";
+import SearchSection from "./_components/SearchSection";
+import TemplateList from "./_components/TemplateList";
+
+function Dashboard() {
+  const [userSearchInput, setUserSearchInput] = useState<string>();
   return (
-    <section className="p-4 flex justify-center items-center bg-white">
-      <div className="">
-        <h1 className="text-2xl font-bold">Dashboard Page</h1>
-      </div>
+    <section className="flex flex-col bg-white">
+      <SearchSection
+        onSearchInput={(value: string) => setUserSearchInput(value)}
+      />
+      <TemplateList userSearchInput={userSearchInput} />
     </section>
   );
 }
 
-export default DashboardPage;
+export default Dashboard;
