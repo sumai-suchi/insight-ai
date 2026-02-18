@@ -11,7 +11,7 @@ export const SideNav = () => {
     { name: "Settings", icon: Settings, href: "/dashboard/settings" },
   ];
   return (
-    <aside className="h-screen fixed w-70 hidden md:block p-5 shadow-sm border">
+    <aside className="h-screen fixed w-50 lg:w-70 hidden md:block p-5 shadow-sm border">
       <Link href="/" className="flex justify-center">
         <Image
           src="/Logo.png"
@@ -26,7 +26,7 @@ export const SideNav = () => {
           <Link
             href={link.href}
             key={link.name}
-            className="flex ml-4 items-center mb-2 font-bold text-xl hover:bg-gray-100 rounded-md p-2"
+            className="flex lg:ml-4 items-center mb-2 font-bold text-lg lg:text-xl hover:bg-gray-100 rounded-md p-2"
           >
             <i className="mr-2">
               <link.icon className="w-4 h-4" />

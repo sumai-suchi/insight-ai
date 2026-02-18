@@ -6,7 +6,6 @@ import Img from "../../public/NavLogo.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
@@ -45,16 +44,13 @@ export default function Navbar() {
           />
         </Link>
         <div className="flex items-center gap-4">
+          <Link href="/dashboard">
+            <Button variant="ghost" className="text-gray-700 hover:text-black">
+              Dashboard
+            </Button>
+          </Link>
           {user ? (
             <>
-              <Link href="/dashboard">
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-black"
-                >
-                  Dashboard
-                </Button>
-              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
