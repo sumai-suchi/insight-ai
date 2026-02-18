@@ -15,20 +15,18 @@ import {
     FaChartLine,
     FaRobot,
 } from 'react-icons/fa';
-
 import { RiNewspaperLine } from 'react-icons/ri';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
 
-    
-const quickLinks = [
+    const quickLinks = [
         { name: 'About Us', href: '/about' },
         { name: 'Contact', href: '/contact' },
         { name: 'Privacy Policy', href: '/privacy' },
         { name: 'Terms of Service', href: '/terms' },
     ];
-    
+
     const features = [
         { name: 'AI Writing Assistant', href: '/features/ai-writing', icon: FaPenFancy },
         { name: 'Plagiarism Checker', href: '/features/plagiarism', icon: FaSearch },
@@ -43,7 +41,6 @@ const quickLinks = [
         { icon: FaFacebookF, href: 'https://facebook.com/', label: 'Facebook' },
         { icon: FaInstagram, href: 'https://instagram.com/insightai', label: 'Instagram' },
     ];
-    
 
     return (
         <footer className='bg-[#111827]'>
@@ -86,7 +83,6 @@ const quickLinks = [
                                 </li>
                             ))}
                         </ul>
-                        
                     </div>
                     <div className="lg:col-span-2">
                         <h3 className="text-sm font-semibold text-[#F9FAFB] uppercase tracking-wider">
@@ -121,7 +117,7 @@ const quickLinks = [
                             <form className="space-y-3">
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        
+                                        <FaEnvelope className="h-4 w-4 text-gray-500" />
                                     </div>
                                     <input
                                         type="email"
@@ -135,7 +131,7 @@ const quickLinks = [
                                     className="w-full cursor-pointer px-4 py-2.5 bg-[#3B82F6] hover:bg-[#3B82F6]/90 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center group"
                                 >
                                     Subscribe Now
-                                    
+                                    <FaArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
                                 </button>
                                 <p className="text-xs text-gray-500 text-center">
                                     Join 10,000+ content creators. No spam, ever.
