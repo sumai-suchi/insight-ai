@@ -2,6 +2,19 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from "next/image";
+import {
+    FaTwitter,
+    FaLinkedinIn,
+    FaGithub,
+    FaFacebookF,
+    FaInstagram,
+    FaEnvelope,
+    FaArrowRight,
+    FaPenFancy,
+    FaSearch,
+    FaChartLine,
+    FaRobot,
+} from 'react-icons/fa';
 
 import { RiNewspaperLine } from 'react-icons/ri';
 
@@ -16,6 +29,20 @@ const quickLinks = [
         { name: 'Terms of Service', href: '/terms' },
     ];
     
+    const features = [
+        { name: 'AI Writing Assistant', href: '/features/ai-writing', icon: FaPenFancy },
+        { name: 'Plagiarism Checker', href: '/features/plagiarism', icon: FaSearch },
+        { name: 'Trending News', href: '/trending', icon: FaChartLine, badge: 'HOT' },
+        { name: 'AI Editor', href: '/editor', icon: FaRobot },
+    ];
+
+    const socialLinks = [
+        { icon: FaTwitter, href: 'https://twitter.com/', label: 'Twitter' },
+        { icon: FaLinkedinIn, href: 'https://linkedin.com/', label: 'LinkedIn' },
+        { icon: FaGithub, href: 'https://github.com/', label: 'GitHub' },
+        { icon: FaFacebookF, href: 'https://facebook.com/', label: 'Facebook' },
+        { icon: FaInstagram, href: 'https://instagram.com/insightai', label: 'Instagram' },
+    ];
     
 
     return (
@@ -41,6 +68,24 @@ const quickLinks = [
                         <h3 className="text-sm font-semibold text-[#F9FAFB] uppercase tracking-wider">
                             Features
                         </h3>
+                        <ul className="mt-4 space-y-3">
+                            {features.map((feature) => (
+                                <li key={feature.name}>
+                                    <Link
+                                        href={feature.href}
+                                        className="text-gray-300 hover:text-[#3B82F6] text-sm transition-colors duration-200 flex items-center group"
+                                    >
+                                        <feature.icon className="h-3.5 w-3.5 mr-2 text-gray-500 group-hover:text-[#3B82F6]" />
+                                        {feature.name}
+                                        {feature.badge && (
+                                            <span className="ml-2 px-1.5 py-0.5 bg-[#FBBF24] text-[#111827] text-[10px] font-bold rounded">
+                                                {feature.badge}
+                                            </span>
+                                        )}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                         
                     </div>
                     <div className="lg:col-span-2">
@@ -102,7 +147,18 @@ const quickLinks = [
                                 Connect With Us
                             </h4>
                             <div className="flex flex-wrap gap-3">
-                                
+                                {socialLinks.map((social) => (
+                                    <a
+                                        key={social.label}
+                                        href={social.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-400 hover:text-[#3B82F6] transition-all duration-200 hover:scale-110 bg-[#1F2937] p-2 rounded-lg border border-gray-700"
+                                        aria-label={social.label}
+                                    >
+                                        <social.icon className="h-4 w-4" />
+                                    </a>
+                                ))}
                             </div>
                         </div>
                     </div>
