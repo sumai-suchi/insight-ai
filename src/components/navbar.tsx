@@ -12,11 +12,11 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import SignOutButton from "@/components/sign-out-btn";
-import { useSession } from "@/lib/auth/auth-client";
+import { useSessionContext } from "@/lib/auth/session-context";
 import Image from "next/image";
 
-export default function Navbar({ initialUser }: { initialUser?: any | null }) {
-  const { data: session, loading } = useSession({ initialUser });
+export default function Navbar() {
+  const { user, loading } = useSessionContext();
 
   // Prevent hydration mismatch by not rendering until session is loaded
   if (loading) {
@@ -30,7 +30,7 @@ export default function Navbar({ initialUser }: { initialUser?: any | null }) {
   }
 
   return (
-    <nav className="border-b border-gray-200 bg-white">
+    <nav className="border-b w-full border-gray-200 bg-white">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
         <Link
           href="/"
@@ -45,7 +45,7 @@ export default function Navbar({ initialUser }: { initialUser?: any | null }) {
           />
         </Link>
         <div className="flex items-center gap-4">
-          {session?.user ? (
+          {user ? (
             <>
               <Link href="/dashboard">
                 <Button
@@ -63,7 +63,7 @@ export default function Navbar({ initialUser }: { initialUser?: any | null }) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarFallback className="bg-primary text-white">
-                        {session.user.name[0].toUpperCase()}
+                        {user.name[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -73,10 +73,10 @@ export default function Navbar({ initialUser }: { initialUser?: any | null }) {
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        {session.user.name}
+                        {user.name}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        {session.user.email}
+                        {user.email}
                       </p>
                     </div>
                   </DropdownMenuLabel>
@@ -92,6 +92,14 @@ export default function Navbar({ initialUser }: { initialUser?: any | null }) {
                   className="text-gray-700 hover:text-black"
                 >
                   Log In
+                </Button>
+              </Link>
+              <Link href="/ai-editing">
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-black"
+                >
+                  Ai-Editing
                 </Button>
               </Link>
               <Link href="/sign-up">
