@@ -8,10 +8,8 @@ import Navbar from "@/components/navbar";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-     
-
-  
+    <>
+      {" "}
       <Navbar />
       <main className="flex min-h-screen w-full max-w-7xl flex-col items-center justify-center mx-auto gap-10 py-32 px-16 bg-white dark:bg-black sm:items-start">
         <Hero />
@@ -21,6 +19,7 @@ export default function Home() {
         <Testimonials />
         <Footer />
       </main>
-   </div>
+    </>
+
   );
 }
