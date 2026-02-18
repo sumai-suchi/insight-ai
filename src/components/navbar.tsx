@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Img from "../../public/NavLogo.png";
-import { getSession, signOut } from "@/lib/auth/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -93,6 +92,14 @@ export default function Navbar() {
                   className="text-gray-700 hover:text-black"
                 >
                   Log In
+                </Button>
+              </Link>
+              <Link href="/ai-editing">
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-black"
+                >
+                  Ai-Editing
                 </Button>
               </Link>
               <Link href="/sign-up">
