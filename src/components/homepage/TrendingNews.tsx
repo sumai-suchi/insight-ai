@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 // import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Variants } from "framer-motion";
 import Image from "next/image";
 
 // Types
@@ -119,7 +121,7 @@ const categoryEmoji: Record<Category, string> = {
 };
 
 // Animation Variants
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
   visible: (i: number) => ({
     opacity: 1,
