@@ -95,7 +95,7 @@ export default function Navbar() {
                   Log In
                 </Button>
               </Link>
-              <Link href="/a">
+              <Link href="/ai-editing">
                 <Button
                   variant="ghost"
                   className="text-gray-700 hover:text-black"
