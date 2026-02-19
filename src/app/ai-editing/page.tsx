@@ -7,7 +7,6 @@ const aiEditing = () => {
   return (
     <div>
       <NavAi />
-
       <HeroAi />
       <RevisionHistory />
     </div>
