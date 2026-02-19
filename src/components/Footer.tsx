@@ -44,7 +44,7 @@ const Footer = () => {
 
     return (
         <footer className='bg-[#111827]'>
-            <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
                     <div className="lg:col-span-3">
                         <Link href="/" className="flex items-center space-x-2 group">
@@ -95,7 +95,7 @@ const Footer = () => {
                                         href={link.href}
                                         className="text-gray-300 hover:text-[#3B82F6] text-sm transition-colors duration-200 flex items-center group"
                                     >
-                                        <span className="w-1 h-1 bg-gray-600 rounded-full mr-2 group-hover:bg-[#3B82F6]"></span>
+                                        <p className="w-1 h-1 bg-gray-600 rounded-full mr-2 group-hover:bg-[#3B82F6]"></p>
                                         {link.name}
                                     </Link>
                                 </li>
