@@ -7,6 +7,16 @@ export default function OutputPreview() {
    const [text, setText] = useState(
         " "
     );
+    // Copy text to clipboard
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+    // Word & character count
+    const wordCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+    const charCount = text.length;
+
     return (
 
         <div className="flex items-center justify-center p-6 bg-gray-100">
@@ -45,7 +55,7 @@ export default function OutputPreview() {
 
 
                     <p className="text-xs mt-1 mb-5 text-white">
-                         words ·  characters
+                        {wordCount} words · {charCount} characters
                     </p>
 
 
@@ -53,7 +63,7 @@ export default function OutputPreview() {
 
 
                         <button
-                            onClick=
+                            onClick={handleCopy}
                             className={`flex cursor-pointer items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition text-white
                 ${copied
                                     ? "bg-emerald-500"
