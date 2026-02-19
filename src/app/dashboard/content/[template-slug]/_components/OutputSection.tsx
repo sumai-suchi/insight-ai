@@ -1,7 +1,8 @@
+import Tiptap from "@/components/text-editor";
 import React from "react";
 
 function OutputSection() {
-  return <div></div>;
+  return <Tiptap />;
 }
 
 export default OutputSection;
