@@ -46,7 +46,7 @@ const RevisionHistory: React.FC = () => {
   };
 
   return (
-    <section className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden max-w-4xl mx-auto my-12">
+    <section className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden max-w-6xl mx-auto my-12">
       {/* Header */}
       <div className="bg-[#F9FAFB] px-6 py-4 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
