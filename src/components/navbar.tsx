@@ -30,7 +30,7 @@ export default function Navbar() {
 
   return (
     <nav className="border-b w-full border-gray-200 bg-white">
-      <div className="container mx-auto flex h-16 items-center px-4 justify-between">
+      <div className="container mx-auto flex h-16 items-center px-2 justify-between">
         <Link
           href="/"
           className="flex items-center gap-2 text-xl font-semibold text-primary"
@@ -43,17 +43,26 @@ export default function Navbar() {
             alt="Logo"
           />
         </Link>
+       
+        
+        <div className="flex items-center gap-4">
+           <Link href="/">
+          <Button variant="ghost" className="text-gray-700 hover:text-black">
+            Home
+          </Button>
+        </Link>
         <Link href="/ai-editing">
           <Button variant="ghost" className="text-gray-700 hover:text-black">
             Ai-Editing
           </Button>
         </Link>
-        <div className="flex items-center gap-4">
           <Link href="/dashboard">
             <Button variant="ghost" className="text-gray-700 hover:text-black">
               Dashboard
             </Button>
           </Link>
+
+          
           {user ? (
             <>
               <DropdownMenu>
