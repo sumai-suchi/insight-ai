@@ -4,7 +4,9 @@ import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 
 export default function OutputPreview() {
-   
+   const [text, setText] = useState(
+        " "
+    );
     return (
 
         <div className="flex items-center justify-center p-6 bg-gray-100">
@@ -32,9 +34,9 @@ export default function OutputPreview() {
 
 
                     <textarea
-                        value=
-                        onChange=
-                        rows=
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                        rows={10}
                         className="w-full rounded-xl p-4 text-base resize-none outline-none transition
                        text-gray-50 bg-gray-700 border border-gray-300
                        focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
