@@ -4,15 +4,36 @@ import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 
 export default function OutputPreview() {
-   const [text, setText] = useState(
+    const [text, setText] = useState(
         " "
     );
+    const [copied, setCopied] = useState(false);
+    const [saved, setSaved] = useState(false);
+
     // Copy text to clipboard
     const handleCopy = async () => {
         await navigator.clipboard.writeText(text);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
+
+    // Download text as a .txt file
+    const handleDownload = () => {
+        const blob = new Blob([text], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "output.txt";
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+    // Save — shows a success confirmation
+    const handleSave = () => {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
+    };
+
     // Word & character count
     const wordCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
     const charCount = text.length;
@@ -75,7 +96,7 @@ export default function OutputPreview() {
 
 
                         <button
-                            onClick=
+                            onClick={handleDownload}
                             className="flex cursor-pointer items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition
                          bg-amber-400 hover:bg-amber-500 text-gray-800"
                         >
@@ -84,7 +105,7 @@ export default function OutputPreview() {
 
 
                         <button
-                            onClick=
+                            onClick={handleSave}
                             className="flex cursor-pointer items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg transition
                          bg-emerald-500 hover:bg-emerald-600 text-white"
                         >
