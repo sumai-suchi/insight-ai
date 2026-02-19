@@ -1,5 +1,5 @@
 "use client";
-import React, { use } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 const HeroAi = () => {
   const description = `Leverage our cutting-edge artificial intelligence to effortlessly create compelling articles, high-ranking blogs, and persuasive marketing copy in mere seconds. Our platform provides advanced tools for seamless search engine optimization, ensuring your content reaches the right audience. With integrated plagiarism checks and the ability to adapt tone to various demographics, you can streamline your workflow, boost productivity, and publish with absolute confidence. Experience the future of professional writing and take your digital presence to the next level today.`;
@@ -10,7 +10,7 @@ const HeroAi = () => {
     visible: { opacity: 1, y: 0 },
   };
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-blue-950 to-blue-800 text-white px-6">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-blue-950 to-blue-800 text-white px-6 mt-16">
       {/* Animated Stickers */}
       <div className="pointer-events-none select-none absolute inset-0 w-full h-full z-0">
         {/* Star Sticker */}
