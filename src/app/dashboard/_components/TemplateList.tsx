@@ -1,5 +1,5 @@
 "use client";
-import Templates from "@/app/(data)/Templates";
+import Templates from "@/lib/templates";
 import TemplateCard from "./TemplateCard";
 import { useEffect } from "react";
 

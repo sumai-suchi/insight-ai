@@ -31,24 +31,35 @@ export default function Navbar() {
   return (
     <nav className="border-b w-full border-gray-200 bg-white">
       <div className="container mx-auto flex h-16 items-center px-4 justify-between">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-xl font-semibold text-primary"
-        >
+        <Link href="/" className="flex justify-center">
           <Image
-            height={60}
-            width={125}
-            className="rounded-md object-contain w-auto h-auto"
-            src={Img.src}
-            alt="Logo"
+            src="/Logo.png"
+            alt="Insight AI Logo"
+            width={170}
+            height={70}
+            className="rounded"
           />
         </Link>
+       
+        
         <div className="flex items-center gap-4">
+           <Link href="/">
+          <Button variant="ghost" className="text-gray-700 hover:text-black">
+            Home
+          </Button>
+        </Link>
+        <Link href="/ai-editing">
+          <Button variant="ghost" className="text-gray-700 hover:text-black">
+            Ai-Editing
+          </Button>
+        </Link>
           <Link href="/dashboard">
             <Button variant="ghost" className="text-gray-700 hover:text-black">
               Dashboard
             </Button>
           </Link>
+
+          
           {user ? (
             <>
               <DropdownMenu>
@@ -90,14 +101,7 @@ export default function Navbar() {
                   Log In
                 </Button>
               </Link>
-              <Link href="/ai-editing">
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-black"
-                >
-                  Ai-Editing
-                </Button>
-              </Link>
+
               <Link href="/sign-up">
                 <Button className="bg-primary hover:bg-primary/90">
                   Start for free
