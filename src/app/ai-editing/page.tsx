@@ -6,7 +6,7 @@ import React from "react";
 const aiEditing = () => {
   return (
     <div>
-      <NavAi />
+      {/* <NavAi /> */}
 
       <HeroAi />
       <RevisionHistory />

@@ -43,7 +43,7 @@ export async function getSession() {
         email: userData.email,
         role: userData.role,
         photoURL: userData.photoURL,
-        createdAt: userData.createdAt,
+        createdAt: userData.createdAt.toISOString(),
       },
     };
   } catch (error) {
