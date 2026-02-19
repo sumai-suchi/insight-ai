@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Img from "../../../public/NavLogo.png";
+import { Button } from "../ui/button";
 
 const NavAi: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +36,11 @@ const NavAi: React.FC = () => {
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
+            <Link href="/">
+          <Button variant="ghost" className="text-gray-700 hover:text-black">
+            Home
+          </Button>
+        </Link>
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -44,6 +50,7 @@ const NavAi: React.FC = () => {
                 {link.name}
               </Link>
             ))}
+            
           </div>
 
           {/* Profile/Auth Button */}

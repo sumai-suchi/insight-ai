@@ -2,6 +2,7 @@ import Footer from "@/components/Footer";
 import Features from "@/components/homepage/Features";
 import Hero from "@/components/homepage/Hero";
 import HowItWorks from "@/components/homepage/HowItWorks";
+import OutputPreview from "@/components/homepage/OutputPreview";
 import Testimonials from "@/components/homepage/Testimonials";
 import TrendingNews from "@/components/homepage/TrendingNews";
 import Navbar from "@/components/navbar";
@@ -15,7 +16,8 @@ export default function Home() {
         <Features />
         <HowItWorks />
         <TrendingNews />
-        <Testimonials />
+        {/* <Testimonials /> */}
+        <OutputPreview />
       </main>
       {/* <Footer /> */}
     </>
