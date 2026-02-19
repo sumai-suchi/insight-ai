@@ -43,6 +43,11 @@ export default function Navbar() {
             alt="Logo"
           />
         </Link>
+        <Link href="/ai-editing">
+          <Button variant="ghost" className="text-gray-700 hover:text-black">
+            Ai-Editing
+          </Button>
+        </Link>
         <div className="flex items-center gap-4">
           <Link href="/dashboard">
             <Button variant="ghost" className="text-gray-700 hover:text-black">
@@ -90,14 +95,7 @@ export default function Navbar() {
                   Log In
                 </Button>
               </Link>
-              <Link href="/ai-editing">
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-black"
-                >
-                  Ai-Editing
-                </Button>
-              </Link>
+
               <Link href="/sign-up">
                 <Button className="bg-primary hover:bg-primary/90">
                   Start for free
