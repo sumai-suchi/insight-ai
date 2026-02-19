@@ -40,17 +40,26 @@ export default function Navbar() {
             className="rounded"
           />
         </Link>
+       
+        
+        <div className="flex items-center gap-4">
+           <Link href="/">
+          <Button variant="ghost" className="text-gray-700 hover:text-black">
+            Home
+          </Button>
+        </Link>
         <Link href="/ai-editing">
           <Button variant="ghost" className="text-gray-700 hover:text-black">
             Ai-Editing
           </Button>
         </Link>
-        <div className="flex items-center gap-4">
           <Link href="/dashboard">
             <Button variant="ghost" className="text-gray-700 hover:text-black">
               Dashboard
             </Button>
           </Link>
+
+          
           {user ? (
             <>
               <DropdownMenu>
