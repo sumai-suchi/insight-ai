@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
+// import { motion, AnimatePresence } from "framer-motion";
 import { motion, AnimatePresence } from "framer-motion";
+import { Variants } from "framer-motion";
 import Image from "next/image";
 
 // Types
@@ -119,7 +121,7 @@ const categoryEmoji: Record<Category, string> = {
 };
 
 // Animation Variants
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
   visible: (i: number) => ({
     opacity: 1,
@@ -172,7 +174,7 @@ const HeroCard = ({ item }: { item: NewsItem }) => {
 
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#10B981] flex items-center justify-center text-white text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-linear-to-br from-[#3B82F6] to-[#10B981] flex items-center justify-center text-white text-xs font-bold">
               {item.sourceInitial}
             </div>
             <div>

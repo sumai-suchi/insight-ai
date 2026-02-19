@@ -87,6 +87,14 @@ export default function Navbar() {
                   Log In
                 </Button>
               </Link>
+              <Link href="/ai-editing">
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-black"
+                >
+                  Ai-Editing
+                </Button>
+              </Link>
               <Link href="/sign-up">
                 <Button className="bg-primary hover:bg-primary/90">
                   Start for free
