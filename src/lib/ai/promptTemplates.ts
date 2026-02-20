@@ -1,4 +1,16 @@
-export function articlePrompt({ topic, keywords, tone, wordCount }) {
+interface ArticlePromptParams {
+  topic: string;
+  keywords: string[];
+  tone: string;
+  wordCount: number;
+}
+
+export function articlePrompt({
+  topic,
+  keywords,
+  tone,
+  wordCount,
+}: ArticlePromptParams) {
   return `
 You are an expert SEO content writer.
 

@@ -1,6 +1,41 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = `${process.env.MONGODB_URI}?appName=SynapseNews`;
+// Get MongoDB URI from environment variable
+const getMongoDBUri = (): string => {
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri || uri.trim() === "") {
+    throw new Error(
+      "Please define the MONGODB_URI environment variable inside .env",
+    );
+  }
+
+  const trimmedUri = uri.trim();
+
+  // Validate URI format
+  if (
+    !trimmedUri.startsWith("mongodb://") &&
+    !trimmedUri.startsWith("mongodb+srv://")
+  ) {
+    throw new Error(
+      `Invalid MongoDB URI format. Expected connection string to start with "mongodb://" or "mongodb+srv://". Got: ${trimmedUri.substring(0, 30)}...`,
+    );
+  }
+
+  // Append appName query parameter if not already present
+  // Check if URI already has query parameters
+  const hasQueryParams = trimmedUri.includes("?");
+  const hasAppName = trimmedUri.includes("appName=");
+
+  if (!hasAppName) {
+    const separator = hasQueryParams ? "&" : "?";
+    return `${trimmedUri}${separator}appName=SynapseNews`;
+  }
+
+  return trimmedUri;
+};
+
+const MONGODB_URI = getMongoDBUri();
 
 interface MongooseCache {
   conn: typeof mongoose | null;
