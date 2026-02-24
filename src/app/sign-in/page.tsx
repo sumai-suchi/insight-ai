@@ -39,8 +39,6 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 md:p-6 font-sans bg-[#F9FAFB]">
       <div className="w-full max-w-md lg:max-w-4xl rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-130 bg-white">
-
-
         <div className="lg:w-[45%] relative overflow-hidden flex flex-col items-center justify-center p-8 lg:p-10 bg-[#1F2937]">
           {/* Blobs */}
           <div className="absolute top-0 left-0 w-32 h-32 lg:w-44 lg:h-44 rounded-br-[80px] opacity-20 bg-[#3B82F6]" />
@@ -97,16 +95,10 @@ export default function SignInPage() {
             </div>
           </div>
         </div>
-
         {/*  Right Side  */}
         <div className="flex-1 p-8 lg:p-10 flex flex-col bg-white">
-          <div className="flex items-center justify-between mb-8 lg:mb-10">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="text-[#9CA3AF] hover:text-[#1F2937] transition-colors"
-            >
-            </button>
+          <div className="flex items-center justify-end mb-8 lg:mb-10">
+
             <p className="text-sm text-[#6B7280]">
               New here?{" "}
               <Link href="/sign-up" className="font-semibold text-[#3B82F6] hover:underline">
@@ -240,9 +232,7 @@ export default function SignInPage() {
                   </>
                 )}
               </motion.button>
-
               <span className="text-sm font-medium text-gray-600 uppercase">or</span>
-
               {/* Google */}
               <motion.button
                 type="button"
