@@ -4,16 +4,76 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import React from "react";
+import { useTemplateOutput } from "./TemplateOutputContext";
 interface PROPS {
   selectedTemplate?: TEMPLATE;
 }
 function FormSection({ selectedTemplate }: PROPS) {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { setContent, setIsLoading, setError } = useTemplateOutput();
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data: { [key: string]: string } = {};
     for (const [key, value] of formData.entries()) {
       data[key] = value as string;
+    }
+
+    if (!selectedTemplate?.aiPrompt) {
+      setError("No template prompt found.");
+      return;
+    }
+
+    // Build a human-readable summary of the user inputs using the template form labels.
+    const userInputsSummary =
+      selectedTemplate.form
+        ?.map((field) => {
+          const value = data[field.name] || "";
+          return `${field.label}: ${value}`;
+        })
+        .join("\n") || JSON.stringify(data, null, 2);
+
+    const fullPrompt = `${selectedTemplate.aiPrompt}\n\nUser Inputs:\n${userInputsSummary}`;
+
+    try {
+      setIsLoading(true);
+      setError(null);
+      setContent("");
+
+      const response = await fetch("/api/gemini/stream", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: fullPrompt }),
+      });
+
+      if (!response.ok || !response.body) {
+        throw new Error("Failed to generate content");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let done = false;
+      let accumulated = "";
+
+      while (!done) {
+        const result = await reader.read();
+        done = result.done ?? false;
+
+        if (result.value) {
+          const chunkText = decoder.decode(result.value, { stream: !done });
+          if (chunkText) {
+            accumulated += chunkText;
+            setContent(accumulated);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error generating content", error);
+      setError("Failed to generate content. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
