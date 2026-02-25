@@ -10,7 +10,7 @@ const HeroAi = () => {
     visible: { opacity: 1, y: 0 },
   };
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-blue-950 to-blue-800 text-white px-6 mt-16">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-black via-blue-950 to-blue-800 text-white p-10 mt-16">
       {/* Animated Stickers */}
       <div className="pointer-events-none select-none absolute inset-0 w-full h-full z-0">
         {/* Star Sticker */}
