@@ -29,6 +29,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "AI Editing", href: "/ai-editing" },
+    { name: "News", href: "/news" },
   ];
 
   // Prevent hydration mismatch by not rendering until session is loaded
