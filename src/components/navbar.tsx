@@ -22,6 +22,7 @@ export default function Navbar() {
   }
 
   const navLinks = [
+    { name: "Home", href: "/" },
     { name: "Dashboard", href: "/dashboard" },
     { name: "Project-Dashboard", href: "/project-dashboard" },
     { name: "AI Editing info", href: "/ai-editing-pageInfo" },
