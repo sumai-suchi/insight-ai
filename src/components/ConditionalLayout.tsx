@@ -17,10 +17,9 @@ export default function ConditionalLayout({
       {/* Navbar handles its own visibility check */}
       <Navbar />
       {/* Add padding-top for fixed navbar when not in dashboard */}
-      <div className={!isDashboard ? "pt-16" : ""}>{children}</div>
+      {children}
       {/* Hide footer in dashboard */}
       {!isDashboard && <Footer />}
     </>
   );
 }
-

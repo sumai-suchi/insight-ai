@@ -4,13 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+
 
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,6 +25,8 @@ export default function Navbar() {
     { name: "Dashboard", href: "/dashboard" },
     { name: "Project-Dashboard", href: "/project-dashboard" },
     { name: "AI Editing info", href: "/ai-editing-pageInfo" },
+    { name: "AI Editing", href: "/ai-editing" },
+    { name: "News", href: "/news" },
   ];
 
   // Prevent hydration mismatch by not rendering until session is loaded
