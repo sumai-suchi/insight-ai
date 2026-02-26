@@ -93,7 +93,7 @@ const HeroAi = () => {
             animate="visible"
             transition={{ duration: 0.6, ease: "easeOut" }}
             variants={fadeInUp}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-linear-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent"
           >
             Generate High-Quality <br className="hidden md:block" />
             Content with AI

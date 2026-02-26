@@ -34,18 +34,18 @@ const initialRevisions: Revision[] = [
   },
 ];
 
-const RevisionHistory: React.FC = () => {
-  const [revisions, setRevisions] = useState(initialRevisions);
+const AiEditingInfo = () => {
+     const [revisions, setRevisions] = useState(initialRevisions);
+    
+      const handleRestore = (id: string) => {
+        const version = revisions.find((r) => r.id === id);
+        if (version) {
+          alert(`Restoring version from: ${version.timestamp}`);
+          // Logic to update your main content state would go here
+        }
+      };
 
-  const handleRestore = (id: string) => {
-    const version = revisions.find((r) => r.id === id);
-    if (version) {
-      alert(`Restoring version from: ${version.timestamp}`);
-      // Logic to update your main content state would go here
-    }
-  };
-
-  return (
+     return (
     <section className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden max-w-6xl mx-auto my-12">
       {/* Header */}
       <div className="bg-[#F9FAFB] px-6 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -89,7 +89,7 @@ const RevisionHistory: React.FC = () => {
                 <p className="text-gray-600 text-sm mb-1 leading-relaxed italic">
                   &quot;{rev.editorNote}&quot;
                 </p>
-                <p className="text-gray-400 text-xs truncate max-w-[280px] md:max-w-md">
+                <p className="text-gray-400 text-xs truncate max-w-70 md:max-w-md">
                   Preview: {rev.contentPreview}
                 </p>
               </div>
@@ -113,7 +113,7 @@ const RevisionHistory: React.FC = () => {
         </button>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default RevisionHistory;
+export default AiEditingInfo
