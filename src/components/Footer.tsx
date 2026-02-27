@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from "next/image";
+import Img from "../../public/NavLogo.png";
 import { motion } from 'framer-motion';
 import {
     FaTwitter,
@@ -73,7 +74,7 @@ const Footer = () => {
                     >
                         <Link href="/" className="flex items-center space-x-2 group">
                             <Image
-                                src="/logo.png"
+                                src={Img.src}
                                 alt="Logo"
                                 width={200}
                                 height={200}
