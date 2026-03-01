@@ -23,6 +23,7 @@ export default function Navbar() {
   }
 
   const navLinks = [
+    { name: "Home", href: "/" },
     { name: "Dashboard", href: "/dashboard" },
     { name: "AI Editing", href: "/ai-editing" },
     { name: "News", href: "/news" },
