@@ -5,14 +5,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
-
-
 import { motion, AnimatePresence } from "framer-motion";
 import Img from "../../public/NavLogo.png";
 import SignOutButton from "./SignOutButton";
+import { useSessionContext } from "@/lib/auth/session-context";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 export default function Navbar() {
-  // const { user, loading } = useSessionContext();
+  const { user } = useSessionContext();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,8 +24,6 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Project-Dashboard", href: "/project-dashboard" },
-    { name: "AI Editing info", href: "/ai-editing-pageInfo" },
     { name: "AI Editing", href: "/ai-editing" },
     { name: "News", href: "/news" },
   ];
@@ -52,8 +51,8 @@ export default function Navbar() {
             className="flex items-center gap-2 text-xl font-semibold text-primary"
           >
             <Image
-              height={60}
-              width={125}
+              height={100}
+              width={150}
               className="rounded-md object-contain w-auto h-auto"
               src={Img.src}
               alt="Insight AI Logo"
@@ -75,18 +74,37 @@ export default function Navbar() {
 
           {/* Profile/Auth Section */}
           <div className="hidden md:flex items-center gap-4">
-            {/* {user ? ( */}
+            {user ? (
               <>
-                
-              
+                              <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="relative h-8 w-8 rounded-full focus:outline-none">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback className="bg-[#3B82F6] text-white">
+                          {user.name?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
 
-                
-                   
+                  <DropdownMenuContent className="w-56" align="end">
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {user.name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>        
+                    
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <DropdownMenuSeparator />
                     <SignOutButton />
-               
-              
               </>
-            {/* ) : ( */}
+            ) : (
               <>
                 <Link href="/auth/sign-in">
                   <button className="text-gray-600 hover:text-[#3B82F6] font-medium transition-colors px-3 py-2">
@@ -99,7 +117,7 @@ export default function Navbar() {
                   </button>
                 </Link>
               </>
-            {/* )} */}
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -156,17 +174,17 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="pt-4 border-t border-gray-100">
-                {/* {user ? ( */}
+                {user ? (
                   <div className="space-y-2">
                     <div className="px-3 py-2">
                       <p className="text-sm font-medium text-gray-900">
-                        {/* {user.name} */}
+                        {user.name}
                       </p>
-                      {/* <p className="text-xs text-gray-500">{user.email}</p> */}
+                      <p className="text-xs text-gray-500">{user.email}</p>
                     </div>
                     <SignOutButton />
                   </div>
-                {/* ) : ( */}
+                 ) : (
                   <>
                     <Link href="/auth/sign-in">
                       <button
@@ -185,7 +203,7 @@ export default function Navbar() {
                       </button>
                     </Link>
                   </>
-                {/* )} */}
+                 )}
               </div>
             </div>
           </motion.div>

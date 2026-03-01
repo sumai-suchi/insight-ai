@@ -66,7 +66,7 @@ const Tiptap = ({
 
   useEffect(() => {
     if (editor && typeof content === "string") {
-      editor.commands.setContent(content, false);
+      editor.commands.setContent(content, { emitUpdate: false });
     }
   }, [content, editor]);
 
