@@ -1,74 +1,240 @@
-import Image from "next/image";
-import Link from "next/link";
+// import { Sparkles } from "lucide-react";
+// import heroImage from "../../../public/hero_image.jpg";
+// import React from "react";
+// import HomeButton from "../ui/HomeButton";
+// import Image from "next/image";
+
+// const Hero = () => {
+//   return (
+//     <section className="bg-gradient-to-r from-[#57198A] to-[#382A86] text-white py-16 lg:py-28 w-full">
+//       <div className="max-w-7xl mx-auto px-6 lg:flex items-center justify-between">
+//         {/* Left Content */}
+//         <div className="lg:w-1/2">
+//           <h1 className="text-4xl lg:text-6xl font-extrabold leading-tight mb-6">
+//             Create <span className="text-blue-600">AI-Powered</span> Content &
+//             Discover Personalized News
+//           </h1>
+//           <p className="text-lg mb-8 leading-relaxed">
+//             Generate SEO-optimized blogs, check plagiarism, and stay updated
+//             with trending news — all powered by advanced AI technology.
+//           </p>
+
+//           {/* Action Buttons */}
+//           <div className="flex flex-wrap gap-4 mb-8">
+//             <HomeButton variant="primary" icon={Sparkles}>
+//               Try AI Editor
+//             </HomeButton>
+//             <HomeButton variant="outline">Try AI Editor</HomeButton>
+//           </div>
+
+//           {/* Trust Badges */}
+//           <div className="flex flex-col sm:flex-row gap-4 text-sm text-gray-500">
+//             <div className="flex items-center gap-2 text-white">
+//               <span className="w-5 h-5 bg-green-100 text-green-600 flex items-center justify-center rounded-full">
+//                 ✓
+//               </span>
+//               No credit card required
+//             </div>
+//             <div className="flex text-white items-center gap-2">
+//               <span className="w-5 h-5 bg-green-100 text-green-600 flex items-center justify-center rounded-full">
+//                 ✓
+//               </span>
+//               Free 14-day trial
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Right Image/Illustration */}
+//         <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center relative">
+//           <div className="relative w-full max-w-lg">
+//             {/* Background Decoration */}
+//             <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+//             <div className="absolute top-0 -right-4 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+
+//             {/* Main Image */}
+//             <Image
+//               src={heroImage}
+//               alt="AI Content Illustration"
+//               className="relative rounded-2xl shadow-2xl border border-gray-100"
+//             />
+
+//             <div className="bg-white text-black max-w-25 rounded-md p-2 space-y-1.2 absolute top-52 left-[-20]">
+//               <h2 className="text-xs">AI Generated</h2>
+//               <p className="text-2xl">10,847</p>
+//               <p className="text-xs">Articles this month</p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default Hero;
+
+"use client"; // Framer Motion এর জন্য এটি প্রয়োজনীয়
+
+import { Sparkles, Star, Zap, Cpu } from "lucide-react";
+import heroImage from "../../../public/hero_image.jpg";
 import React from "react";
+import HomeButton from "../ui/HomeButton";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 const Hero = () => {
+  // এনিমেশন ভেরিয়েন্ট
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (custom) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: custom * 0.2, duration: 0.8, ease: "easeOut" },
+    }),
+  };
+
+  const floating = {
+    animate: {
+      y: [0, -15, 0],
+      transition: {
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+
   return (
-    <section className="relative bg-[#F9FAFB] min-h-[90vh] flex items-center w-full overflow-hidden">
-      {/* Background Decorative Blurs */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-full bg-blue-100/60 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -translate-x-1/4 w-[300px] h-[300px] bg-indigo-100/50 rounded-full blur-[100px] pointer-events-none" />
+    <section className="relative overflow-hidden bg-gradient-to-r from-[#57198A] to-[#382A86] text-white py-16 lg:py-28 w-full">
+      {/* --- ব্যাকগ্রাউন্ড এনিমেটেড স্টিকার/শেপস --- */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        className="absolute top-10 left-10 opacity-20"
+      >
+        <Star size={40} className="text-yellow-400" />
+      </motion.div>
 
-      <div className="container mx-auto px-20 py-12 flex flex-col md:flex-row items-center relative z-10">
-        {/* Left Content Column */}
-        <div className="w-full md:w-1/2 flex flex-col items-start text-left z-20">
-          <h1 className="text-[#1F2937] text-4xl lg:text-5xl font-[900] leading-[1.1] mb-6 tracking-tight">
-            Create & Discover <br />
-            <span className="text-[#3B82F6] inline-block mt-2">
-              AI-Powered Insights
-            </span>
-          </h1>
+      <motion.div
+        animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
+        transition={{ duration: 5, repeat: Infinity }}
+        className="absolute bottom-20 left-1/4 opacity-20 hidden md:block"
+      >
+        <Cpu size={60} className="text-blue-400" />
+      </motion.div>
 
-          <p className="text-gray-600 text-sm md:text-base mb-10 max-w-lg leading-relaxed font-medium">
+      <motion.div
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 3, repeat: Infinity }}
+        className="absolute top-20 right-1/3 opacity-20"
+      >
+        <Zap size={30} className="text-purple-300" />
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:flex items-center justify-between relative z-10">
+        {/* Left Content */}
+        <div className="lg:w-1/2">
+          <motion.h1
+            custom={1}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className="text-4xl lg:text-6xl font-extrabold leading-tight mb-6"
+          >
+            Create <span className="text-blue-400">AI-Powered</span> Content &
+            Discover Personalized News
+          </motion.h1>
+
+          <motion.p
+            custom={2}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className="text-lg mb-8 leading-relaxed text-gray-200"
+          >
             Generate SEO-optimized blogs, check plagiarism, and stay updated
-            with trending news—all powered by advanced AI.
-          </p>
+            with trending news — all powered by advanced AI technology.
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Link href="/sign-up" className="w-full sm:w-auto">
-              <button className="w-full sm:min-w-[180px] bg-[#3B82F6] hover:bg-blue-700 active:scale-95 text-white font-bold py-4 px-8 rounded-xl transition-all duration-200 shadow-xl shadow-blue-200/50">
-                Get Started
-              </button>
-            </Link>
-
-            <Link href="/ai-editing" className="w-full sm:w-auto">
-              <button className="w-full sm:min-w-[180px] border-2 border-gray-200 text-[#1F2937] hover:border-[#3B82F6] hover:text-[#3B82F6] active:scale-95 font-bold py-4 px-8 rounded-xl transition-all duration-200 bg-white shadow-sm">
+          {/* Action Buttons */}
+          <motion.div
+            custom={3}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className="flex flex-wrap gap-4 mb-8"
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <HomeButton variant="primary" icon={Sparkles}>
                 Try AI Editor
-              </button>
-            </Link>
-          </div>
-        </div>
+              </HomeButton>
+            </motion.div>
 
-        {/* Right Illustration Column */}
-        <div className="w-full md:w-1/2 mt-16 md:mt-0 flex justify-center relative">
-          <div className="relative w-full max-w-[500px] aspect-square md:aspect-auto md:h-[500px] drop-shadow-2xl">
-            {/* Animated UI Badge (The "Perfect" Touch) */}
-            <div className="absolute -top-4 -left-4 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl z-30 border border-white animate-bounce [animation-duration:5s] hidden lg:block">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                  AI
-                </div>
-                <div className="text-left">
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                    Generating
-                  </p>
-                  <p className="text-xs text-gray-800 font-bold">
-                    Personalized Feed...
-                  </p>
-                </div>
-              </div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <HomeButton variant="outline">Learn More</HomeButton>
+            </motion.div>
+          </motion.div>
+
+          {/* Trust Badges */}
+          <motion.div
+            custom={4}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className="flex flex-col sm:flex-row gap-4 text-sm"
+          >
+            <div className="flex items-center gap-2 text-white">
+              <span className="w-5 h-5 bg-green-500 text-white flex items-center justify-center rounded-full text-[10px]">
+                ✓
+              </span>
+              No credit card required
             </div>
-
-            <Image
-              src="/Hero.jpg"
-              alt="AI Content Platform Interface Preview"
-              fill
-              className="object-contain rounded-3xl"
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
+            <div className="flex text-white items-center gap-2">
+              <span className="w-5 h-5 bg-green-500 text-white flex items-center justify-center rounded-full text-[10px]">
+                ✓
+              </span>
+              Free 14-day trial
+            </div>
+          </motion.div>
         </div>
+
+        {/* Right Image/Illustration */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center relative"
+        >
+          <div className="relative w-full max-w-lg">
+            {/* Background Decoration (Blobs) */}
+            <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-pulse"></div>
+            <div className="absolute bottom-0 -right-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-pulse delay-700"></div>
+
+            {/* Main Image with Floating effect */}
+            <motion.div variants={floating} animate="animate">
+              <Image
+                src={heroImage}
+                alt="AI Content Illustration"
+                className="relative rounded-2xl shadow-2xl border border-white/10"
+              />
+            </motion.div>
+
+            {/* Floating Stats Card */}
+            <motion.div
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.5 }}
+              className="bg-white/90 backdrop-blur-md text-black px-6 py-4 rounded-xl shadow-xl absolute top-1/2 -left-10 md:-left-20 border border-gray-200"
+            >
+              <h2 className="text-xs font-bold text-purple-700 uppercase tracking-wider">
+                AI Generated
+              </h2>
+              <p className="text-3xl font-black">10,847</p>
+              <p className="text-xs text-gray-500 font-medium">
+                Articles this month
+              </p>
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
