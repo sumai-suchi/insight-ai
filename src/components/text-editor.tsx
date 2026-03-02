@@ -66,7 +66,11 @@ const Tiptap = ({
 
   useEffect(() => {
     if (editor && typeof content === "string") {
+<<<<<<< HEAD
       editor.commands.setContent(content, { parseOptions: { preserveWhitespace: false } });
+=======
+      editor.commands.setContent(content, { emitUpdate: false });
+>>>>>>> c0e7b60519296a4afb472feb11b31e2a1205f72d
     }
   }, [content, editor]);
 
