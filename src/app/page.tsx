@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       {/* <Navbar /> */}
-      <main className="flex min-h-screen w-full max-w-7xl flex-col items-center justify-center mx-auto gap-10 py-32 bg-white dark:bg-black">
+      <main className="flex min-h-screen w-full  flex-col items-center justify-center  gap-10 bg-white dark:bg-black">
         <Hero />
         {/* <AiDemoChat /> */}
         <Features />
