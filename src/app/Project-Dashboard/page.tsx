@@ -19,6 +19,9 @@ import { ProfileSidebar } from "./ProfileSidebar";
 import AiContentTools from "./AiContentTools";
 import SeoInsights from "./SeoInsights";
 import PlagiarismChecker from "./PlagiarismChecker";
+import PersonalizedNewsFeed from "./PersonalizedNewsFeed";
+import SavedDrafts from "./SavedDrafts";
+import PerformanceAnalytics from "./PerformanceAnalytics";
 
 
 export default function DashboardPage() {
@@ -162,6 +165,19 @@ export default function DashboardPage() {
           <SeoInsights />
           <PlagiarismChecker />
         </div>
+      </div>
+
+      <div className="  pt-8 space-y-8">
+        
+        {/* Top - Full width analytics */}
+        <PerformanceAnalytics />
+
+        {/* Bottom - Two column responsive layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <SavedDrafts />
+          <PersonalizedNewsFeed />
+        </div>
+
       </div>
     </div>
   );
