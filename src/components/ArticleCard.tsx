@@ -1,11 +1,12 @@
 "use client";
 
-import { Article } from "@/types/news";
+
+import { NewsAPIArticle } from "@/types/news";
 import Image from "next/image";
 // ...existing code...
 
 interface ArticleCardProps {
-  article: Article;
+  article: NewsAPIArticle;
 }
 
 export default function ArticleCard({ article }: ArticleCardProps) {
