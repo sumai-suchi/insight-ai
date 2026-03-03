@@ -1,5 +1,6 @@
 "use client";
 
+import GoogleSigninBtn from "@/components/GoogleSigninBtn";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -114,7 +115,11 @@ export default function SignIn() {
                 Sign up
               </Link>
             </p>
+            <div>
+              <GoogleSigninBtn />
+            </div>
           </CardFooter>
+
         </form>
       </Card>
     </div>
