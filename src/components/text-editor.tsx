@@ -9,6 +9,7 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
+import Paragraph from "@tiptap/extension-paragraph";
 import { Toggle } from "./ui/toggle";
 import {
   BoldIcon,
@@ -49,8 +50,20 @@ const Tiptap = ({
   content?: string;
   onChange?: (content: string) => void;
 }) => {
+  // create a custom paragraph extension that outputs a <div> instead of <p>
+  const CustomParagraph = Paragraph.extend({
+    renderHTML() {
+      return ["div", 0];
+    },
+  });
+
   const editor = useEditor({
-    extensions: [StarterKit, Highlight.configure({ multicolor: true })], // define your extension array
+    extensions: [
+      // disable default paragraph from StarterKit and replace with custom
+      StarterKit.configure({ paragraph: false }),
+      CustomParagraph,
+      Highlight.configure({ multicolor: true }),
+    ],
     editorProps: {
       attributes: {
         class:
@@ -66,7 +79,9 @@ const Tiptap = ({
 
   useEffect(() => {
     if (editor && typeof content === "string") {
-      editor.commands.setContent(content, { parseOptions: { preserveWhitespace: false } });
+      editor.commands.setContent(content, {
+        parseOptions: { preserveWhitespace: false },
+      });
     }
   }, [content, editor]);
 
@@ -79,7 +94,7 @@ const Tiptap = ({
           <FloatingMenu editor={editor} />
         </>
       )}
-      <EditorContent editor={editor} className="min-h-[600px] px-4 py-3" />
+      <EditorContent editor={editor} className="min-h-120 px-4 py-3" />
     </div>
   );
 };
