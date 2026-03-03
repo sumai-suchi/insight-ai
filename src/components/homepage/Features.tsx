@@ -1,178 +1,160 @@
 "use client";
 
-import { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react"; // LucideIcon এর বদলে ReactNode ব্যবহার করা হয়েছে টাইপ এরর এড়াতে
 import { motion, Variants } from "framer-motion";
 import {
-  AiOutlineEdit,
-  AiOutlineCheckCircle,
-  AiOutlineRise,
-  AiOutlineStar,
-  AiOutlineSave,
-  AiOutlineThunderbolt,
-  AiOutlineGlobal,
-} from "react-icons/ai";
+  HiOutlinePencilAlt,
+  HiOutlineShieldCheck,
+  HiOutlineChartBar,
+  HiOutlineNewspaper,
+  HiOutlineSave,
+  HiOutlineLightningBolt,
+} from "react-icons/hi";
 
 interface Feature {
   icon: ReactNode;
   title: string;
   description: string;
-  accent: string;
+  bgColor: string;
+  iconBg: string;
 }
 
 const features: Feature[] = [
   {
-    icon: <AiOutlineEdit size={28} />,
+    icon: <HiOutlinePencilAlt size={28} />,
     title: "AI Content Editor",
-    description: "Generate & edit blogs with ease using our neural engine.",
-    accent: "#3B82F6",
+    description:
+      "Generate high-quality blogs, articles, and marketing copy in seconds with our advanced AI technology.",
+    bgColor: "#F8F5FF",
+    iconBg: "#8B5CF6",
   },
   {
-    icon: <AiOutlineCheckCircle size={28} />,
+    icon: <HiOutlineShieldCheck size={28} />,
     title: "Plagiarism Checker",
-    description: "Ensure originality and maintain high authority content.",
-    accent: "#10B981",
+    description:
+      "Ensure originality with our comprehensive plagiarism detection system that scans billions of sources.",
+    bgColor: "#F0F7FF",
+    iconBg: "#3B82F6",
   },
   {
-    icon: <AiOutlineRise size={28} />,
+    icon: <HiOutlineChartBar size={28} />,
     title: "SEO Suggestions",
-    description: "Optimize content for Google search with real-time insights.",
-    accent: "#FBBF24",
+    description:
+      "Optimize your content for search engines with real-time SEO recommendations and keyword insights.",
+    bgColor: "#F0FDF4",
+    iconBg: "#22C55E",
   },
   {
-    icon: <AiOutlineStar size={28} />,
-    title: "Personalized Feed",
-    description: "Stay ahead with trending topics curated for your niche.",
-    accent: "#3B82F6",
+    icon: <HiOutlineNewspaper size={28} />,
+    title: "Personalized News Feed",
+    description:
+      "Stay updated with trending news tailored to your interests across technology, AI, and business.",
+    bgColor: "#FFF7ED",
+    iconBg: "#F97316",
   },
   {
-    icon: <AiOutlineSave size={28} />,
+    icon: <HiOutlineSave size={28} />,
     title: "Draft Saving",
-    description: "Your progress is synced instantly across all your devices.",
-    accent: "#10B981",
+    description:
+      "Never lose your work with automatic draft saving. Continue your content creation anytime, anywhere.",
+    bgColor: "#FFF1F2",
+    iconBg: "#EC4899",
+  },
+  {
+    icon: <HiOutlineLightningBolt size={28} />,
+    title: "Lightning Fast",
+    description:
+      "Generate content 10x faster than manual writing while maintaining quality and accuracy.",
+    bgColor: "#F0F9FF",
+    iconBg: "#6366F1",
   },
 ];
 
-// Animations for the background "stickers"
-const stickerVariants: Variants = {
-  animate: {
-    y: [0, -20, 0],
-    rotate: [0, 10, -10, 0],
-    transition: {
-      duration: 6,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  },
-};
-
+// Container Variants for Stagger Effect
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: {
+      staggerChildren: 0.15, // একটির পর একটি কার্ড আসার সময়
+    },
   },
 };
 
+// Individual Item Variants
 const itemVariants: Variants = {
-  hidden: { y: 40, opacity: 0 },
-  visible: { 
-    y: 0, 
-    opacity: 1, 
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } 
+  hidden: {
+    y: 50, // নিচ থেকে আসবে
+    opacity: 0,
+    scale: 0.9, // হালকা ছোট থেকে বড় হবে
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.215, 0.61, 0.355, 1], // Smooth power4 out curve
+    },
   },
 };
 
 const Features: FC = () => {
   return (
-    <section className="relative py-24 bg-[#F9FAFB] dark:bg-[#111827] overflow-hidden">
-      
-      {/* 1. Section Border - Giving it a "Frame" look */}
-      <div className="absolute inset-8 border border-gray-200/60 dark:border-gray-800 pointer-events-none rounded-[3rem]" />
-
-      {/* 2. Floating Animated Stickers */}
-      <motion.div 
-        variants={stickerVariants}
-        animate="animate"
-        className="absolute top-20 left-[10%] text-blue-200/40 dark:text-blue-900/20 hidden lg:block"
-      >
-        <AiOutlineThunderbolt size={120} />
-      </motion.div>
-
-      <motion.div 
-        variants={stickerVariants}
-        animate="animate"
-        className="absolute bottom-20 right-[10%] text-emerald-200/40 dark:text-emerald-900/20 hidden lg:block"
-      >
-        <AiOutlineGlobal size={100} />
-      </motion.div>
-
-      <div className="mx-auto px-12 relative z-10">
-        
-        {/* 3. Animated Heading */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
+    <section className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Header Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
         >
-          <motion.h2 
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-extrabold text-[#1F2937] dark:text-white tracking-tight"
-          >
-            Key <span className="text-[#3B82F6]">Features</span>
-          </motion.h2>
-          <motion.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: "80px" }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="h-1.5 bg-[#FBBF24] mx-auto mt-4 rounded-full"
-          />
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
+            Powerful Features for Content Creators
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400">
+            Everything you need to create, optimize, and stay informed
+          </p>
         </motion.div>
 
-        {/* 4. Features Grid */}
-        <motion.div 
+        {/* Features Grid with Scroll Animation */}
+        <motion.div
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+          whileInView="visible" // স্ক্রল করলে এনিমেশন শুরু হবে
+          viewport={{ once: true, amount: 0.2 }} // ২০% স্ক্রিন এ আসলেই শুরু হবে
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {features.map((feature, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              whileHover={{ 
-                scale: 1.03,
-                boxShadow: "0 20px 40px rgba(0,0,0,0.04)"
+              whileHover={{
+                y: -10,
+                scale: 1.02,
+                transition: { duration: 0.3 },
               }}
-              className="group relative bg-white dark:bg-[#1F2937] p-8 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 transition-all duration-300"
+              style={{ backgroundColor: feature.bgColor }}
+              className="p-10 rounded-[2.5rem] border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all duration-300 group shadow-sm hover:shadow-xl"
             >
               {/* Icon Container */}
-              <div 
-                className="w-16 h-16 rounded-3xl flex items-center justify-center mb-8 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110 shadow-sm"
-                style={{ 
-                    background: `linear-gradient(135deg, ${feature.accent}15, ${feature.accent}05)`, 
-                    color: feature.accent 
-                }}
+              <motion.div
+                whileHover={{ rotate: 15 }} // আইকনে হোভার এনিমেশন
+                className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 text-white shadow-md"
+                style={{ backgroundColor: feature.iconBg }}
               >
                 {feature.icon}
-              </div>
+              </motion.div>
 
-              <h3 className="text-2xl font-bold mb-4 text-[#111827] dark:text-white group-hover:text-[#3B82F6] transition-colors">
+              <h3 className="text-xl font-bold mb-3 text-slate-900">
                 {feature.title}
               </h3>
-              
-              <p className="text-[#374151] dark:text-gray-400 leading-relaxed text-sm lg:text-base">
+
+              <p className="text-slate-600 leading-relaxed text-[15px]">
                 {feature.description}
               </p>
-
-              {/* Decorative accent dot */}
-              <div 
-                className="absolute top-8 right-8 w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{ backgroundColor: feature.accent }}
-              />
             </motion.div>
           ))}
         </motion.div>
