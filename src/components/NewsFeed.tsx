@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { INews, NewsCategory } from "@/types/news";
-//import NewsCard from "./NewsCard";
-//import CategoryTabs from "./CategoryTabs";
+import NewsCard from "./NewsCard";
+import CategoryTabs from "./CategoryTabs";
 
 export default function NewsFeed() {
   const [category, setCategory] = useState<NewsCategory>("all");

@@ -1,6 +1,7 @@
 "use client";
 
 import { Article } from "@/types/news";
+import Image from "next/image";
 // ...existing code...
 
 interface ArticleCardProps {
@@ -12,7 +13,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
     <div className="bg-white rounded shadow p-4 flex flex-col gap-2">
       <h2 className="text-lg font-semibold">{article.title}</h2>
       {article.urlToImage && (
-        <img
+        <Image
           src={article.urlToImage}
           alt={article.title}
           className="w-full h-48 object-cover rounded"
