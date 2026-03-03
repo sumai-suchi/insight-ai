@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useNews } from "@/hooks/useNews";
 
 type Category = "technology" | "sports" | "business" | "health" | "science";
@@ -14,9 +15,8 @@ const CATEGORIES: Category[] = [
   "science",
 ];
 
-export default function NewsSection() {
+export default function NewsData() {
   const { articles, loading, category, setCategory } = useNews();
-
   const [allArticles, setAllArticles] = useState(articles);
 
   useEffect(() => {
@@ -24,7 +24,6 @@ export default function NewsSection() {
   }, [articles]);
 
   const trendingTopics = CATEGORIES;
-
   const featured = allArticles.length > 0 ? allArticles[0] : null;
   const others = allArticles.length > 1 ? allArticles.slice(1) : [];
 
@@ -36,7 +35,6 @@ export default function NewsSection() {
           <h2 className="text-3xl font-bold text-gray-900">
             Trending News & Insights
           </h2>
-
           <p className="text-gray-500 mt-2">
             Stay updated with the latest in technology and AI
           </p>
@@ -72,11 +70,13 @@ export default function NewsSection() {
         <section className="mb-20">
           <div className="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition border flex flex-col lg:flex-row">
             {/* Image */}
-            <div className="lg:w-3/5">
+            <div className="lg:w-3/5 relative">
               {featured.urlToImage ? (
-                <img
+                <Image
                   src={featured.urlToImage}
                   alt={featured.title}
+                  width={800}
+                  height={460}
                   className="w-full h-[350px] lg:h-[460px] object-cover group-hover:scale-105 transition duration-700"
                 />
               ) : (
@@ -90,7 +90,6 @@ export default function NewsSection() {
                 <span className="bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-xs font-semibold">
                   Featured
                 </span>
-
                 <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-xs font-semibold">
                   Trending
                 </span>
@@ -106,11 +105,13 @@ export default function NewsSection() {
 
               <div className="flex justify-between items-center mt-auto">
                 <span className="text-sm text-gray-500">
-                  {new Date(featured.publishedAt).toLocaleDateString()}
+                  {featured.publishedAt
+                    ? new Date(featured.publishedAt).toLocaleDateString()
+                    : "Latest"}
                 </span>
 
                 <a
-                  href={featured.url}
+                  href={featured.url || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition"
@@ -124,7 +125,6 @@ export default function NewsSection() {
       )}
 
       {/* Trending News Grid (3 Cards) */}
-
       {!loading && others.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {others.slice(0, 3).map((post, index) => (
@@ -133,11 +133,13 @@ export default function NewsSection() {
               className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition border"
             >
               {/* Image */}
-              <div className="w-full h-52 overflow-hidden">
+              <div className="w-full h-52 overflow-hidden relative">
                 {post.urlToImage ? (
-                  <img
+                  <Image
                     src={post.urlToImage}
                     alt={post.title}
+                    width={400}
+                    height={208}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
                 ) : (
@@ -146,10 +148,9 @@ export default function NewsSection() {
               </div>
 
               {/* Content */}
-
               <div className="p-6 flex flex-col h-full">
                 <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full w-fit mb-3 capitalize">
-                  {category}
+                  {post.category || category}
                 </span>
 
                 <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-blue-600 transition">
@@ -160,23 +161,21 @@ export default function NewsSection() {
                   {post.description}
                 </p>
 
-                <div className="flex items-center justify-between mt-4">
+                <div className="flex items-center justify-between mt-auto pt-2 border-t">
                   <span className="text-xs text-gray-500">
                     {post.publishedAt
                       ? new Date(post.publishedAt).toLocaleDateString()
                       : "Latest"}
                   </span>
 
-                  {post.url && (
-                    <a
-                      href={post.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 font-semibold text-sm hover:underline"
-                    >
-                      Read →
-                    </a>
-                  )}
+                  <a
+                    href={post.url || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 font-semibold text-sm hover:underline"
+                  >
+                    Read →
+                  </a>
                 </div>
               </div>
             </div>

@@ -198,6 +198,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   // শুধুমাত্র হোম পেজে ট্রান্সপারেন্ট ইফেক্ট কাজ করবে
   const isHomePage = pathname === "/";
@@ -210,6 +211,24 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Fetch user from session or authentication provider
+    const fetchUser = async () => {
+      try {
+        // Replace with your actual auth logic
+        const response = await fetch("/api/auth/user");
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      }
+    };
+
+    fetchUser();
   }, []);
 
   if (pathname?.startsWith("/dashboard")) return null;

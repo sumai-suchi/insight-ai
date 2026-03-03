@@ -3,7 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export const SideNav = () => {
+interface SideNavProps {
+  isOpen?: boolean;
+}
+
+export const SideNav: React.FC<SideNavProps> = ({ isOpen = true }) => {
   const navLinks = [
     { name: "Home", icon: Home, href: "/dashboard" },
     { name: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
@@ -11,7 +15,10 @@ export const SideNav = () => {
     { name: "Settings", icon: Settings, href: "/dashboard/settings" },
   ];
   return (
-    <aside className="h-screen fixed w-50 lg:w-70 hidden md:block p-5 shadow-sm border">
+    <aside
+      className={`h-screen fixed w-50 lg:w-70 p-5 shadow-sm border bg-white transform transition-transform duration-300 ease-in-out z-40
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+    >
       <Link href="/" className="flex justify-center">
         <Image
           src="/Logo.png"
