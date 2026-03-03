@@ -21,11 +21,8 @@ export default function DashboardCard({
 }: DashboardCardProps) {
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col justify-between hover:shadow-lg transition">
-      
       <div className="flex justify-between items-start">
-        <div className={`p-3 rounded-xl ${bgColor}`}>
-          {icon}
-        </div>
+        <div className={`p-3 rounded-xl ${bgColor}`}>{icon}</div>
 
         {change && (
           <div
@@ -33,11 +30,7 @@ export default function DashboardCard({
               changeType === "up" ? "text-green-500" : "text-red-500"
             }`}
           >
-            {changeType === "up" ? (
-              <TrendingUp size={16} />
-            ) : (
-              <TrendingDown size={16} />
-            )}
+            {changeType === "up" ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
           </div>
         )}
       </div>

@@ -14,6 +14,8 @@ import {
 import DashboardCard from "./DashboardCard";
 import ActionCard from "./ActionCard";
 import { ReactNode } from "react";
+import { RecentActivity } from "./RecentActivity";
+import { ProfileSidebar } from "./ProfileSidebar";
 
 
 export default function DashboardPage() {
@@ -127,38 +129,24 @@ export default function DashboardPage() {
           Quick Actions
         </h2>
 
-        {/* <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-          <ActionCard
-            icon={<Plus />}
-            label="Create New Blog"
-            gradient="from-purple-500 to-indigo-500"
-          />
-          <ActionCard
-            icon={<Sparkles />}
-            label="Generate with AI"
-            gradient="from-blue-500 to-cyan-500"
-          />
-          <ActionCard
-            icon={<Edit />}
-            label="Continue Draft"
-            gradient="from-green-500 to-emerald-500"
-          />
-          <ActionCard
-            icon={<LayoutTemplate />}
-            label="Use Template"
-            gradient="from-orange-500 to-amber-500"
-          />
-          <ActionCard
-            icon={<MessageSquare />}
-            label="Social Media Post"
-            gradient="from-pink-500 to-rose-500"
-          />
-        </div> */}
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         {actions.map((item, index) => (
           <ActionCard key={index} {...item} />
         ))}
       </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8  mt-10">
+        {/* Main Section */}
+        <div className="lg:col-span-8">
+          <RecentActivity />
+        </div>
+
+        {/* Sidebar Section */}
+        <div className="lg:col-span-4">
+          <ProfileSidebar />
+        </div>
       </div>
     </div>
   );
