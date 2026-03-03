@@ -222,6 +222,11 @@ export default function Navbar() {
       href: "/dashboard",
       icon: <LayoutDashboard size={16} />,
     },
+    {
+      name: "Project-Dashboard",
+      href: "/Project-dashboard",
+      icon: <LayoutDashboard size={16} />,
+    },
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
     { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
     { name: "Profile", href: "/profile", icon: <User size={16} /> },
@@ -285,7 +290,7 @@ export default function Navbar() {
           </div>
 
           {/* Profile/Auth Section */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* <div className="hidden md:flex items-center gap-4">
             {user ? (
               <>
                               <DropdownMenu>
@@ -330,7 +335,7 @@ export default function Navbar() {
                 </Link>
               </>
             )}
-          </div>
+          </div> */}
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center">
