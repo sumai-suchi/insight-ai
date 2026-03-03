@@ -1,25 +1,25 @@
-import Footer from "@/components/Footer";
 import Features from "@/components/homepage/Features";
 import Hero from "@/components/homepage/Hero";
 import HowItWorks from "@/components/homepage/HowItWorks";
 import NewsData from "@/components/homepage/NewsData";
 import OutputPreview from "@/components/homepage/OutputPreview";
-import Testimonials from "@/components/homepage/Testimonials";
+import AiDemoChat from "@/components/homepage/AiDemoChat";
 import TrendingNews from "@/components/homepage/TrendingNews";
-import Navbar from "@/components/navbar";
+import Testimonials from "@/components/homepage/Testimonials";
 
 export default function Home() {
   return (
     <>
       {/* <Navbar /> */}
-      <main className="flex min-h-screen w-full max-w-7xl flex-col items-center justify-center mx-auto gap-10 py-32 px-16 bg-white dark:bg-black sm:items-start">
+      <main className="flex min-h-screen w-full  flex-col items-center justify-center  gap-10 bg-white dark:bg-black">
         <Hero />
+        {/* <AiDemoChat /> */}
         <Features />
         <HowItWorks />
         <TrendingNews />
-        <NewsData/>
+        <NewsData />
+        {/* <OutputPreview /> */}
         <Testimonials />
-        <OutputPreview />
       </main>
       {/* <Footer /> */}
     </>

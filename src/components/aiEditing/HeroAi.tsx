@@ -10,7 +10,7 @@ const HeroAi = () => {
     visible: { opacity: 1, y: 0 },
   };
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-blue-950 to-blue-800 text-white px-6 mt-16">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-black via-blue-950 to-blue-800 text-white p-10 mt-16">
       {/* Animated Stickers */}
       <div className="pointer-events-none select-none absolute inset-0 w-full h-full z-0">
         {/* Star Sticker */}
@@ -93,7 +93,7 @@ const HeroAi = () => {
             animate="visible"
             transition={{ duration: 0.6, ease: "easeOut" }}
             variants={fadeInUp}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-linear-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent"
           >
             Generate High-Quality <br className="hidden md:block" />
             Content with AI

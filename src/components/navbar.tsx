@@ -4,20 +4,16 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "./ui/avatar";
-import SignOutButton from "@/components/sign-out-btn";
-import { useSessionContext } from "@/lib/auth/session-context";
+
 import { motion, AnimatePresence } from "framer-motion";
 import Img from "../../public/NavLogo.png";
+import SignOutButton from "./SignOutButton";
+import { useSessionContext } from "@/lib/auth/session-context";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 export default function Navbar() {
-  const { user, loading } = useSessionContext();
+  const { user } = useSessionContext();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,22 +23,24 @@ export default function Navbar() {
   }
 
   const navLinks = [
+    { name: "Home", href: "/" },
     { name: "Dashboard", href: "/dashboard" },
     { name: "AI Editing", href: "/ai-editing" },
+    { name: "News", href: "/news" },
   ];
 
   // Prevent hydration mismatch by not rendering until session is loaded
-  if (loading) {
-    return (
-      <nav className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Placeholder during loading */}
-          </div>
-        </div>
-      </nav>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <nav className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50 transition-all duration-300">
+  //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  //         <div className="flex justify-between items-center h-16">
+  //           {/* Placeholder during loading */}
+  //         </div>
+  //       </div>
+  //     </nav>
+  //   );
+  // }
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50 transition-all duration-300">
@@ -54,8 +52,8 @@ export default function Navbar() {
             className="flex items-center gap-2 text-xl font-semibold text-primary"
           >
             <Image
-              height={60}
-              width={125}
+              height={100}
+              width={150}
               className="rounded-md object-contain w-auto h-auto"
               src={Img.src}
               alt="Insight AI Logo"
@@ -79,12 +77,12 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             {user ? (
               <>
-                <DropdownMenu>
+                              <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="relative h-8 w-8 rounded-full focus:outline-none">
                       <Avatar className="h-8 w-8">
                         <AvatarFallback className="bg-[#3B82F6] text-white">
-                          {user.name[0].toUpperCase()}
+                          {user.name?.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                     </button>
@@ -100,19 +98,21 @@ export default function Navbar() {
                           {user.email}
                         </p>
                       </div>
-                    </DropdownMenuLabel>
-                    <SignOutButton />
+                    </DropdownMenuLabel>        
+                    
                   </DropdownMenuContent>
                 </DropdownMenu>
+                <DropdownMenuSeparator />
+                    <SignOutButton />
               </>
             ) : (
               <>
-                <Link href="/sign-in">
+                <Link href="/auth/sign-in">
                   <button className="text-gray-600 hover:text-[#3B82F6] font-medium transition-colors px-3 py-2">
                     Log In
                   </button>
                 </Link>
-                <Link href="/sign-up">
+                <Link href="/auth/sign-up">
                   <button className="bg-[#3B82F6] hover:bg-blue-600 text-white px-5 py-2 rounded-full font-semibold transition-all transform hover:scale-105">
                     Start for free
                   </button>
@@ -185,9 +185,9 @@ export default function Navbar() {
                     </div>
                     <SignOutButton />
                   </div>
-                ) : (
+                 ) : (
                   <>
-                    <Link href="/sign-in">
+                    <Link href="/auth/sign-in">
                       <button
                         onClick={() => setIsOpen(false)}
                         className="w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-[#3B82F6] hover:bg-blue-50 rounded-md mb-2"
@@ -195,7 +195,7 @@ export default function Navbar() {
                         Log In
                       </button>
                     </Link>
-                    <Link href="/sign-up">
+                    <Link href="/auth/sign-up">
                       <button
                         onClick={() => setIsOpen(false)}
                         className="w-full bg-[#3B82F6] text-white px-4 py-3 rounded-lg font-bold"
@@ -204,7 +204,7 @@ export default function Navbar() {
                       </button>
                     </Link>
                   </>
-                )}
+                 )}
               </div>
             </div>
           </motion.div>

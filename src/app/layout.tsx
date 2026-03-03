@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { getSession } from "@/lib/auth/auth"; // server-side helper
+
 import { SessionProvider } from "@/lib/auth/session-context";
 import ConditionalLayout from "@/components/ConditionalLayout";
 
@@ -16,25 +16,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SynapseNews",
-  description: "AI Content Writing & News Platform",
+  title: "Insight AI",
+  description: "AI Content Writing & News Platform for your business",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const sessionResult = await getSession();
-  const initialUser = sessionResult?.user ?? null;
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <SessionProvider initialUser={initialUser}>
+        <SessionProvider>
           <ConditionalLayout>{children}</ConditionalLayout>
         </SessionProvider>
       </body>

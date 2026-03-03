@@ -106,7 +106,7 @@ const Features: FC = () => {
         <AiOutlineGlobal size={100} />
       </motion.div>
 
-      <div className="max-w-6xl mx-auto px-12 relative z-10">
+      <div className="mx-auto px-12 relative z-10">
         
         {/* 3. Animated Heading */}
         <motion.div 

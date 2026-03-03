@@ -1,15 +1,14 @@
+import AiEditingInfo from "@/components/aiEditing/AiEditingInfo";
 import HeroAi from "@/components/aiEditing/HeroAi";
-import NavAi from "@/components/aiEditing/NavAi";
-import RevisionHistory from "@/components/aiEditing/RevisionHistory";
+// import RevisionHistory from "@/components/aiEditing/RevisionHistory";
 import React from "react";
 
 const aiEditing = () => {
   return (
-    <div>
-      {/* <NavAi /> */}
-
+    <div className="max-w-7xl mx-auto pt-16 px-6">
       <HeroAi />
-      <RevisionHistory />
+      <AiEditingInfo />
+      {/* <RevisionHistory /> */}
     </div>
   );
 };

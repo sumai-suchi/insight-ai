@@ -1,49 +1,33 @@
-import React from "react";
-import Image from "next/image";
+"use client";
 
-const categories = [
-  "All",
-  "Technology",
-  "AI",
-  "Business",
-  "Marketing",
-  "Startups",
-];
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useNews } from "@/hooks/useNews";
 
-const newsData = [
-  {
-    id: 1,
-    category: "Technology",
-    title: "AI-Powered Content Creation Reaches New Heights in 2026",
-    description:
-      "The latest advancements in artificial intelligence are transforming how businesses create and distribute...",
-    time: "2 hours ago",
-    readTime: "5 min read",
-    image: "/robot-arm.jpg", // Replace with your assets
-  },
-  {
-    id: 2,
-    category: "Marketing",
-    title: "How Top Marketers are Using AI to 10x Their Content Output",
-    description:
-      "Leading marketing teams share their strategies for leveraging AI tools to dramatically increase content...",
-    time: "5 hours ago",
-    readTime: "7 min read",
-    image: "/phone-hand.jpg",
-  },
-  {
-    id: 3,
-    category: "Business",
-    title: "The Future of Content: Predictions for the Next Decade",
-    description:
-      "Industry experts weigh in on how content creation will evolve over the next ten years with AI and automation.",
-    time: "1 day ago",
-    readTime: "10 min read",
-    image: "/laptop-code.jpg",
-  },
+type Category = "technology" | "sports" | "business" | "health" | "science";
+
+const CATEGORIES: Category[] = [
+  "technology",
+  "sports",
+  "business",
+  "health",
+  "science",
 ];
 
 export default function NewsSection() {
+  const { articles, loading, category, setCategory } = useNews();
+
+  const [allArticles, setAllArticles] = useState(articles);
+
+  useEffect(() => {
+    setAllArticles(articles);
+  }, [articles]);
+
+  const trendingTopics = CATEGORIES;
+
+  const featured = allArticles.length > 0 ? allArticles[0] : null;
+  const others = allArticles.length > 1 ? allArticles.slice(1) : [];
+
   return (
     <section className="max-w-7xl mx-auto px-6 py-12 font-sans">
       {/* Header */}
@@ -52,24 +36,30 @@ export default function NewsSection() {
           <h2 className="text-3xl font-bold text-gray-900">
             Trending News & Insights
           </h2>
+
           <p className="text-gray-500 mt-2">
             Stay updated with the latest in technology and AI
           </p>
         </div>
-        <button className="border-2 border-purple-600 text-purple-600 px-6 py-2 rounded-lg font-semibold hover:bg-purple-50 transition">
+
+        <Link
+          href="/news"
+          className="border-2 border-purple-600 text-purple-600 px-6 py-2 rounded-lg font-semibold hover:bg-purple-50 transition"
+        >
           View All News
-        </button>
+        </Link>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex gap-3 mb-10 overflow-x-auto pb-2">
-        {categories.map((cat, i) => (
+      {/* Category Buttons */}
+      <div className="flex flex-wrap gap-3 mt-8 mb-12">
+        {trendingTopics.map((cat) => (
           <button
             key={cat}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition ${
-              i === 0
-                ? "bg-purple-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            onClick={() => setCategory(cat)}
+            className={`px-6 py-2 rounded-full capitalize text-sm font-semibold transition-all duration-300 ${
+              category === cat
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
+                : "bg-white text-slate-600 border border-slate-200 hover:border-blue-400 hover:text-blue-600"
             }`}
           >
             {cat}
@@ -77,50 +67,122 @@ export default function NewsSection() {
         ))}
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {newsData.map((post) => (
-          <div
-            key={post.id}
-            className="group cursor-pointer bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition"
-          >
-            <div className="relative h-52 w-full">
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                className="object-cover transition duration-300 group-hover:scale-105"
-              />
+      {/* Featured Article */}
+      {featured && !loading && (
+        <section className="mb-20">
+          <div className="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition border flex flex-col lg:flex-row">
+            {/* Image */}
+            <div className="lg:w-3/5">
+              {featured.urlToImage ? (
+                <img
+                  src={featured.urlToImage}
+                  alt={featured.title}
+                  className="w-full h-[350px] lg:h-[460px] object-cover group-hover:scale-105 transition duration-700"
+                />
+              ) : (
+                <div className="w-full h-[400px] bg-gray-200 animate-pulse" />
+              )}
             </div>
 
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-xs font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-md uppercase tracking-wide">
-                  {post.category}
+            {/* Content */}
+            <div className="lg:w-2/5 p-10 flex flex-col justify-center">
+              <div className="flex gap-3 mb-6">
+                <span className="bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-xs font-semibold">
+                  Featured
                 </span>
-                <span className="text-orange-400">↗</span>
+
+                <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-xs font-semibold">
+                  Trending
+                </span>
               </div>
 
-              <h3 className="text-xl font-bold text-gray-900 leading-tight mb-3 line-clamp-2">
-                {post.title}
-              </h3>
+              <h2 className="text-2xl lg:text-4xl font-bold mb-4 leading-tight">
+                {featured.title}
+              </h2>
 
-              <p className="text-gray-500 text-sm mb-6 line-clamp-2">
-                {post.description}
+              <p className="text-gray-600 text-lg mb-8 line-clamp-3">
+                {featured.description}
               </p>
 
-              <div className="flex items-center text-gray-400 text-xs gap-4 border-t pt-4">
-                <div className="flex items-center gap-1">
-                  <span>🕒</span> {post.time}
-                </div>
-                <div className="flex items-center gap-1">
-                  <span>•</span> {post.readTime}
-                </div>
+              <div className="flex justify-between items-center mt-auto">
+                <span className="text-sm text-gray-500">
+                  {new Date(featured.publishedAt).toLocaleDateString()}
+                </span>
+
+                <a
+                  href={featured.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition"
+                >
+                  Read Article →
+                </a>
               </div>
             </div>
           </div>
-        ))}
-      </div>
+        </section>
+      )}
+
+      {/* Trending News Grid (3 Cards) */}
+
+      {!loading && others.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {others.slice(0, 3).map((post, index) => (
+            <div
+              key={index}
+              className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition border"
+            >
+              {/* Image */}
+              <div className="w-full h-52 overflow-hidden">
+                {post.urlToImage ? (
+                  <img
+                    src={post.urlToImage}
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 animate-pulse" />
+                )}
+              </div>
+
+              {/* Content */}
+
+              <div className="p-6 flex flex-col h-full">
+                <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full w-fit mb-3 capitalize">
+                  {category}
+                </span>
+
+                <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-blue-600 transition">
+                  {post.title}
+                </h3>
+
+                <p className="text-sm text-gray-600 line-clamp-2 mb-6">
+                  {post.description}
+                </p>
+
+                <div className="flex items-center justify-between mt-4">
+                  <span className="text-xs text-gray-500">
+                    {post.publishedAt
+                      ? new Date(post.publishedAt).toLocaleDateString()
+                      : "Latest"}
+                  </span>
+
+                  {post.url && (
+                    <a
+                      href={post.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 font-semibold text-sm hover:underline"
+                    >
+                      Read →
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
