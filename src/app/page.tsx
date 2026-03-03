@@ -12,11 +12,11 @@ export default function Home() {
       {/* <Navbar /> */}
       <main className="flex min-h-screen w-full  flex-col items-center justify-center  gap-10 bg-white dark:bg-black">
         <Hero />
-        <AiDemoChat />
+        {/* <AiDemoChat /> */}
         <Features />
         <HowItWorks />
         <TrendingNews />
-        <OutputPreview />
+        {/* <OutputPreview /> */}
         <Testimonials />
       </main>
       {/* <Footer /> */}

@@ -283,6 +283,55 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
+
+          {/* Profile/Auth Section */}
+          <div className="hidden md:flex items-center gap-4">
+            {user ? (
+              <>
+                              <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="relative h-8 w-8 rounded-full focus:outline-none">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback className="bg-[#3B82F6] text-white">
+                          {user.name?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent className="w-56" align="end">
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {user.name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>        
+                    
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <DropdownMenuSeparator />
+                    <SignOutButton />
+              </>
+            ) : (
+              <>
+                <Link href="/auth/sign-in">
+                  <button className="text-gray-600 hover:text-[#3B82F6] font-medium transition-colors px-3 py-2">
+                    Log In
+                  </button>
+                </Link>
+                <Link href="/auth/sign-up">
+                  <button className="bg-[#3B82F6] hover:bg-blue-600 text-white px-5 py-2 rounded-full font-semibold transition-all transform hover:scale-105">
+                    Start for free
+                  </button>
+                </Link>
+              </>
+            )}
+          </div>
+
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center">
             <button
