@@ -16,6 +16,9 @@ import ActionCard from "./ActionCard";
 import { ReactNode } from "react";
 import { RecentActivity } from "./RecentActivity";
 import { ProfileSidebar } from "./ProfileSidebar";
+import AiContentTools from "./AiContentTools";
+import SeoInsights from "./SeoInsights";
+import PlagiarismChecker from "./PlagiarismChecker";
 
 
 export default function DashboardPage() {
@@ -137,15 +140,27 @@ export default function DashboardPage() {
       </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8  mt-10">
+      <div className="grid grid-cols-1 lg:grid-cols-16 gap-8  mt-10">
         {/* Main Section */}
-        <div className="lg:col-span-8">
+        <div className="lg:col-span-10">
           <RecentActivity />
         </div>
 
         {/* Sidebar Section */}
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-6">
           <ProfileSidebar />
+        </div>
+      </div>
+      <div className="w-full   py-8">
+        {/* Top tools section - full width */}
+        <div className="mb-8">
+          <AiContentTools />
+        </div>
+
+        {/* Two-column layout for insights + plagiarism */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SeoInsights />
+          <PlagiarismChecker />
         </div>
       </div>
     </div>

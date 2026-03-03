@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { User, Bell, Settings, Crown } from "lucide-react";
 
 export const ProfileSidebar = () => (
-  <div className="bg-white p-8 rounded-[24px] shadow-sm border border-slate-100 w-full max-w-95">
+  <div className="bg-white p-8 rounded-[24px] shadow-sm border border-slate-100 w-full ">
     {/* Header */}
     <div className="flex items-center gap-2 text-[#2D31A6] mb-8">
       <User className="w-6 h-6" />

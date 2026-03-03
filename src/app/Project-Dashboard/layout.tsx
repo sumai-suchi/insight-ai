@@ -16,7 +16,7 @@ export default function AuthLayout({
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 bg-gray-100 overflow-auto max-h-screen">
+      <main className="w-11/12 flex-1 p-6 bg-gray-100 overflow-auto max-h-screen">
         {children}
       </main>
       
