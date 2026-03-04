@@ -1,9 +1,15 @@
 "use client";
-
 import React from "react";
 import { motion, Variants } from "framer-motion";
 
-const steps = [
+
+export interface Step {
+  id: number;
+  title: string;
+  description: string;
+}
+
+const steps: Step[] = [
   {
     id: 1,
     title: "Sign Up & Create Account",
@@ -93,11 +99,11 @@ export default function HowItWorks() {
                 </div>
               </div>
 
-              {/* Text Content */}
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 px-2">
+              {/* Text - Title also changes color on hover */}
+              <h3 className="text-xl font-bold text-slate-800 mb-4 group-hover:text-purple-700 transition-colors">
                 {step.title}
               </h3>
-              <p className="text-gray-500 dark:text-gray-400 leading-relaxed text-sm max-w-[250px]">
+              <p className="text-slate-500 text-sm leading-relaxed group-hover:text-slate-600 transition-colors">
                 {step.description}
               </p>
             </motion.div>

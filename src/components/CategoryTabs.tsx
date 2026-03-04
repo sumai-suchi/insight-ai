@@ -14,6 +14,7 @@ interface Props {
   onChange: (cat: NewsCategory) => void;
 }
 
+
 export default function CategoryTabs({ active, onChange }: Props) {
   return (
     <div className="flex flex-wrap gap-2 mb-6">
