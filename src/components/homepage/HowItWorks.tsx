@@ -1,72 +1,122 @@
 "use client";
 
 import React from "react";
-import { UserPlus, Sparkles, ShieldCheck, Newspaper } from "lucide-react";
+import { motion, Variants } from "framer-motion";
 
 const steps = [
   {
     id: 1,
     title: "Sign Up & Create Account",
-    description: "Join our platform to unlock powerful AI tools tailored for you.",
-    icon: <UserPlus className="w-8 h-8 text-primary" />,
+    description:
+      "Create your free account in seconds. No credit card required to get started.",
   },
   {
     id: 2,
     title: "Enter Content Ideas",
-    description: "Input your topics or keywords into our AI-powered editor.",
-    icon: <Sparkles className="w-8 h-8 text-primary" />,
+    description:
+      "Simply describe what you want to write about and let AI do the heavy lifting.",
   },
   {
     id: 3,
     title: "Review & Optimize",
-    description: "Use our SEO and plagiarism checker to perfect your content.",
-    icon: <ShieldCheck className="w-8 h-8 text-primary" />,
+    description:
+      "Use SEO suggestions and plagiarism checker to perfect your content.",
   },
   {
     id: 4,
     title: "Explore News Feed",
-    description: "Discover personalized news curated just for your interests.",
-    icon: <Newspaper className="w-8 h-8 text-primary" />,
+    description:
+      "Stay informed with personalized trending news and industry insights.",
   },
 ];
 
-function HowItWorks() {
+// Animation Variants
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+export default function HowItWorks() {
   return (
-    <section className="py-20 bg-gray-50 dark:bg-zinc-900 w-full">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+    <section className="py-24 bg-white dark:bg-[#0F172A] max-w-7xl mx-auto overflow-hidden">
+      <div className="container mx-auto px-6">
+        {/* Header Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             How It Works
           </h2>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-            Get started with SynapseNews in 4 simple steps
+          <p className="text-gray-500 dark:text-gray-400 text-lg">
+            Get started in 4 simple steps
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Steps Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-20"
+        >
           {steps.map((step) => (
-            <div
+            <motion.div
               key={step.id}
-              className="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 dark:border-zinc-700 flex flex-col items-center text-center group"
+              variants={itemVariants}
+              className="flex flex-col items-center text-center group"
             >
-              <div className="mb-4 p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors duration-300">
-                {step.icon}
+              {/* Number Circle - Exact Match to Image */}
+              <div className="relative mb-8">
+                <div className="w-14 h-14 bg-[#9333EA] text-white rounded-full flex items-center justify-center text-xl font-medium shadow-lg shadow-purple-200 dark:shadow-none transition-transform duration-300 group-hover:scale-110">
+                  {step.id}
+                </div>
               </div>
-              <div className="w-8 h-8 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full flex items-center justify-center text-sm font-bold mb-4">
-                {step.id}
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+
+              {/* Text Content */}
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 px-2">
                 {step.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-500 dark:text-gray-400 leading-relaxed text-sm max-w-[250px]">
                 {step.description}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
+
+        {/* CTA Button Animation */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8 }}
+          className="flex justify-center"
+        >
+          <button className="bg-[#9333EA] hover:bg-[#7E22CE] text-white font-semibold py-4 px-10 rounded-xl transition-all duration-300 shadow-xl shadow-purple-100 dark:shadow-none hover:shadow-purple-200 active:scale-95">
+            Start Creating Now
+          </button>
+        </motion.div>
       </div>
     </section>
   );
 }
-
-export default HowItWorks;
