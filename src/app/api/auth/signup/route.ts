@@ -4,7 +4,7 @@ import { incrementFailedAttempts, resetFailedAttempts } from "@/lib/auth/userExt
 
 export async function POST(req: Request) {
 
-  const { email, password } = await req.json();
+  const { email, password, name, image, role } = await req.json();
 console.log("Login attempt", { email });
   try {
 
@@ -24,13 +24,13 @@ console.log("Login attempt", { email });
     }
 
     //  Successful login → reset attempts
-    await resetFailedAttempts(res.user.id);
+    await resetFailedAttempts(email);
 
     return NextResponse.json({ data: res });
 
   } catch (err) {
 
-    console.log(err,'error message');
+    console.log(err);
 
     //  Failed login → increment attempts
     await incrementFailedAttempts(email);

@@ -11,6 +11,7 @@
   "dependencies": {
     "@google/genai": "^1.42.0",
     "@google/generative-ai": "^0.24.1",
+    "@heroicons/react": "^2.2.0",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-separator": "^1.1.8",
     "@tiptap/extension-highlight": "^3.20.0",

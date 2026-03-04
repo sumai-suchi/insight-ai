@@ -27,6 +27,7 @@ export default function Navbar() {
     { name: "Dashboard", href: "/dashboard" },
     { name: "AI Editing", href: "/ai-editing" },
     { name: "News", href: "/news" },
+    { name: "Pricing", href: "/pricing" },
   ];
 
   // Prevent hydration mismatch by not rendering until session is loaded

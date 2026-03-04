@@ -7,6 +7,12 @@ await client.connect();
 const db = client.db("Better_Auth");
 export const userExtraCollection = db.collection("userExtra");
 
+interface IUser {
+  name:string;
+  email:string;
+  password:string;
+  
+}
 export async function getUserExtra(userId: string) {
   return await userExtraCollection.findOne({ userId });
 }
