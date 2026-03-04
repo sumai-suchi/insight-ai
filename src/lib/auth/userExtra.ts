@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
 const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI!);
-await client.connect();
+// await client.connect();
 const db = client.db("Better_Auth");
 export const userExtraCollection = db.collection("userExtra");
 

@@ -106,7 +106,11 @@ const Templates = [
   },
   {
     name: "Youtube Tags",
+<<<<<<< HEAD
     desc: "An AI tool that serves as your personal blog post title writer, generating catchy and viral-worthy titles in your chosen language.",
+=======
+    desc: "An AI tool that serves as your personal blog post title writer, generating catchy and viral-worthy titles in your chosen language. use '#' in front of every tags.",
+>>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     category: "Youtube Tool",
     icon: "https://cdn-icons-png.flaticon.com/128/4674/4674918.png",
     slug: "youtube-tag",

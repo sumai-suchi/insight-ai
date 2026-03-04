@@ -1,9 +1,9 @@
-import { Article, CachedNews } from "@/types/news";
+import { NewsAPIArticle, CachedNews } from "@/types/news";
 
 const STORAGE_KEY = "cached_news";
 const CACHE_DURATION = 60 * 60 * 1000; // 1 ঘণ্টা
 
-export function getFromCache(): Article[] | null {
+export function getFromCache(): NewsAPIArticle[] | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -22,7 +22,7 @@ export function getFromCache(): Article[] | null {
   }
 }
 
-export function saveToCache(articles: Article[]): void {
+export function saveToCache(articles: NewsAPIArticle[]): void {
   const payload: CachedNews = {
     data: articles,
     timestamp: Date.now(),
