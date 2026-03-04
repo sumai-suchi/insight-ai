@@ -1,4 +1,3 @@
-
 import {
   FileText,
   Save,
@@ -11,34 +10,33 @@ import {
   LayoutTemplate,
   MessageSquare,
 } from "lucide-react";
+import { ReactNode } from "react";
 import DashboardCard from "./DashboardCard";
 import ActionCard from "./ActionCard";
-import { ReactNode } from "react";
 import { RecentActivity } from "./RecentActivity";
 import { ProfileSidebar } from "./ProfileSidebar";
 import AiContentTools from "./AiContentTools";
 import SeoInsights from "./SeoInsights";
 import PlagiarismChecker from "./PlagiarismChecker";
-import PersonalizedNewsFeed from "./PersonalizedNewsFeed";
-import SavedDrafts from "./SavedDrafts";
 import PerformanceAnalytics from "./PerformanceAnalytics";
-
+import SavedDrafts from "./SavedDrafts";
+import PersonalizedNewsFeed from "./PersonalizedNewsFeed";
 
 export default function DashboardPage() {
   type ActionItem = {
-  icon: ReactNode;
-  label: string;
-  gradient: string;
-};
+    icon: ReactNode;
+    label: string;
+    gradient: string;
+  };
 
-    type StatItem = {
-  title: string;
-  value: string | number;
-  change: string;
-  changeType: "up" | "down";
-  icon: React.ReactNode;
-  bgColor: string;
-};
+  type StatItem = {
+    title: string;
+    value: string | number;
+    change: string;
+    changeType: "up" | "down";
+    icon: React.ReactNode;
+    bgColor: string;
+  };
   const stats: StatItem[] = [
     {
       title: "Total Blogs",
@@ -83,41 +81,40 @@ export default function DashboardPage() {
   ];
 
   const actions: ActionItem[] = [
-  {
-    icon: <Plus />,
-    label: "Create New Blog",
-    gradient: "from-purple-500 to-indigo-500",
-  },
-  {
-    icon: <Sparkles />,
-    label: "Generate with AI",
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    icon: <Edit />,
-    label: "Continue Draft",
-    gradient: "from-green-500 to-emerald-500",
-  },
-  {
-    icon: <LayoutTemplate />,
-    label: "Use Template",
-    gradient: "from-orange-500 to-amber-500",
-  },
-  {
-    icon: <MessageSquare />,
-    label: "Social Media Post",
-    gradient: "from-pink-500 to-rose-500",
-  },
-];
+    {
+      icon: <Plus />,
+      label: "Create New Blog",
+      gradient: "from-purple-500 to-indigo-500",
+    },
+    {
+      icon: <Sparkles />,
+      label: "Generate with AI",
+      gradient: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: <Edit />,
+      label: "Continue Draft",
+      gradient: "from-green-500 to-emerald-500",
+    },
+    {
+      icon: <LayoutTemplate />,
+      label: "Use Template",
+      gradient: "from-orange-500 to-amber-500",
+    },
+    {
+      icon: <MessageSquare />,
+      label: "Social Media Post",
+      gradient: "from-pink-500 to-rose-500",
+    },
+  ];
 
   return (
     <div className="bg-gray-100 min-h-screen p-8">
-
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <p className="text-gray-500">
-          Welcome back! Here's your content overview
+          Welcome back! Here&apos;s your content overview
         </p>
       </div>
 
@@ -135,12 +132,11 @@ export default function DashboardPage() {
           Quick Actions
         </h2>
 
-        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        {actions.map((item, index) => (
-          <ActionCard key={index} {...item} />
-        ))}
-      </div>
+          {actions.map((item, index) => (
+            <ActionCard key={index} {...item} />
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-16 gap-8  mt-10">
@@ -168,7 +164,6 @@ export default function DashboardPage() {
       </div>
 
       <div className="  pt-8 space-y-8">
-        
         {/* Top - Full width analytics */}
         <PerformanceAnalytics />
 
@@ -177,7 +172,6 @@ export default function DashboardPage() {
           <SavedDrafts />
           <PersonalizedNewsFeed />
         </div>
-
       </div>
     </div>
   );
