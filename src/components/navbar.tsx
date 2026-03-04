@@ -238,8 +238,8 @@ const handleNavClick = async (link: any, e: React.MouseEvent) => {
       icon: <LayoutDashboard size={16} />,
     },
     {
-      name: "Project-Dashboard",
-      href: "/Project-dashboard",
+      name: "Project Dashboard",
+      href: "/project-dashboard",
       icon: <LayoutDashboard size={16} />,
     },
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
@@ -304,7 +304,6 @@ const handleNavClick = async (link: any, e: React.MouseEvent) => {
               </Link>
             ))}
           </div>
-
           {/* Profile/Auth Section */}
           {/* <div className="hidden md:flex items-center gap-4">
             {user ? (
@@ -352,7 +351,6 @@ const handleNavClick = async (link: any, e: React.MouseEvent) => {
               </>
             )}
           </div> */}
-
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center">
             <button
