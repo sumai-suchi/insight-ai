@@ -1,4 +1,13 @@
 "use client";
+
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import { Quote } from "lucide-react";
+
+interface Testimonial {
+  id: number;
+  text: string;
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -10,6 +19,7 @@ export interface Testimonial {
   role: string;
   company: string;
   image: string;
+  rating: number;
   stars: number;
 }
 
@@ -39,89 +49,113 @@ const testimonials: Testimonial[] = [
     role: "Digital Marketing Director",
     company: "Growth Labs",
     image: "https://i.pravatar.cc/150?u=emily",
-    stars: 5,
+    rating: 5,
   },
+  {
+    id: 3,
+    text: "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
+    name: "Emily Rodriguez",
+    role: "Digital Marketing Director",
+    company: "Growth Labs",
+    image: "https://i.pravatar.cc/150?u=emily",
+    rating: 5,
+  },
+  {
+    id: 3,
+    text: "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
+    name: "Emily Rodriguez",
+    role: "Digital Marketing Director",
+    company: "Growth Labs",
+    image: "https://i.pravatar.cc/150?u=emily",
+    rating: 5,
+  },
+  // আপনি চাইলে আরও ডাটা যোগ করতে পারেন
 ];
 
-const Testimonials = () => {
+const TestimonialSlider = () => {
   return (
-    <section className="py-24 px-6 bg-[#7c3aed] text-white overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-4"
-          >
-            Loved by Content Creators Worldwide
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-purple-100 text-lg"
-          >
-            See what our users have to say
-          </motion.p>
-        </div>
+    <div className="bg-[#7b39ed] py-30 flex flex-col items-center justify-center w-full">
+      {/* Header Section */}
+      <div className="text-center mb-12">
+        <h2 className="text-white text-3xl md:text-4xl font-bold mb-2">
+          Loved by Content Creators Worldwide
+        </h2>
+        <p className="text-purple-100 text-lg">
+          See what our users have to say
+        </p>
+      </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-15">
-          {testimonials.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{
-                scale: 1.02,
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-              }}
-              className="relative p-8 rounded-2xl border border-white/20 bg-white/5 backdrop-blur-sm transition-colors duration-300"
-            >
-              {/* Quote Icon */}
-              <div className="text-4xl mb-4 opacity-80 font-serif">“</div>
-
-              {/* Quote Text */}
-              <p className="text-sm md:text-base leading-relaxed mb-8 min-h-[100px]">
-                {item.quote}
-              </p>
-
-              {/* User Identity */}
-              <div className="flex items-center gap-4 mb-4">
-                <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white/20">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
+      {/* Swiper Container */}
+      <div className="max-w-6xl w-full">
+        <Swiper
+          modules={[Pagination, Autoplay]}
+          spaceBetween={30}
+          slidesPerView={1}
+          autoplay={{ delay: 5000 }}
+          pagination={{ clickable: true }}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
+          className="pb-16 px-4!"
+        >
+          {testimonials.map((item) => (
+            <SwiperSlide key={item.id}>
+              <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl h-full flex flex-col justify-between text-white hover:bg-white/20 transition-all duration-300">
                 <div>
-                  <h4 className="font-bold text-sm">{item.name}</h4>
-                  <p className="text-xs text-purple-200">
-                    {item.role} <br /> {item.company}
+                  <Quote className="w-10 h-10 mb-4 opacity-50 rotate-180" />
+                  <p className="text-lg leading-relaxed mb-6 italic">
+                    &ldquo;{item.text}&rdquo;
                   </p>
                 </div>
-              </div>
 
-              {/* Star Rating */}
-              <div className="flex gap-1">
-                {[...Array(item.stars)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-lg">
-                    ★
-                  </span>
-                ))}
+                <div className="mt-auto">
+                  <div className="flex items-center gap-4 mb-4">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-12 h-12 rounded-full border-2 border-purple-300"
+                    />
+                    <div>
+                      <h4 className="font-bold text-base leading-tight">
+                        {item.name}
+                      </h4>
+                      <p className="text-sm text-purple-200">
+                        {item.role} <br />
+                        <span className="text-xs opacity-75">
+                          {item.company}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Star Rating */}
+                  <div className="flex gap-1 text-yellow-400">
+                    {[...Array(item.rating)].map((_, i) => (
+                      <span key={i}>★</span>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </motion.div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
-    </section>
+
+      <style jsx global>{`
+        .swiper-pagination-bullet {
+          background: white !important;
+          opacity: 0.5;
+        }
+        .swiper-pagination-bullet-active {
+          opacity: 1;
+          width: 25px;
+          border-radius: 5px;
+        }
+      `}</style>
+    </div>
   );
 };
 
-export default Testimonials;
+export default TestimonialSlider;
