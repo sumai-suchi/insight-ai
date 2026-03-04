@@ -9,6 +9,10 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
+<<<<<<< HEAD
+=======
+import Paragraph from "@tiptap/extension-paragraph";
+>>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
 import { Toggle } from "./ui/toggle";
 import {
   BoldIcon,
@@ -49,8 +53,25 @@ const Tiptap = ({
   content?: string;
   onChange?: (content: string) => void;
 }) => {
+<<<<<<< HEAD
   const editor = useEditor({
     extensions: [StarterKit, Highlight.configure({ multicolor: true })], // define your extension array
+=======
+  // create a custom paragraph extension that outputs a <div> instead of <p>
+  const CustomParagraph = Paragraph.extend({
+    renderHTML() {
+      return ["div", 0];
+    },
+  });
+
+  const editor = useEditor({
+    extensions: [
+      // disable default paragraph from StarterKit and replace with custom
+      StarterKit.configure({ paragraph: false }),
+      CustomParagraph,
+      Highlight.configure({ multicolor: true }),
+    ],
+>>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     editorProps: {
       attributes: {
         class:
@@ -66,7 +87,13 @@ const Tiptap = ({
 
   useEffect(() => {
     if (editor && typeof content === "string") {
+<<<<<<< HEAD
       editor.commands.setContent(content, { parseOptions: { preserveWhitespace: false } });
+=======
+      editor.commands.setContent(content, {
+        parseOptions: { preserveWhitespace: false },
+      });
+>>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     }
   }, [content, editor]);
 
@@ -79,7 +106,11 @@ const Tiptap = ({
           <FloatingMenu editor={editor} />
         </>
       )}
+<<<<<<< HEAD
       <EditorContent editor={editor} className="min-h-[600px] px-4 py-3" />
+=======
+      <EditorContent editor={editor} className="min-h-120 px-4 py-3" />
+>>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     </div>
   );
 };

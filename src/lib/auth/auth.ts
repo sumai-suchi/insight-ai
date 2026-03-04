@@ -25,6 +25,7 @@ export  const auth = betterAuth({
             clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
         }
     },
+<<<<<<< HEAD
 
     user: {
     additionalFields: {
@@ -35,6 +36,8 @@ export  const auth = betterAuth({
       },
     },
   },
+=======
+>>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
   secret: process.env.NEXT_PUBLIC_BETTER_AUTH_CLIENT_ID!,
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
 
