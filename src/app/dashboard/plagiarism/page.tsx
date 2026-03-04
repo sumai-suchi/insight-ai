@@ -1,17 +1,19 @@
+"use client";
 import Tiptap from "@/components/text-editor";
 import React from "react";
+import Chart from "./chart";
 
 export default function Page() {
   return (
     <div className="flex flex-col lg:flex-row">
-      <div className="h-full w-full lg:w-2/3  border-r border-gray-200 pt-6 px-6">
+      <div className="h-full w-full lg:w-2.5/4  border-r border-gray-200 pt-6 px-6">
         <h2 className="text-2xl font-bold">Plagiarism Checker</h2>
         <p className="text-sm text-gray-500 mb-4">
           Check your text for plagiarism
         </p>
         <Tiptap />
       </div>
-      <div className="h-screen w-full lg:w-1/3 border p-6 bg-white">
+      <div className="h-screen w-full lg:w-1.5/4 border p-6 bg-white">
         <h2 className="text-2xl font-bold">Plagiarism Checker</h2>
         <p className="text-sm text-gray-500">Check your text for plagiarism</p>
         <div className="flex flex-col gap-2">
@@ -20,6 +22,7 @@ export default function Page() {
             Check
           </button>
         </div>
+        <Chart />
       </div>
     </div>
   );
