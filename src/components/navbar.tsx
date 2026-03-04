@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 // "use client";
 
 // import React, { useState } from "react";
@@ -172,6 +174,7 @@
 //     </nav>
 //   );
 // }
+>>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
 
 "use client";
 
@@ -193,6 +196,8 @@ import {
 } from "lucide-react";
 
 import Img from "../../public/NavLogo.png";
+import { authClient } from "@/lib/auth/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -212,6 +217,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const router = useRouter();
+
+const handleNavClick = async (link: any, e: React.MouseEvent) => {
+  if (link.logout) {
+    e.preventDefault();
+
+    await authClient.signOut();
+    alert("Signed out successfully");
+
+    router.push("/"); // redirect after logout
+  }
+};
+
   if (pathname?.startsWith("/dashboard")) return null;
 
   const navLinks = [
@@ -230,7 +248,7 @@ export default function Navbar() {
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
     { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
     { name: "Profile", href: "/profile", icon: <User size={16} /> },
-    { name: "Logout", href: "/logout", icon: <LogOut size={16} /> },
+    { name: "Logout", href: "#", icon: <LogOut size={16} />, logout: true },
   ];
 
   // কন্ডিশনাল স্টাইল: হোম পেজে না থাকলে অথবা স্ক্রল করলে সাদা ব্যাকগ্রাউন্ড হবে
@@ -271,6 +289,7 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
+                onClick={(e) => handleNavClick(link, e)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
                   isTransparent
                     ? "text-white/90 hover:text-white hover:bg-white/10"

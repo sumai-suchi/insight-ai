@@ -1,9 +1,11 @@
 import Features from "@/components/homepage/Features";
 import Hero from "@/components/homepage/Hero";
 import HowItWorks from "@/components/homepage/HowItWorks";
+
 import NewsData from "@/components/homepage/NewsData";
 // import OutputPreview from "@/components/homepage/OutputPreview";
 // import AiDemoChat from "@/components/homepage/AiDemoChat";
+
 import TrendingNews from "@/components/homepage/TrendingNews";
 import Testimonials from "@/components/homepage/Testimonials";
 
@@ -15,8 +17,10 @@ export default function Home() {
         <Hero />
         <Features />
         <HowItWorks />
+
         <NewsData />
         {/* <OutputPreview /> */}
+
         <Testimonials />
       </main>
       {/* <Footer /> */}

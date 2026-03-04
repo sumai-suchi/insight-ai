@@ -30,3 +30,11 @@ export interface NewsAPIArticle {
   publishedAt: string;
   content: string | null;
 }
+<<<<<<< HEAD
+
+export interface CachedNews {
+  data: NewsAPIArticle[];
+  timestamp: number;
+};
+=======
+>>>>>>> a56ed66d779f646390a604e106be8e704d2e0431

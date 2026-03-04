@@ -4,29 +4,10 @@ import { NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    // Accept either a raw prompt or a messages array for chat history
-    const baseInstruction =
-      "You are an AI chat bot. Reply in a short, conversational chat message rather than a long article.";
-
-    let prompt: string | undefined;
-    if (body.prompt) {
-      prompt = `${baseInstruction} ${body.prompt}`;
-    } else if (Array.isArray(body.messages)) {
-      // build a simple conversation string from message history
-      prompt =
-        baseInstruction +
-        "\n" +
-        (body.messages
-          .map((m: { role: string; content: string }) => {
-            const role = m.role === "assistant" ? "Assistant" : "User";
-            return `${role}: ${m.content}`;
-          })
-          .join("\n") +
-          "\nAssistant:");
-    }
+    const { prompt } = body as { prompt?: string };
 
     if (!prompt) {
-      return new Response("Prompt or messages are required", { status: 400 });
+      return new Response("Prompt is required", { status: 400 });
     }
 
     if (!process.env.GEMINI_API_KEY) {
@@ -45,9 +26,7 @@ export async function POST(req: NextRequest) {
           // Depending on SDK version, generateContentStream may accept a string or a config object.
           // Here we keep it simple and pass the prompt directly.
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const result: any = await (model as any).generateContentStream(
-            prompt,
-          );
+          const result: any = await (model as any).generateContentStream(prompt);
 
           for await (const chunk of result.stream) {
             const chunkText = chunk?.text?.() ?? "";
@@ -75,3 +54,4 @@ export async function POST(req: NextRequest) {
     return new Response("Failed to start streaming response", { status: 500 });
   }
 }
+
