@@ -1,72 +1,106 @@
 "use client";
-
 import React from "react";
-import { UserPlus, Sparkles, ShieldCheck, Newspaper } from "lucide-react";
+import { motion } from "framer-motion";
 
-const steps = [
+export interface Step {
+  id: number;
+  title: string;
+  description: string;
+}
+
+const steps: Step[] = [
   {
     id: 1,
     title: "Sign Up & Create Account",
-    description: "Join our platform to unlock powerful AI tools tailored for you.",
-    icon: <UserPlus className="w-8 h-8 text-primary" />,
+    description:
+      "Create your free account in seconds. No credit card required to get started.",
   },
   {
     id: 2,
     title: "Enter Content Ideas",
-    description: "Input your topics or keywords into our AI-powered editor.",
-    icon: <Sparkles className="w-8 h-8 text-primary" />,
+    description:
+      "Simply describe what you want to write about and let AI do the heavy lifting.",
   },
   {
     id: 3,
     title: "Review & Optimize",
-    description: "Use our SEO and plagiarism checker to perfect your content.",
-    icon: <ShieldCheck className="w-8 h-8 text-primary" />,
+    description:
+      "Use SEO suggestions and plagiarism checker to perfect your content.",
   },
   {
     id: 4,
     title: "Explore News Feed",
-    description: "Discover personalized news curated just for your interests.",
-    icon: <Newspaper className="w-8 h-8 text-primary" />,
+    description:
+      "Stay informed with personalized trending news and industry insights.",
   },
 ];
 
-function HowItWorks() {
+const HowItWorks = () => {
   return (
-    <section className="py-20 bg-gray-50 dark:bg-zinc-900 w-full">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-            How It Works
+    <section className="py-10 px-20 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto text-center">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-20"
+        >
+          <h2 className="text-4xl font-bold text-slate-900 mb-4 tracking-tight">
+            How It <span className="text-purple-600">Works</span>
           </h2>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-            Get started with SynapseNews in 4 simple steps
+          <p className="text-slate-500 text-lg max-w-xl mx-auto">
+            Get started in 4 simple steps and transform your workflow today.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step) => (
-            <div
+        {/* Steps Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {steps.map((step, index) => (
+            <motion.div
               key={step.id}
-              className="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 dark:border-zinc-700 flex flex-col items-center text-center group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              whileHover={{ y: -10 }}
+              // FOCUS HERE: The background and border color change on hover
+              className="group cursor-pointer p-8 bg-white border border-slate-100 rounded-3xl transition-all duration-300 ease-in-out hover:bg-purple-50 hover:border-purple-200 hover:shadow-xl hover:shadow-purple-100/40 text-center"
             >
-              <div className="mb-4 p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors duration-300">
-                {step.icon}
+              {/* Icon / Number Container */}
+              <div className="relative flex items-center justify-center w-16 h-16 mx-auto mb-8 transition-transform duration-300 group-hover:scale-110">
+                <div className="absolute inset-0 bg-purple-600 rounded-2xl rotate-6 opacity-10 group-hover:rotate-12 transition-transform" />
+                <div className="relative z-10 w-full h-full rounded-2xl bg-purple-600 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                  {step.id}
+                </div>
               </div>
-              <div className="w-8 h-8 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full flex items-center justify-center text-sm font-bold mb-4">
-                {step.id}
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+
+              {/* Text - Title also changes color on hover */}
+              <h3 className="text-xl font-bold text-slate-800 mb-4 group-hover:text-purple-700 transition-colors">
                 {step.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-slate-500 text-sm leading-relaxed group-hover:text-slate-600 transition-colors">
                 {step.description}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
+
+        {/* CTA Button */}
+        <motion.button
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0 20px 25px -5px rgb(147 51 234 / 0.3)",
+          }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-purple-600 text-white font-bold py-4 px-12 rounded-2xl transition-all duration-200"
+        >
+          Start Creating Now
+        </motion.button>
       </div>
     </section>
   );
-}
+};
 
 export default HowItWorks;

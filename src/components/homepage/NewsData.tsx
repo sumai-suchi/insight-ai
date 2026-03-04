@@ -1,41 +1,57 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { useNews } from "@/hooks/useNews";
-
-type Category = "technology" | "sports" | "business" | "health" | "science";
-
-const CATEGORIES: Category[] = [
-  "technology",
-  "sports",
-  "business",
-  "health",
-  "science",
-];
+import { useCallback, useEffect, useState } from "react";
+import CategoryTabs from "../CategoryTabs";
+import NewsCard from "../NewsCard";
+import { INews, NewsCategory } from "@/types/news";
 
 export default function NewsData() {
-  const { articles, loading, category, setCategory } = useNews();
-  const [allArticles, setAllArticles] = useState(articles);
+  const [category, setCategory] = useState<NewsCategory>("all");
+  const [news, setNews] = useState<INews[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchNews = useCallback(
+    async (cat: NewsCategory, pg: number, q: string) => {
+      setLoading(true);
+      try {
+        const params = new URLSearchParams({
+          category: cat,
+          page: String(pg),
+          limit: "3",
+          ...(q && { search: q }),
+        });
+
+        const res = await fetch(`/api/news?${params}`);
+        const data = await res.json();
+
+        if (data.success) {
+          setNews(data.data);
+        }
+      } finally {
+        setLoading(false);
+      }
+    },
+    [],
+  );
+
+  const handleCategoryChange = (cat: NewsCategory) => {
+    setCategory(cat);
+  };
 
   useEffect(() => {
-    setAllArticles(articles);
-  }, [articles]);
-
-  const trendingTopics = CATEGORIES;
-  const featured = allArticles.length > 0 ? allArticles[0] : null;
-  const others = allArticles.length > 1 ? allArticles.slice(1) : [];
+    fetchNews(category, 1, "");
+  }, [category, fetchNews]);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-12 font-sans">
-      {/* Header */}
+    <section className="max-w-7xl mx-auto px-20 py-10 font-sans">
       <div className="flex justify-between items-end mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
             Trending News & Insights
           </h2>
-          <p className="text-gray-500 mt-2">
+
+          <p className="text-slate-500 dark:text-slate-400">
             Stay updated with the latest in technology and AI
           </p>
         </div>
@@ -48,140 +64,13 @@ export default function NewsData() {
         </Link>
       </div>
 
-      {/* Category Buttons */}
-      <div className="flex flex-wrap gap-3 mt-8 mb-12">
-        {trendingTopics.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setCategory(cat)}
-            className={`px-6 py-2 rounded-full capitalize text-sm font-semibold transition-all duration-300 ${
-              category === cat
-                ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
-                : "bg-white text-slate-600 border border-slate-200 hover:border-blue-400 hover:text-blue-600"
-            }`}
-          >
-            {cat}
-          </button>
+      <CategoryTabs active={category} onChange={handleCategoryChange} />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {news.map((item) => (
+          <NewsCard key={item._id} news={item} />
         ))}
       </div>
-
-      {/* Featured Article */}
-      {featured && !loading && (
-        <section className="mb-20">
-          <div className="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition border flex flex-col lg:flex-row">
-            {/* Image */}
-            <div className="lg:w-3/5 relative">
-              {featured.urlToImage ? (
-                <Image
-                  src={featured.urlToImage}
-                  alt={featured.title}
-                  width={800}
-                  height={460}
-                  className="w-full h-[350px] lg:h-[460px] object-cover group-hover:scale-105 transition duration-700"
-                />
-              ) : (
-                <div className="w-full h-[400px] bg-gray-200 animate-pulse" />
-              )}
-            </div>
-
-            {/* Content */}
-            <div className="lg:w-2/5 p-10 flex flex-col justify-center">
-              <div className="flex gap-3 mb-6">
-                <span className="bg-purple-100 text-purple-600 px-4 py-1 rounded-full text-xs font-semibold">
-                  Featured
-                </span>
-                <span className="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-xs font-semibold">
-                  Trending
-                </span>
-              </div>
-
-              <h2 className="text-2xl lg:text-4xl font-bold mb-4 leading-tight">
-                {featured.title}
-              </h2>
-
-              <p className="text-gray-600 text-lg mb-8 line-clamp-3">
-                {featured.description}
-              </p>
-
-              <div className="flex justify-between items-center mt-auto">
-                <span className="text-sm text-gray-500">
-                  {featured.publishedAt
-                    ? new Date(featured.publishedAt).toLocaleDateString()
-                    : "Latest"}
-                </span>
-
-                <a
-                  href={featured.url || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition"
-                >
-                  Read Article →
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Trending News Grid (3 Cards) */}
-      {!loading && others.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {others.slice(0, 3).map((post, index) => (
-            <div
-              key={index}
-              className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition border"
-            >
-              {/* Image */}
-              <div className="w-full h-52 overflow-hidden relative">
-                {post.urlToImage ? (
-                  <Image
-                    src={post.urlToImage}
-                    alt={post.title}
-                    width={400}
-                    height={208}
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-200 animate-pulse" />
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="p-6 flex flex-col h-full">
-                <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full w-fit mb-3 capitalize">
-                  {post.category || category}
-                </span>
-
-                <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-blue-600 transition">
-                  {post.title}
-                </h3>
-
-                <p className="text-sm text-gray-600 line-clamp-2 mb-6">
-                  {post.description}
-                </p>
-
-                <div className="flex items-center justify-between mt-auto pt-2 border-t">
-                  <span className="text-xs text-gray-500">
-                    {post.publishedAt
-                      ? new Date(post.publishedAt).toLocaleDateString()
-                      : "Latest"}
-                  </span>
-
-                  <a
-                    href={post.url || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 font-semibold text-sm hover:underline"
-                  >
-                    Read →
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </section>
   );
 }
