@@ -16,6 +16,8 @@ import {
   PenTool,
   Menu,
   X,
+  User2,
+  LogOut,
   
 } from "lucide-react";
 
@@ -75,8 +77,8 @@ useEffect(() => {
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
     { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
     { name: "Project-dashboard", href: "/Project-dashboard", icon: <PenTool size={16} /> },
-    { name: "Profile", href: "/dashboard/profile", icon: <User size={16} /> },
-    { name: "Logout", href: "#", icon: <LogOut size={16} />, logout: true },
+    { name: "Profile", href: "/dashboard/profile", icon: <User2 size={16} /> },
+    // { name: "Logout", href: "#", icon: <LogOut size={16} />, logout: true },
   ];
 
   const isTransparent = isHomePage && !scrolled;
