@@ -244,7 +244,7 @@ const handleNavClick = async (link: any, e: React.MouseEvent) => {
     },
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
     { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
-    { name: "Profile", href: "/profile", icon: <User size={16} /> },
+    { name: "Profile", href: "/dashboard/profile", icon: <User size={16} /> },
     { name: "Logout", href: "#", icon: <LogOut size={16} />, logout: true },
   ];
 

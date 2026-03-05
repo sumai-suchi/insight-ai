@@ -5,13 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Quote } from "lucide-react";
 
-interface Testimonial {
-  id: number;
-  text: string;
-import React from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-// types/testimonial.ts
 export interface Testimonial {
   id: number;
   quote: string;
@@ -20,31 +13,33 @@ export interface Testimonial {
   company: string;
   image: string;
   rating: number;
-  stars: number;
 }
 
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    quote: "This platform has transformed our content workflow. We're now producing 3x more content in half the time. The AI suggestions are incredibly accurate!",
+    quote:
+      "This platform has transformed our content workflow. We're now producing 3x more content in half the time. The AI suggestions are incredibly accurate!",
     name: "Sarah Johnson",
     role: "Content Marketing Manager",
     company: "TechCorp",
-    image: "https://i.pravatar.cc/150?u=sarah", 
-    stars: 5,
+    image: "https://i.pravatar.cc/150?u=sarah",
+    rating: 5,
   },
   {
     id: 2,
-    quote: "As a freelancer, this tool is a game-changer. The plagiarism checker and SEO optimization features help me deliver premium quality work to my clients.",
+    quote:
+      "As a freelancer, this tool is a game-changer. The plagiarism checker and SEO optimization features help me deliver premium quality work to my clients.",
     name: "Michael Chen",
     role: "Freelance Writer",
     company: "Independent",
     image: "https://i.pravatar.cc/150?u=michael",
-    stars: 5,
+    rating: 5,
   },
   {
     id: 3,
-    quote: "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
+    quote:
+      "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
     name: "Emily Rodriguez",
     role: "Digital Marketing Director",
     company: "Growth Labs",
@@ -52,24 +47,15 @@ const testimonials: Testimonial[] = [
     rating: 5,
   },
   {
-    id: 3,
-    text: "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
-    name: "Emily Rodriguez",
-    role: "Digital Marketing Director",
-    company: "Growth Labs",
-    image: "https://i.pravatar.cc/150?u=emily",
+    id: 4,
+    quote:
+      "I love the AI content suggestions! It saves me hours every week and helps me stay on top of trends.",
+    name: "David Lee",
+    role: "Content Strategist",
+    company: "Creative Hub",
+    image: "https://i.pravatar.cc/150?u=david",
     rating: 5,
   },
-  {
-    id: 3,
-    text: "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
-    name: "Emily Rodriguez",
-    role: "Digital Marketing Director",
-    company: "Growth Labs",
-    image: "https://i.pravatar.cc/150?u=emily",
-    rating: 5,
-  },
-  // আপনি চাইলে আরও ডাটা যোগ করতে পারেন
 ];
 
 const TestimonialSlider = () => {
@@ -106,7 +92,7 @@ const TestimonialSlider = () => {
                 <div>
                   <Quote className="w-10 h-10 mb-4 opacity-50 rotate-180" />
                   <p className="text-lg leading-relaxed mb-6 italic">
-                    &ldquo;{item.text}&rdquo;
+                    &ldquo;{item.quote}&rdquo;
                   </p>
                 </div>
 

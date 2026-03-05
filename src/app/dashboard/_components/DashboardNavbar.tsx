@@ -1,12 +1,4 @@
 import React from "react";
-<<<<<<< HEAD
-
-const DashboardNavbar = () => {
-  return (
-    <div className="flex justify-between items-center h-16 px-6 bg-gray-100">
-      <h2 className="text-lg font-semibold">Ai Content Generation</h2>
-     
-=======
 import { Menu, MessageCircle } from "lucide-react";
 
 interface DashboardNavbarProps {
@@ -37,7 +29,6 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
       >
         <MessageCircle className="w-6 h-6" />
       </button>
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     </div>
   );
 };
