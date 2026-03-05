@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import { SideNav } from "./_components/SideNav";
-import DashboardNavbar from "./_components/DashboardNavbar";
-
-function layout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <SideNav />
-      <div className=" md:ml-50 lg:ml-70">
-        <DashboardNavbar />
-        {children}
-      </div>
-=======
 "use client";
 import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
@@ -51,13 +37,8 @@ function Layout({ children }: { children: React.ReactNode }) {
       {pathname !== "/dashboard/chat" && (
         <ChatBox open={chatOpen} onToggle={toggleChat} />
       )}
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     </div>
   );
 }
 
-<<<<<<< HEAD
-export default layout;
-=======
 export default Layout;
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
