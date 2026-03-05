@@ -370,7 +370,7 @@ const handleNavClick = async (link: any, e: React.MouseEvent) => {
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
-            className="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl z-[60] lg:hidden flex flex-col p-6"
+            className="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl z-60 lg:hidden flex flex-col p-6"
           >
             <div className="flex justify-end mb-6">
               <button
