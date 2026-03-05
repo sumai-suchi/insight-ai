@@ -7,6 +7,12 @@ const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI!);
 const db = client.db("Better_Auth");
 export const userExtraCollection = db.collection("userExtra");
 
+interface IUser {
+  name:string;
+  email:string;
+  password:string;
+  
+}
 export async function getUserExtra(userId: string) {
   return await userExtraCollection.findOne({ userId });
 }

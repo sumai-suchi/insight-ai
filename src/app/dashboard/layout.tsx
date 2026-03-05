@@ -22,6 +22,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   };
 
   const pathname = usePathname();
+  
 
   return (
     <div className="min-h-screen flex bg-gray-50">

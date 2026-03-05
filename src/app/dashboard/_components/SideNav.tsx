@@ -1,4 +1,4 @@
-import { FolderKanban, Home, ScrollText, Settings } from "lucide-react";
+import { FolderKanban, Home, ScrollText, Settings, CircleUserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -10,9 +10,15 @@ interface SideNavProps {
 export const SideNav: React.FC<SideNavProps> = ({ isOpen = true }) => {
   const navLinks = [
     { name: "Home", icon: Home, href: "/dashboard" },
+    {
+      name: "Plagiarism",
+      icon: ScrollText,
+      href: "/dashboard/plagiarism",
+    },
     { name: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
     { name: "Instructions", icon: ScrollText, href: "/dashboard/instructions" },
     { name: "Settings", icon: Settings, href: "/dashboard/settings" },
+    { name: "Profile", icon: CircleUserRound, href: "/dashboard/profile" },
   ];
   return (
     <aside

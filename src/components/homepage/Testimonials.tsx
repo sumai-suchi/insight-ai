@@ -18,16 +18,18 @@ export interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    quote: "This platform has transformed our content workflow. We're now producing 3x more content in half the time. The AI suggestions are incredibly accurate!",
+    quote:
+      "This platform has transformed our content workflow. We're now producing 3x more content in half the time. The AI suggestions are incredibly accurate!",
     name: "Sarah Johnson",
     role: "Content Marketing Manager",
     company: "TechCorp",
-    image: "https://i.pravatar.cc/150?u=sarah", 
+    image: "https://i.pravatar.cc/150?u=sarah",
     rating: 5,
   },
   {
     id: 2,
-    quote: "As a freelancer, this tool is a game-changer. The plagiarism checker and SEO optimization features help me deliver premium quality work to my clients.",
+    quote:
+      "As a freelancer, this tool is a game-changer. The plagiarism checker and SEO optimization features help me deliver premium quality work to my clients.",
     name: "Michael Chen",
     role: "Freelance Writer",
     company: "Independent",
@@ -36,7 +38,8 @@ const testimonials: Testimonial[] = [
   },
   {
     id: 3,
-    quote: "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
+    quote:
+      "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
     name: "Emily Rodriguez",
     role: "Digital Marketing Director",
     company: "Growth Labs",
