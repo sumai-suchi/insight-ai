@@ -1,35 +1,59 @@
 import { NextRequest, NextResponse } from "next/server";
-import { NewsApiResponse } from "@/types/news";
+import { connectDB } from "@/lib/db/mongoose";
+import { NewsCategory } from "@/types/news";
+import News from "@/lib/db/models/News";
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  // const { searchParams } = new URL(request.url);
-  // const category = searchParams.get("category") ?? "technology";
-  // const page = searchParams.get("page") ?? "1";
-  // const pageSize = searchParams.get("pageSize") ?? "9";
-
-  const category = request.nextUrl.searchParams.get("category") ?? "technology";
-  const page = request.nextUrl.searchParams.get("page") ?? "1";
-  const pageSize = request.nextUrl.searchParams.get("pageSize") ?? "9";
-
+export async function GET(req: NextRequest) {
   try {
-    const res = await fetch(
-      `https://newsapi.org/v2/top-headlines?category=${category}&language=en&page=${page}&pageSize=${pageSize}&apiKey=${process.env.NEWS_API_KEY}`,
-      { next: { revalidate: 3600 } },
-    );
+    await connectDB();
 
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch news" },
-        { status: res.status },
-      );
+    const { searchParams } = new URL(req.url);
+    const category = (searchParams.get("category") as NewsCategory) || "all";
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "12");
+    const search = searchParams.get("search")?.trim() || ""; // ✅ ১. এই line যোগ করো
+    const skip = (page - 1) * limit;
+
+    // ✅ ২. filter টা এভাবে replace করো
+    const filter: Record<string, unknown> = {};
+
+    if (category !== "all") {
+      filter.category = category;
     }
 
-    const data: NewsApiResponse = await res.json();
-    return NextResponse.json(data);
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+        { sourceName: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // বাকি সব একই থাকবে ↓
+    const [articles, total] = await Promise.all([
+      News.find(filter)
+        .sort({ publishedAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      News.countDocuments(filter),
+    ]);
+
+    return NextResponse.json({
+      success: true,
+      data: articles,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
   } catch (error) {
-    console.error("News API error:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown server error";
     return NextResponse.json(
-      { error: "Internal server error" },
+      { success: false, error: errorMessage },
       { status: 500 },
     );
   }

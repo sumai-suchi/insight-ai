@@ -79,20 +79,32 @@ import heroImage from "../../../public/hero_image.jpg";
 import React from "react";
 import HomeButton from "../ui/HomeButton";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 const Hero = () => {
   // এনিমেশন ভেরিয়েন্ট
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (custom) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: custom * 0.2, duration: 0.8, ease: "easeOut" },
-    }),
-  };
+  // const fadeInUp = {
+  //   hidden: { opacity: 0, y: 30 },
+  //   visible: (custom :any) => ({
+  //     opacity: 1,
+  //     y: 0,
+  //     transition: { delay: custom * 0.2, duration: 0.8, ease: "easeOut" },
+  //   }),
+  // };
+  const fadeInUp : Variants = {
+  hidden: { opacity: 0, y: 30},
+  visible: (custom: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: custom * 0.2,
+      duration: 0.8,
+      ease: "easeOut" as const // tells TypeScript this is a valid easing string
+    }
+  })
+};
 
-  const floating = {
+  const floating : Variants = {
     animate: {
       y: [0, -15, 0],
       transition: {
@@ -104,7 +116,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-[#57198A] to-[#382A86] text-white py-16 lg:py-28 w-full">
+    <section className="relative overflow-hidden bg-linear-to-r from-[#57198A] to-[#382A86] text-white py-16 lg:py-28 w-full">
       {/* --- ব্যাকগ্রাউন্ড এনিমেটেড স্টিকার/শেপস --- */}
       <motion.div
         animate={{ rotate: 360 }}

@@ -8,7 +8,7 @@ export async function POST(req: Request) {
 console.log("Login attempt", { email });
   try {
 
-    // 🔹 Correct BetterAuth server login
+    //  Correct BetterAuth server login
     const res = await auth.api.signInEmail({
       body: {
         email, 
@@ -23,16 +23,16 @@ console.log("Login attempt", { email });
       );
     }
 
-    // 🔹 Successful login → reset attempts
-    await resetFailedAttempts(email);
+    //  Successful login → reset attempts
+    await resetFailedAttempts(res.user.id);
 
     return NextResponse.json({ data: res });
 
   } catch (err) {
 
-    console.log(err);
+    console.log(err,'error message');
 
-    // 🔹 Failed login → increment attempts
+    //  Failed login → increment attempts
     await incrementFailedAttempts(email);
 
     return NextResponse.json(
