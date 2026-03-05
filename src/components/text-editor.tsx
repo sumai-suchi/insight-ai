@@ -87,7 +87,7 @@ const Tiptap = ({
   }, [content, editor]);
 
   return (
-    <div className="bg-background relative rounded-xl border ">
+    <div className="bg-background max-w-screen relative md:rounded-xl border ">
       {editor && (
         <>
           <ToolBar editor={editor} />
@@ -199,10 +199,10 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
   return (
     <div
       className={
-        "bg-background sticky top-0 z-10 flex justify-between items-center rounded-t-xl gap-1 border-b px-4 p-2"
+        "bg-background sticky top-0 z-10 flex justify-end md:justify-between items-center flex-wrap rounded-t-xl gap-1 border-b px-4 p-2"
       }
     >
-      <div className="flex items-center">
+      <div className="flex items-center w-full md:w-auto justify-between">
         <Select
           onValueChange={handleHeadingChange}
           value={
@@ -259,7 +259,7 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
         >
           <StrikethroughIcon className="h-4 w-4" />
         </Toggle>
-        <div className="bg-border mx-1 h-6 w-px" />
+        <div className="bg-border hidden md:flex mx-1 h-6 w-px" />
 
         <Toggle
           size="sm"
@@ -292,7 +292,7 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
           <ListOrderedIcon className="h-4 w-4" />
         </Toggle>
 
-        <div className="bg-border mx-1 h-6 w-px" />
+        <div className="bg-border hidden md:flex mx-1 h-6 w-px" />
         <Toggle
           size="sm"
           pressed={editorState.isHighlight}
