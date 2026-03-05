@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 
 import { SessionProvider } from "@/lib/auth/session-context";
 import ConditionalLayout from "@/components/ConditionalLayout";
+import { AuthProvider } from "@/Context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,9 +34,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <SessionProvider>
-          <ConditionalLayout>{children}</ConditionalLayout>
-        </SessionProvider>
+        <AuthProvider>
+          <SessionProvider>
+            <ConditionalLayout>{children}</ConditionalLayout>
+          </SessionProvider>
+        </AuthProvider>
       </body>
     </html>
   );

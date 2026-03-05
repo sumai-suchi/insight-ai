@@ -33,15 +33,11 @@ function FormSection({ selectedTemplate }: PROPS) {
         })
         .join("\n") || JSON.stringify(data, null, 2);
 
-<<<<<<< HEAD
-    const fullPrompt = `${selectedTemplate.aiPrompt}\n\nUser Inputs:\n${userInputsSummary}`;
-=======
     // ask the model to return markdown-formatted text suitable for the Tiptap editor
     const fullPrompt = `${selectedTemplate.aiPrompt}\n\nUser Inputs:\n${userInputsSummary}\n\nPlease write the response in **HTML tags**. 
     Use headings, lists, bold/italic, line breaks, and proper indentation so that the text renders nicely in a
      markdown-aware editor (Tiptap will display it with appropriate spacing and size). start with a heading that includes the main topic.
       Avoid using generic phrases like "As an AI language model".`;
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
 
     try {
       setIsLoading(true);

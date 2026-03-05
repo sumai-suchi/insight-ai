@@ -9,10 +9,7 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
-<<<<<<< HEAD
-=======
 import Paragraph from "@tiptap/extension-paragraph";
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
 import { Toggle } from "./ui/toggle";
 import {
   BoldIcon,
@@ -54,25 +51,8 @@ const Tiptap = ({
   content?: string;
   onChange?: (content: string) => void;
 }) => {
-<<<<<<< HEAD
   const editor = useEditor({
     extensions: [StarterKit, Highlight.configure({ multicolor: true })], // define your extension array
-=======
-  // create a custom paragraph extension that outputs a <div> instead of <p>
-  const CustomParagraph = Paragraph.extend({
-    renderHTML() {
-      return ["div", 0];
-    },
-  });
-
-  const editor = useEditor({
-    extensions: [
-      // disable default paragraph from StarterKit and replace with custom
-      StarterKit.configure({ paragraph: false }),
-      CustomParagraph,
-      Highlight.configure({ multicolor: true }),
-    ],
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     editorProps: {
       attributes: {
         class:
@@ -88,13 +68,7 @@ const Tiptap = ({
 
   useEffect(() => {
     if (editor && typeof content === "string") {
-<<<<<<< HEAD
       editor.commands.setContent(content, { parseOptions: { preserveWhitespace: false } });
-=======
-      editor.commands.setContent(content, {
-        parseOptions: { preserveWhitespace: false },
-      });
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     }
   }, [content, editor]);
 
@@ -107,11 +81,7 @@ const Tiptap = ({
           {/* <FloatingMenu editor={editor} /> */}
         </>
       )}
-<<<<<<< HEAD
-      <EditorContent editor={editor} className="min-h-[600px] px-4 py-3" />
-=======
-      <EditorContent editor={editor} className="min-h-120 px-4 py-3" />
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
+      <EditorContent editor={editor} className="min-h-150 px-4 py-3" />
     </div>
   );
 };
@@ -218,15 +188,125 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
         "bg-background sticky top-0 z-10 flex justify-end md:justify-between items-center flex-wrap rounded-t-xl gap-1 border-b px-4 p-2"
       }
     >
-      <div className="flex items-center w-full md:w-auto justify-between">
-        <Select
-          onValueChange={handleHeadingChange}
-          value={
-            editorState.isHeading2
-              ? "heading2"
-              : editorState.isHeading3
-                ? "heading3"
-                : "paragraph"
+      <Select
+        onValueChange={handleHeadingChange}
+        value={
+          editorState.isHeading2
+            ? "heading2"
+            : editorState.isHeading3
+              ? "heading3"
+              : editorState.isHeading4
+                ? "heading4"
+                : editorState.isHeading5
+                  ? "heading5"
+                  : editorState.isHeading6
+                    ? "heading6"
+                    : "paragraph"
+        }
+      >
+        <SelectTrigger className="w-45">
+          <SelectValue placeholder="Paragraph" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="paragraph">Paragraph</SelectItem>
+          <SelectItem value="heading2">Heading 1</SelectItem>
+          <SelectItem value="heading3">Heading 2</SelectItem>
+          <SelectItem value="heading4">Heading 3</SelectItem>
+          <SelectItem value="heading5">Heading 4</SelectItem>
+          <SelectItem value="heading6">Heading 5</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.isBold}
+        onPressedChange={() => editor.chain().focus().toggleBold().run()}
+        aria-label="Toggle bold"
+      >
+        <BoldIcon className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.isItalic}
+        onPressedChange={() => editor.chain().focus().toggleItalic().run()}
+        aria-label="Toggle bold"
+      >
+        <ItalicIcon className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.iamThapa}
+        onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
+        aria-label="Toggle underline"
+      >
+        <UnderlineIcon className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.isStrike}
+        onPressedChange={() => editor.chain().focus().toggleStrike().run()}
+        aria-label="Toggle strikethrough"
+      >
+        <StrikethroughIcon className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.isHighlight}
+        onPressedChange={() =>
+          editor.chain().focus().toggleHighlight({ color: "#fdeb80" }).run()
+        }
+        aria-label="Toggle highlight"
+      >
+        <HighlighterIcon className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.isCode}
+        onPressedChange={() => editor.chain().focus().toggleCode().run()}
+        aria-label="Toggle code"
+      >
+        <CodeIcon className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.isBulletList}
+        onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
+        aria-label="Toggle bullet list"
+      >
+        <ListIcon className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.isOrderedList}
+        onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
+        aria-label="Toggle ordered list"
+      >
+        <ListOrderedIcon className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        pressed={editorState.isBlockquote}
+        onPressedChange={() => editor.chain().focus().toggleBlockquote().run()}
+        aria-label="Toggle blockquote"
+      >
+        <Quote className="h-4 w-4" />
+      </Toggle>
+
+      <div className="bg-border mx-1 h-6 w-px" />
+
+      {editorState.isLink ? (
+        <Toggle
+          pressed
+          onPressedChange={() =>
+            editor.chain().focus().extendMarkRange("link").unsetLink().run()
           }
         >
           <SelectTrigger className="w-20">
