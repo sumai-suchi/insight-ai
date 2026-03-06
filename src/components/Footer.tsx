@@ -72,7 +72,7 @@ const Footer = () => {
                         className="lg:col-span-3"
                         {...fadeInUp}
                     >
-                        <Link href="/" className="flex items-center  space-x-2 group">
+                        {/* <Link href="/" className="flex items-center  space-x-2 group">
                             <Image
                             className='bottom-0 left-7 absolute'
                                 src="/ins-logo.png"
@@ -80,7 +80,7 @@ const Footer = () => {
                                 width={400}
                                 height={250}
                             />
-                        </Link>
+                        </Link> */}
                         <p className=" text-gray-900 text-sm mt-44 leading-relaxed">
                             Empowering creators with AI-driven content writing, plagiarism checking, and smart editing tools. Your trusted partner for quality content in the digital age.
                         </p>
