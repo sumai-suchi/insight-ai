@@ -16,6 +16,8 @@ import {
   PenTool,
   Menu,
   X,
+  User2,
+  LogOut,
   
 } from "lucide-react";
 
@@ -71,37 +73,37 @@ useEffect(() => {
   const navLinks = [
     { name: "Home", href: "/", icon: <Home size={16} /> },
     { name: "Solutions", href: "/solutions", icon: <Lightbulb size={16} /> },
-    { name: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={16} /> },
+    { name: "AI Editor", href: "/dashboard", icon: <PenTool size={16} /> },
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
-    { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
-    { name: "Project-dashboard", href: "/Project-dashboard", icon: <PenTool size={16} /> },
-    { name: "Profile", href: "/dashboard/profile", icon: <User size={16} /> },
-    { name: "Logout", href: "#", icon: <LogOut size={16} />, logout: true },
+    // { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
+    { name: "Project-dashboard", href: "/Project-dashboard", icon: <LayoutDashboard size={16} /> },
+    { name: "Profile", href: "/dashboard/profile", icon: <User2 size={16} /> },
+    // { name: "Logout", href: "#", icon: <LogOut size={16} />, logout: true },
   ];
 
   const isTransparent = isHomePage && !scrolled;
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300  ${
         isTransparent
           ? "bg-transparent bg-linear-to-r from-[#57198A] to-[#382A86] py-2"
           : "bg-white/95 backdrop-blur-sm border-b border-gray-100 py-1 shadow-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="relative w-8 h-8">
-              <Image src={Img} alt="Logo" fill className="object-contain" />
-            </div>
+            
             <span
               className={`text-lg font-bold tracking-tight transition-colors ${
-                isTransparent ? "text-white" : "text-gray-900"
+                isTransparent ? "text-purple-600" : "text-white"
               }`}
             >
-              ContentAI <span className="text-purple-500">Pro</span>
+              <Image src={'/ins-logo.png'} alt="Logo" width={250} height={30} className="inline-block absolute -top-20 left-50 mr-2" />
+
+            
             </span>
           </Link>
 
@@ -111,10 +113,10 @@ useEffect(() => {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                   isTransparent
                     ? "text-white/90 hover:text-white hover:bg-white/10"
-                    : "text-gray-600 hover:text-purple-600 hover:bg-purple-50"
+                    : "text-purple-950 hover:text-purple-600 hover:bg-purple-50"
                 }`}
               >
                 <span className={isTransparent ? "text-purple-300" : "text-purple-600"}>
