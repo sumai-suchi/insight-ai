@@ -17,6 +17,7 @@ export default function Home() {
         <Hero />
         <Features />
         <HowItWorks />
+        <TrendingNews />
 
         <NewsData />
         {/* <OutputPreview /> */}

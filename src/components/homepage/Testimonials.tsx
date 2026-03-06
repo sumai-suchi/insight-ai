@@ -48,8 +48,7 @@ const testimonials: Testimonial[] = [
   },
   {
     id: 4,
-    quote:
-      "I love the AI content suggestions! It saves me hours every week and helps me stay on top of trends.",
+    quote: "I love the AI content suggestions! It saves me hours every week and helps me stay on top of trends.",
     name: "David Lee",
     role: "Content Strategist",
     company: "Creative Hub",
@@ -145,4 +144,3 @@ const TestimonialSlider = () => {
 };
 
 export default TestimonialSlider;
-                                                                     
