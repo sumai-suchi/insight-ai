@@ -76,7 +76,7 @@ useEffect(() => {
     { name: "AI Editor", href: "/dashboard", icon: <PenTool size={16} /> },
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
     // { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
-    { name: "Project-dashboard", href: "/Project-dashboard", icon: <LayoutDashboard size={16} /> },
+    { name: "Project-dashboard", href: "/Project-Dashboard", icon: <LayoutDashboard size={16} /> },
     { name: "Profile", href: "/dashboard/profile", icon: <User2 size={16} /> },
     // { name: "Logout", href: "#", icon: <LogOut size={16} />, logout: true },
   ];
