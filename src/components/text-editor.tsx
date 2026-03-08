@@ -9,10 +9,7 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
-<<<<<<< HEAD
-=======
 import Paragraph from "@tiptap/extension-paragraph";
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
 import { Toggle } from "./ui/toggle";
 import {
   BoldIcon,
@@ -23,7 +20,6 @@ import {
   LinkIcon,
   ListIcon,
   ListOrderedIcon,
-  Quote,
   RedoIcon,
   StrikethroughIcon,
   UnderlineIcon,
@@ -41,8 +37,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { BubbleMenu as TiptapBubbleMenu } from "@tiptap/react/menus";
-import { FloatingMenu as TiptapFloatingMenu } from "@tiptap/react/menus";
 
 // editorProps lets me customize the HTML element that Tiptap creates for the editor.
 // I add Tailwind’s prose classes so my editor text looks beautiful — with proper heading sizes, spacing, lists, blockquotes, and typography. Without this, the editor looks plain and unstyled
@@ -54,10 +48,6 @@ const Tiptap = ({
   content?: string;
   onChange?: (content: string) => void;
 }) => {
-<<<<<<< HEAD
-  const editor = useEditor({
-    extensions: [StarterKit, Highlight.configure({ multicolor: true })], // define your extension array
-=======
   // create a custom paragraph extension that outputs a <div> instead of <p>
   const CustomParagraph = Paragraph.extend({
     renderHTML() {
@@ -72,7 +62,6 @@ const Tiptap = ({
       CustomParagraph,
       Highlight.configure({ multicolor: true }),
     ],
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     editorProps: {
       attributes: {
         class:
@@ -88,13 +77,9 @@ const Tiptap = ({
 
   useEffect(() => {
     if (editor && typeof content === "string") {
-<<<<<<< HEAD
-      editor.commands.setContent(content, { parseOptions: { preserveWhitespace: false } });
-=======
       editor.commands.setContent(content, {
         parseOptions: { preserveWhitespace: false },
       });
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     }
   }, [content, editor]);
 
@@ -107,11 +92,7 @@ const Tiptap = ({
           {/* <FloatingMenu editor={editor} /> */}
         </>
       )}
-<<<<<<< HEAD
-      <EditorContent editor={editor} className="min-h-[600px] px-4 py-3" />
-=======
       <EditorContent editor={editor} className="min-h-120 px-4 py-3" />
->>>>>>> a56ed66d779f646390a604e106be8e704d2e0431
     </div>
   );
 };
@@ -377,263 +358,3 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
     </div>
   );
 };
-
-// export function BubbleMenu({ editor }: { editor: Editor }) {
-//   const editorState = useEditorState({
-//     editor,
-//     selector: (ctx) => {
-//       return {
-//         isBold: ctx.editor.isActive("bold") ?? false,
-//         isItalic: ctx.editor.isActive("italic") ?? false,
-//         isUnderline: ctx.editor.isActive("underline") ?? false,
-//         isHighlight: ctx.editor.isActive("highlight") ?? false,
-//         isStrike: ctx.editor.isActive("strike") ?? false,
-//         isCode: ctx.editor.isActive("code") ?? false,
-//         isBulletList: ctx.editor.isActive("bulletList") ?? false,
-//         isOrderedList: ctx.editor.isActive("orderedList") ?? false,
-//         isBlockquote: ctx.editor.isActive("blockquote") ?? false,
-//         isLink: ctx.editor.isActive("link") ?? false,
-//       };
-//     },
-//   });
-
-//   return (
-//     <TiptapBubbleMenu
-//       editor={editor}
-//       className="bg-background flex items-center rounded-md border shadow-md relative z-200"
-//     >
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isBold}
-//         onPressedChange={() => editor.chain().focus().toggleBold().run()}
-//         aria-label="Toggle bold"
-//       >
-//         <BoldIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isItalic}
-//         onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-//         aria-label="Toggle bold"
-//       >
-//         <ItalicIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isUnderline}
-//         onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
-//         aria-label="Toggle underline"
-//       >
-//         <UnderlineIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isStrike}
-//         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
-//         aria-label="Toggle strikethrough"
-//       >
-//         <StrikethroughIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isHighlight}
-//         onPressedChange={() =>
-//           editor.chain().focus().toggleHighlight({ color: "#fdeb80" }).run()
-//         }
-//         aria-label="Toggle highlight"
-//       >
-//         <HighlighterIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isCode}
-//         onPressedChange={() => editor.chain().focus().toggleCode().run()}
-//         aria-label="Toggle code"
-//       >
-//         <CodeIcon className="h-4 w-4" />
-//       </Toggle>
-//       <div className="bg-border mx-1 h-6 w-px" />
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isBulletList}
-//         onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
-//         aria-label="Toggle bullet list"
-//       >
-//         <ListIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isOrderedList}
-//         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
-//         aria-label="Toggle ordered list"
-//       >
-//         <ListOrderedIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isBlockquote}
-//         onPressedChange={() => editor.chain().focus().toggleBlockquote().run()}
-//         aria-label="Toggle blockquote"
-//       >
-//         <Quote className="h-4 w-4" />
-//       </Toggle>
-
-//       <div className="bg-border mx-1 h-6 w-px" />
-
-//       {editorState.isLink ? (
-//         <Toggle
-//           pressed
-//           onPressedChange={() =>
-//             editor.chain().focus().extendMarkRange("link").unsetLink().run()
-//           }
-//         >
-//           <UnlinkIcon className="h-4 w-4" />
-//         </Toggle>
-//       ) : (
-//         <LinkComponent editor={editor}>
-//           <Toggle size="sm" aria-label="Toggle link">
-//             <LinkIcon className="h-4 w-4" />
-//           </Toggle>
-//         </LinkComponent>
-//       )}
-//     </TiptapBubbleMenu>
-//   );
-// }
-
-// export function FloatingMenu({ editor }: { editor: Editor }) {
-//   const editorState = useEditorState({
-//     editor,
-//     selector: (ctx) => {
-//       return {
-//         isBold: ctx.editor.isActive("bold") ?? false,
-//         isItalic: ctx.editor.isActive("italic") ?? false,
-//         isUnderline: ctx.editor.isActive("underline") ?? false,
-//         isHighlight: ctx.editor.isActive("highlight") ?? false,
-//         isStrike: ctx.editor.isActive("strike") ?? false,
-//         isCode: ctx.editor.isActive("code") ?? false,
-//         isBulletList: ctx.editor.isActive("bulletList") ?? false,
-//         isOrderedList: ctx.editor.isActive("orderedList") ?? false,
-//         isBlockquote: ctx.editor.isActive("blockquote") ?? false,
-//         isLink: ctx.editor.isActive("link") ?? false,
-//       };
-//     },
-//   });
-
-//   return (
-//     <TiptapFloatingMenu
-//       editor={editor}
-//       className="bg-background flex items-center rounded-md border shadow-md relative z-200"
-//     >
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isBold}
-//         onPressedChange={() => editor.chain().focus().toggleBold().run()}
-//         aria-label="Toggle bold"
-//       >
-//         <BoldIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isItalic}
-//         onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-//         aria-label="Toggle bold"
-//       >
-//         <ItalicIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isUnderline}
-//         onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
-//         aria-label="Toggle underline"
-//       >
-//         <UnderlineIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isStrike}
-//         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
-//         aria-label="Toggle strikethrough"
-//       >
-//         <StrikethroughIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isHighlight}
-//         onPressedChange={() =>
-//           editor.chain().focus().toggleHighlight({ color: "#fdeb80" }).run()
-//         }
-//         aria-label="Toggle highlight"
-//       >
-//         <HighlighterIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isCode}
-//         onPressedChange={() => editor.chain().focus().toggleCode().run()}
-//         aria-label="Toggle code"
-//       >
-//         <CodeIcon className="h-4 w-4" />
-//       </Toggle>
-//       <div className="bg-border mx-1 h-6 w-px" />
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isBulletList}
-//         onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
-//         aria-label="Toggle bullet list"
-//       >
-//         <ListIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isOrderedList}
-//         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
-//         aria-label="Toggle ordered list"
-//       >
-//         <ListOrderedIcon className="h-4 w-4" />
-//       </Toggle>
-
-//       <Toggle
-//         size="sm"
-//         pressed={editorState.isBlockquote}
-//         onPressedChange={() => editor.chain().focus().toggleBlockquote().run()}
-//         aria-label="Toggle blockquote"
-//       >
-//         <Quote className="h-4 w-4" />
-//       </Toggle>
-
-//       <div className="bg-border mx-1 h-6 w-px" />
-
-//       {editorState.isLink ? (
-//         <Toggle
-//           pressed
-//           onPressedChange={() =>
-//             editor.chain().focus().extendMarkRange("link").unsetLink().run()
-//           }
-//         >
-//           <UnlinkIcon className="h-4 w-4" />
-//         </Toggle>
-//       ) : (
-//         <LinkComponent editor={editor}>
-//           <Toggle size="sm" aria-label="Toggle link">
-//             <LinkIcon className="h-4 w-4" />
-//           </Toggle>
-//         </LinkComponent>
-//       )}
-//     </TiptapFloatingMenu>
-//   );
-// }
