@@ -15,7 +15,7 @@ const GoogleSigninBtn = () => {
   return (
     <div className="flex justify-center">
       <button
-        onClick={() => login()}
+       
         style={{
           display: "flex",
           alignItems: "center",

@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from "next/image";
-import Img from "../../public/NavLogo.png";
+
 import { motion } from 'framer-motion';
 import {
     FaTwitter,
@@ -63,7 +63,7 @@ const Footer = () => {
     };
 
     return (
-        <footer className='bg-[#F9FAFB] border-t border-gray-200'>
+        <footer className='bg-[#F9FAFB]  border-t border-gray-200'>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
                     
@@ -72,15 +72,16 @@ const Footer = () => {
                         className="lg:col-span-3"
                         {...fadeInUp}
                     >
-                        <Link href="/" className="flex items-center space-x-2 group">
+                        {/* <Link href="/" className="flex items-center  space-x-2 group">
                             <Image
-                                src={Img.src}
-                                alt="Logo"
-                                width={200}
-                                height={200}
+                            className='bottom-0 left-7 absolute'
+                                src="/ins-logo.png"
+                                alt="ins-logo.png"
+                                width={400}
+                                height={250}
                             />
-                        </Link>
-                        <p className="mt-4 text-gray-900 text-sm leading-relaxed">
+                        </Link> */}
+                        <p className=" text-gray-900 text-sm mt-44 leading-relaxed">
                             Empowering creators with AI-driven content writing, plagiarism checking, and smart editing tools. Your trusted partner for quality content in the digital age.
                         </p>
                     </motion.div>
