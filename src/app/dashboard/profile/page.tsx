@@ -14,9 +14,11 @@ import {
 } from "lucide-react";
 import { authClient } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/Context/AuthContext";
 
 const ProfileManagement = () => {
   const router = useRouter();
+  const { refreshSession } = useAuth();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -66,7 +68,6 @@ const ProfileManagement = () => {
 
   const cardStyle = "bg-white rounded-2xl shadow-sm border border-gray-100 p-6";
 
-  // Fetch session on mount
   useEffect(() => {
     const fetchSession = async () => {
       const session = await authClient.getSession();
@@ -83,16 +84,13 @@ const ProfileManagement = () => {
     fetchSession();
   }, []);
 
-  // Handle image upload
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Preview instantly
     const previewUrl = URL.createObjectURL(file);
     setUser((prev: any) => ({ ...prev, image: previewUrl }));
 
-    // Upload to your server
     setImageUploading(true);
     try {
       const formData = new FormData();
@@ -115,26 +113,36 @@ const ProfileManagement = () => {
     }
   };
 
-  // Save profile changes
+  // saves both name and bio
   const handleSave = async () => {
     if (!isEditing) {
       setIsEditing(true);
       return;
     }
     setSaving(true);
-    await authClient.updateUser({ name });
-    setUser((prev: any) => ({ ...prev, name }));
+    await authClient.updateUser({ name, image: user?.image });
+
+    // Save bio via API
+    try {
+      await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bio }),
+      });
+    } catch (err) {
+      console.error("Bio save failed", err);
+    }
+
+    setUser((prev: any) => ({ ...prev, name, bio }));
     setSaving(false);
     setIsEditing(false);
   };
 
-  // Logout
   const handleLogout = async () => {
     await authClient.signOut();
     router.push("/auth/sign-in");
   };
 
-  // Password update
   const handlePasswordUpdate = async () => {
     if (!currentPassword || !newPassword) {
       setPasswordMsg("Please fill both fields.");
@@ -172,13 +180,12 @@ const ProfileManagement = () => {
   return (
     <div className="min-h-screen bg-[#F8F9FB] py-12 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* TOP SECTION: User Header */}
+        {/* TOP SECTION */}
         <div
           className={`${cardStyle} mb-6 flex flex-col md:flex-row justify-between items-center gap-6`}
         >
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="relative group">
-              {/* Hidden file input */}
               <input
                 type="file"
                 accept="image/*"
@@ -189,7 +196,7 @@ const ProfileManagement = () => {
               <img
                 src={
                   user.image ||
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=random`
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=6366f1&color=fff`
                 }
                 alt="Profile"
                 className="w-28 h-28 rounded-full border-4 border-white shadow-lg object-cover"
@@ -200,7 +207,7 @@ const ProfileManagement = () => {
                 className="absolute cursor-pointer bottom-1 right-1 bg-white p-2 rounded-full shadow-md border border-gray-100 hover:text-blue-600 transition disabled:opacity-50"
               >
                 {imageUploading ? (
-                  <div className="w-4.5 h-4.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <Camera size={18} />
                 )}
@@ -236,7 +243,6 @@ const ProfileManagement = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* LEFT: Profile Info & Security */}
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Info */}
             <div className={cardStyle}>
@@ -283,7 +289,7 @@ const ProfileManagement = () => {
               </div>
             </div>
 
-            {/* Password Section */}
+            {/* Password */}
             <div className={cardStyle}>
               <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
                 <Lock className="text-red-500" /> Security & Password
@@ -306,11 +312,7 @@ const ProfileManagement = () => {
               </div>
               {passwordMsg && (
                 <p
-                  className={`mt-3 text-sm font-medium ${
-                    passwordMsg.includes("success")
-                      ? "text-green-600"
-                      : "text-red-500"
-                  }`}
+                  className={`mt-3 text-sm font-medium ${passwordMsg.includes("success") ? "text-green-600" : "text-red-500"}`}
                 >
                   {passwordMsg}
                 </p>
@@ -353,7 +355,7 @@ const ProfileManagement = () => {
                 Account Options
               </h2>
               <div className="space-y-4">
-                {/* Language Dropdown */}
+                {/* Language */}
                 <div className="relative">
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">
                     Language
@@ -391,7 +393,7 @@ const ProfileManagement = () => {
                   )}
                 </div>
 
-                {/* Nationality Dropdown */}
+                {/* Nationality */}
                 <div className="relative">
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">
                     Nationality

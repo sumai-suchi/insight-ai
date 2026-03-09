@@ -7,37 +7,37 @@ const db = client.db("Better_Auth");
 
 
 export  const auth = betterAuth({
-  
-  database: mongodbAdapter(db,{
-    
-    client
+  database: mongodbAdapter(db, {
+    client,
   }),
-   emailAndPassword: { 
-    enabled: true, 
-  }, 
+  emailAndPassword: {
+    enabled: true,
+  },
   socialProviders: {
-        google: { 
-            clientId: process.env.GOOGLE_CLIENT_ID as string, 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
-        }, 
-         github: { 
-            clientId: process.env.GITHUB_CLIENT_ID as string, 
-            clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
-        }
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    },
+  },
 
-    user: {
+  user: {
     additionalFields: {
       role: {
         type: "string",
         required: false,
-        defaultValue: "user", // 👈 EVERY NEW USER GETS THIS
+        defaultValue: "user", //  EVERY NEW USER GETS THIS
+      },
+      bio: {
+        type: "string",
+        required: false,
+        defaultValue: "",
       },
     },
   },
-  secret: process.env.NEXT_PUBLIC_BETTER_AUTH_CLIENT_ID!,
+  secret: process.env.BETTER_AUTH_SECRET!,
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
-
-
 });
-
