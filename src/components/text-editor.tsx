@@ -1,8 +1,14 @@
 "use client";
 
-import { useEditor, EditorContent, Editor, useEditorState } from "@tiptap/react";
+import {
+  useEditor,
+  EditorContent,
+  Editor,
+  useEditorState,
+} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
+import Paragraph from "@tiptap/extension-paragraph";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 
@@ -19,7 +25,6 @@ import {
   LinkIcon,
   ListIcon,
   ListOrderedIcon,
-  Quote,
   RedoIcon,
   StrikethroughIcon,
   UnderlineIcon,
@@ -44,6 +49,13 @@ const Tiptap = ({
   content?: string;
   onChange?: (content: string) => void;
 }) => {
+  // create a custom paragraph extension that outputs a <div> instead of <p>
+  const CustomParagraph = Paragraph.extend({
+    renderHTML() {
+      return ["div", 0];
+    },
+  });
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -68,6 +80,9 @@ const Tiptap = ({
 
   useEffect(() => {
     if (editor && typeof content === "string") {
+      editor.commands.setContent(content, {
+        parseOptions: { preserveWhitespace: false },
+      });
       editor.commands.setContent(content);
     }
   }, [content, editor]);
@@ -94,7 +109,12 @@ function LinkComponent({
 
   const handleSetLink = () => {
     if (linkUrl) {
-      editor.chain().focus().extendMarkRange("link").setLink({ href: linkUrl }).run();
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: linkUrl })
+        .run();
     } else {
       editor.chain().focus().unsetLink().run();
     }
@@ -180,7 +200,6 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
 
   return (
     <div className="sticky top-0 z-10 flex flex-wrap items-center gap-1 border-b bg-background px-4 py-2">
-
       <Select onValueChange={handleHeadingChange}>
         <SelectTrigger className="w-36">
           <SelectValue placeholder="Paragraph" />
