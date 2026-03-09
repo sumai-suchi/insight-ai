@@ -3,7 +3,7 @@
 import { authClient } from "@/lib/auth/auth-client";
 import { motion } from "framer-motion";
 
-const GoogleSigninBtn = () => {
+const GoogleBtn = () => {
   const handleGoogleSignIn = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
@@ -28,4 +28,4 @@ const GoogleSigninBtn = () => {
   );
 };
 
-export default GoogleSigninBtn;
+export default GoogleBtn;
