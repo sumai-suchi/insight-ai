@@ -282,14 +282,6 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
         <ListOrderedIcon className="h-4 w-4" />
       </Toggle>
 
-      <Toggle
-        size="sm"
-        pressed={editorState.isBlockquote}
-        onPressedChange={() => editor.chain().focus().toggleBlockquote().run()}
-      >
-        <Quote className="h-4 w-4" />
-      </Toggle>
-
       {editorState.isLink ? (
         <Toggle
           pressed
