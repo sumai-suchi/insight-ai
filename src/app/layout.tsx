@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import { SessionProvider } from "@/lib/auth/session-context";
 import ConditionalLayout from "@/components/ConditionalLayout";
 import { AuthProvider } from "@/Context/AuthContext";
+import ProgressiveProfilingGate from "@/components/profiling/ProgressiveProfilingGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <SessionProvider>
+            <ProgressiveProfilingGate />
             <ConditionalLayout>{children}</ConditionalLayout>
           </SessionProvider>
         </AuthProvider>
