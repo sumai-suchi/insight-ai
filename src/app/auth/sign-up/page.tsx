@@ -11,6 +11,7 @@ export default function SignUpPage() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [image, setImage] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +38,7 @@ export default function SignUpPage() {
         email,
         password,
         name,
+        image,
         callbackURL: "/dashboard",
       },
       {
@@ -120,6 +122,17 @@ export default function SignUpPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email Address"
+                className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
+              />
+            </div>
+
+            {/* Image URL */}
+            <div>
+              <input
+                type="text"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                placeholder="Image URL"
                 className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
               />
             </div>
