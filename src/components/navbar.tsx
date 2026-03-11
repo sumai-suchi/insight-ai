@@ -16,15 +16,16 @@ import {
   PenTool,
   Menu,
   X,
-  User2,
   LogOut,
+  User2,
   
 } from "lucide-react";
 
 import Img from "../../public/NavLogo.png";
 import { authClient } from "@/lib/auth/auth-client";
 import { useAuth } from "@/Context/AuthContext";
-import { SessionData, User } from "@/types/auth-type";
+import { SessionData} from "@/types/auth-type";
+import type { IUser } from "@/lib/mongoose-connect/User";
 import SignOutButton from "./SignOutButton";
 // import {   User } from "@/types/auth-type";
 
@@ -38,11 +39,14 @@ import SignOutButton from "./SignOutButton";
 //   status: number;
 //   statusText: string;
 // };
+
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [User, setUser] = useState<User | null>(null);
+
+
+  const [User, setUser] = useState<IUser | null>(null);
   
   // replace with your actual user object
 
@@ -50,15 +54,28 @@ export default function Navbar() {
 
 
 
- const context=useAuth()
+const { session } = useAuth();
+console.log("Current session in Navbar:", session);
+
 useEffect(() => {
-    if (context?.session?.user) {
-      console.log("User session found in context:", context?.session?.user);
-      setUser(context?.session?.user);
-    } else {
-      setUser(null);
-    }
-  }, [context?.session?.user]); 
+  if (session?.user) {
+    console.log("User session found:", session.user);
+    setUser({
+    id: session.user.id,          // ✅ map id → _id
+    name: session.user.name,
+    email: session.user.email,
+   
+    image: session.user.image ?? null,
+    role: "user",                  // default, or fetch from DB
+    isBlocked: false,              // default
+    discount: 0,                   // default
+    createdAt: session.user.createdAt,
+    updatedAt: session.user.updatedAt,
+  });
+  } else {
+    setUser(null);
+  }
+}, [session]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,10 +92,9 @@ useEffect(() => {
     { name: "Solutions", href: "/solutions", icon: <Lightbulb size={16} /> },
     { name: "AI Editor", href: "/dashboard", icon: <PenTool size={16} /> },
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
-    // { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
-    { name: "Project-dashboard", href: "/Project-dashboard", icon: <LayoutDashboard size={16} /> },
+    { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
+    { name: "Project-dashboard", href: "/Project-dashboard", icon: <PenTool size={16} /> },
     { name: "Profile", href: "/dashboard/profile", icon: <User2 size={16} /> },
-    // { name: "Logout", href: "#", icon: <LogOut size={16} />, logout: true },
   ];
 
   const isTransparent = isHomePage && !scrolled;
@@ -135,7 +151,7 @@ useEffect(() => {
               <div className="flex gap-2">
                 <Link href="/auth/sign-in">
                   <button
-                    className={`font-medium transition-colors px-3 py-2 ${
+                    className={`font-medium cursor-pointer transition-colors px-3 py-2 ${
                       isTransparent ? "text-white" : "text-gray-600"
                     }`}
                   >
@@ -143,7 +159,7 @@ useEffect(() => {
                   </button>
                 </Link>
                 <Link href="/auth/sign-up">
-                  <button className="bg-[#3B82F6] hover:bg-blue-600 text-white px-5 py-2 rounded-full font-semibold transition-all">
+                  <button className="bg-[#3B82F6] hover:bg-blue-600 cursor-pointer text-white px-5 py-2 rounded-full font-semibold transition-all">
                     Start for free
                   </button>
                 </Link>
@@ -171,7 +187,7 @@ useEffect(() => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-y-0 right-0 w-64 bg-purple-100 shadow-2xl z-[60] lg:hidden flex flex-col p-6"
+            className="fixed inset-y-0 right-0 w-64 bg-purple-100 shadow-2xl z-60 lg:hidden flex flex-col p-6"
           >
             <button onClick={() => setIsOpen(false)} className="self-end mb-6 text-gray-400">
               <X size={24} />

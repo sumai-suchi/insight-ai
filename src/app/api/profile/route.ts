@@ -1,4 +1,3 @@
-
 import { auth } from "@/lib/auth/auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,7 +9,6 @@ export async function GET(req: NextRequest) {
 
   const user = session.user;
 
-  
   const formatted = {
     id: user.id,
     name: user.name || "No Name",
@@ -30,4 +28,25 @@ export async function GET(req: NextRequest) {
   };
 
   return NextResponse.json(formatted);
+}
+
+export async function PATCH(req: NextRequest) {
+  const session = await auth.api.getSession({ headers: req.headers });
+
+  if (!session?.user)
+    return NextResponse.json({ error: "Not logged in" }, { status: 401 });
+
+  try {
+    const body = await req.json();
+    const { bio } = body;
+
+    await auth.api.updateUser({
+      headers: req.headers,
+      body: { bio },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    return NextResponse.json({ error: "Failed to update" }, { status: 500 });
+  }
 }
