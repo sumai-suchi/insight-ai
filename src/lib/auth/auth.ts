@@ -6,7 +6,7 @@ const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
 // await client.connect();
 const db = client.db("Better_Auth");
 
-export const auth = betterAuth({
+export  const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
@@ -29,35 +29,15 @@ export const auth = betterAuth({
       role: {
         type: "string",
         required: false,
-        defaultValue: "user",
+        defaultValue: "user", //  EVERY NEW USER GETS THIS
       },
-      // Progressive profiling fields stored directly on the BetterAuth user
-      industry: {
+      bio: {
         type: "string",
         required: false,
-      },
-      teamSize: {
-        type: "string",
-        required: false,
-      },
-      workType: {
-        type: "string",
-        required: false,
-      },
-      companyName: {
-        type: "string",
-        required: false,
-      },
-      websiteUrl: {
-        type: "string",
-        required: false,
-      },
-      profilingCompletedAt: {
-        type: "date",
-        required: false,
+        defaultValue: "",
       },
     },
   },
-  secret: process.env.NEXT_PUBLIC_BETTER_AUTH_CLIENT_ID!,
+  secret: process.env.BETTER_AUTH_SECRET!,
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
 });
