@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db";
+import connectMongo from "@/lib/mongoose-connect/connect-db";
 import UserProfile from "@/lib/models/UserProfile";
+
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
+    await connectMongo();
 
     const { userId, postId } = await req.json();
 

@@ -13,6 +13,7 @@ export default function SignUpPage() {
 
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
+  const [image,setImage] = useState("");
   const [password,setPassword] = useState("");
   const [confirmPassword,setConfirmPassword] = useState("");
   const [showPassword,setShowPassword] = useState(false);
@@ -41,8 +42,9 @@ export default function SignUpPage() {
         email, // user email address
         password, // user password -> min 8 characters by default
         name, // user display name
+        image,
        
-        callbackURL: "/dashboard" // A URL to redirect to after the user verifies their email
+        callbackURL: "/" // A URL to redirect to after the user verifies their email
     }, {
         onRequest: (ctx) => {
             //show loading
@@ -157,6 +159,20 @@ export default function SignUpPage() {
               />
 
             </div>
+            {/* Image URL */}
+             <div>
+
+              <input
+                type="text"
+                required
+                value={image}
+                onChange={(e)=>setImage(e.target.value)}
+                placeholder="Image URL"
+                className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
+              />
+
+            </div>
+
 
 
             {/* Password */}

@@ -24,7 +24,8 @@ import {
 import Img from "../../public/NavLogo.png";
 import { authClient } from "@/lib/auth/auth-client";
 import { useAuth } from "@/Context/AuthContext";
-import { SessionData, User } from "@/types/auth-type";
+import { SessionData} from "@/types/auth-type";
+import type { IUser } from "@/lib/mongoose-connect/User";
 import SignOutButton from "./SignOutButton";
 // import {   User } from "@/types/auth-type";
 
@@ -38,11 +39,14 @@ import SignOutButton from "./SignOutButton";
 //   status: number;
 //   statusText: string;
 // };
+
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [User, setUser] = useState<User | null>(null);
+
+
+  const [User, setUser] = useState<IUser | null>(null);
   
   // replace with your actual user object
 
@@ -50,15 +54,28 @@ export default function Navbar() {
 
 
 
- const context=useAuth()
+const { session } = useAuth();
+console.log("Current session in Navbar:", session);
+
 useEffect(() => {
-    if (context?.session?.user) {
-      console.log("User session found in context:", context?.session?.user);
-      setUser(context?.session?.user);
-    } else {
-      setUser(null);
-    }
-  }, [context?.session?.user]); 
+  if (session?.user) {
+    console.log("User session found:", session.user);
+    setUser({
+    id: session.user.id,          // ✅ map id → _id
+    name: session.user.name,
+    email: session.user.email,
+   
+    image: session.user.image ?? null,
+    role: "user",                  // default, or fetch from DB
+    isBlocked: false,              // default
+    discount: 0,                   // default
+    createdAt: session.user.createdAt,
+    updatedAt: session.user.updatedAt,
+  });
+  } else {
+    setUser(null);
+  }
+}, [session]);
 
   useEffect(() => {
     const handleScroll = () => {

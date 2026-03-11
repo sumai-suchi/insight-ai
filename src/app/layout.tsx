@@ -7,6 +7,8 @@ import "swiper/css/pagination";
 import { SessionProvider } from "@/lib/auth/session-context";
 import ConditionalLayout from "@/components/ConditionalLayout";
 import { AuthProvider } from "@/Context/AuthContext";
+import { ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,15 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning={true}
-      >
-        <AuthProvider>
-          <SessionProvider>
-            <ConditionalLayout>{children}</ConditionalLayout>
-          </SessionProvider>
-        </AuthProvider>
-      </body>
+  className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+>
+  <SessionProvider>
+    <AuthProvider>
+      <ConditionalLayout>{children}</ConditionalLayout>
+    </AuthProvider>
+    <ToastContainer />
+  </SessionProvider>
+</body>
     </html>
   );
 }

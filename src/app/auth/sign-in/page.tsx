@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/Context/AuthContext";
 import { authClient } from "@/lib/auth/auth-client";
 import { motion } from "framer-motion";
 // import { signIn as signInClient } from "@/lib/auth/auth-client";
@@ -18,36 +19,33 @@ export default function SignInPage() {
   const [lockUntil,setLockUntil] = useState("");
 
   const router = useRouter();
+  const { refreshSession,session } = useAuth();
+  
 
-  async function handleSubmit(e:React.FormEvent){
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-   const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-  if (res.status === 403 && data.lockUntil) {
-    setLockUntil(new Date(data.lockUntil).toLocaleString());
-  }
-  setError(data.error || "Invalid credentials");
-  setLoading(false);
-  return;
+  await authClient.signIn.email(
+    {
+      email,
+      password,
+      callbackURL: "/"
+    },
+    {
+      onSuccess: async () => {
+        await refreshSession(); // update context session
+        setLoading(false);
+        router.push("/dashboard");
+      },
+      onError: (ctx) => {
+        setError(ctx.error.message);
+        setLoading(false);
+      }
+    }
+  );
 }
-
-// Success → redirect
-0 
-router.push("/dashboard");
-setLoading(false);
-
- 
-  }
 
    const handleGoogleSignIn = async () => {
    
