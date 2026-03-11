@@ -1,77 +1,3 @@
-// import { Sparkles } from "lucide-react";
-// import heroImage from "../../../public/hero_image.jpg";
-// import React from "react";
-// import HomeButton from "../ui/HomeButton";
-// import Image from "next/image";
-
-// const Hero = () => {
-//   return (
-//     <section className="bg-gradient-to-r from-[#57198A] to-[#382A86] text-white py-16 lg:py-28 w-full">
-//       <div className="max-w-7xl mx-auto px-6 lg:flex items-center justify-between">
-//         {/* Left Content */}
-//         <div className="lg:w-1/2">
-//           <h1 className="text-4xl lg:text-6xl font-extrabold leading-tight mb-6">
-//             Create <span className="text-blue-600">AI-Powered</span> Content &
-//             Discover Personalized News
-//           </h1>
-//           <p className="text-lg mb-8 leading-relaxed">
-//             Generate SEO-optimized blogs, check plagiarism, and stay updated
-//             with trending news — all powered by advanced AI technology.
-//           </p>
-
-//           {/* Action Buttons */}
-//           <div className="flex flex-wrap gap-4 mb-8">
-//             <HomeButton variant="primary" icon={Sparkles}>
-//               Try AI Editor
-//             </HomeButton>
-//             <HomeButton variant="outline">Try AI Editor</HomeButton>
-//           </div>
-
-//           {/* Trust Badges */}
-//           <div className="flex flex-col sm:flex-row gap-4 text-sm text-gray-500">
-//             <div className="flex items-center gap-2 text-white">
-//               <span className="w-5 h-5 bg-green-100 text-green-600 flex items-center justify-center rounded-full">
-//                 ✓
-//               </span>
-//               No credit card required
-//             </div>
-//             <div className="flex text-white items-center gap-2">
-//               <span className="w-5 h-5 bg-green-100 text-green-600 flex items-center justify-center rounded-full">
-//                 ✓
-//               </span>
-//               Free 14-day trial
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Right Image/Illustration */}
-//         <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center relative">
-//           <div className="relative w-full max-w-lg">
-//             {/* Background Decoration */}
-//             <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-//             <div className="absolute top-0 -right-4 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-
-//             {/* Main Image */}
-//             <Image
-//               src={heroImage}
-//               alt="AI Content Illustration"
-//               className="relative rounded-2xl shadow-2xl border border-gray-100"
-//             />
-
-//             <div className="bg-white text-black max-w-25 rounded-md p-2 space-y-1.2 absolute top-52 left-[-20]">
-//               <h2 className="text-xs">AI Generated</h2>
-//               <p className="text-2xl">10,847</p>
-//               <p className="text-xs">Articles this month</p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Hero;
-
 "use client"; // Framer Motion এর জন্য এটি প্রয়োজনীয়
 
 import { Sparkles, Star, Zap, Cpu } from "lucide-react";
@@ -91,20 +17,20 @@ const Hero = () => {
   //     transition: { delay: custom * 0.2, duration: 0.8, ease: "easeOut" },
   //   }),
   // };
-  const fadeInUp : Variants = {
-  hidden: { opacity: 0, y: 30},
-  visible: (custom: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: custom * 0.2,
-      duration: 0.8,
-      ease: "easeOut" as const // tells TypeScript this is a valid easing string
-    }
-  })
-};
+  const fadeInUp: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: custom * 0.2,
+        duration: 0.8,
+        ease: "easeOut" as const, // tells TypeScript this is a valid easing string
+      },
+    }),
+  };
 
-  const floating : Variants = {
+  const floating: Variants = {
     animate: {
       y: [0, -15, 0],
       transition: {
