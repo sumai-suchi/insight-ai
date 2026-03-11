@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   User2,
+  CreditCard,
 } from "lucide-react";
 
 import { useAuth } from "@/Context/AuthContext";
@@ -55,6 +56,7 @@ export default function Navbar() {
       href: "/Project-Dashboard",
       icon: <LayoutDashboard size={18} />,
     },
+    { name: "Pricing", href: "/pricing", icon: <CreditCard size={18} /> },
     { name: "Profile", href: "/dashboard/profile", icon: <User2 size={18} /> },
   ];
 
