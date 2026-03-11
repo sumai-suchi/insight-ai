@@ -1,8 +1,29 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion"; // motion import করা হয়েছে
 import { INews, NewsCategory } from "@/types/news";
 import NewsCard from "./NewsCard";
 import CategoryTabs from "./CategoryTabs";
+import SearchBar from "./ui/Searchbar";
+import TrendingTopics from "./ui/TrendingTopics";
+import FeaturedArticle from "./ui/FeaturedArticle";
+import NewsArticleCart from "./ui/NewsArticleCard";
+import { TrendingUp, UsersRound, RefreshCw } from "lucide-react";
+import Newsletter from "./ui/NewsLetter";
+
+// অ্যানিমেশন ভ্যারিয়েন্ট
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
 
 export default function NewsFeed() {
   const [category, setCategory] = useState<NewsCategory>("all");
@@ -13,6 +34,9 @@ export default function NewsFeed() {
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
+
+  const featuredArticleData = news[0];
+  const trendingArticles = news.slice(1, 4); // ৩টি ট্রেন্ডিং আর্টিকেল নিলে গ্রিড ভালো দেখায়
 
   const fetchNews = useCallback(
     async (cat: NewsCategory, pg: number, q: string) => {
@@ -67,178 +91,162 @@ export default function NewsFeed() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 my-20 to-white dark:from-gray-950 dark:to-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-              📰 News Feed
-            </span>
-          </h1>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 pb-20">
+      {/* Search Bar Section */}
+      <div className="max-w-7xl mx-auto px-4 pt-10 sm:pt-16">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <SearchBar
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+            clearSearch={() => {
+              setSearchInput("");
+              setSearch("");
+            }}
+          />
+        </motion.div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 space-y-16 mt-8">
+        {/* Category & Sync Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-b border-gray-100 dark:border-gray-800 pb-6">
+          <CategoryTabs active={category} onChange={handleCategoryChange} />
 
           <button
             onClick={handleSync}
             disabled={syncing}
             className={`
-              px-6 py-3 rounded-full font-medium text-white
+              flex items-center gap-2 px-6 py-3 rounded-full font-medium text-white
               transition-all duration-300 shadow-lg
-              ${
-                syncing
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl hover:scale-105 active:scale-95"
-              }
+              ${syncing ? "bg-gray-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-700 hover:scale-105 active:scale-95"}
             `}
           >
-            {syncing ? (
-              <span className="flex items-center gap-2">
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                </svg>
-                Syncing...
-              </span>
-            ) : (
-              "🔄 Sync from NewsAPI"
-            )}
+            {syncing ? <RefreshCw className="animate-spin h-5 w-5" /> : "🔄"}
+            {syncing ? "Syncing..." : "Sync News"}
           </button>
         </div>
 
-        {/* Search Bar - Modern & Clean */}
-        <div className="relative max-w-2xl mx-auto mb-8">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <svg
-              className="h-5 w-5 text-gray-400 dark:text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+        {/* Trending Topics Area */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+        >
+          <TrendingTopics />
+        </motion.div>
+
+        {/* Featured Article */}
+        {featuredArticleData && (
+          <motion.section
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <FeaturedArticle data={featuredArticleData} />
+          </motion.section>
+        )}
+
+        {/* Trending Articles Section */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-2 border-l-4 border-orange-500 pl-4">
+            <TrendingUp className="text-orange-500 w-6 h-6" />
+            <h2 className="text-2xl font-bold">Trending Now</h2>
           </div>
-          <input
-            type="text"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search news by title, source, keyword..."
-            className={`
-              w-full pl-11 pr-12 py-4 bg-white dark:bg-gray-800 
-              border border-gray-200 dark:border-gray-700 
-              rounded-2xl shadow-sm 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-              text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500
-              transition-all duration-200
-            `}
-          />
-          {searchInput && (
-            <button
-              onClick={() => {
-                setSearchInput("");
-                setSearch("");
-              }}
-              className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-            >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          )}
-        </div>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+          >
+            {trendingArticles.map((article) => (
+              <motion.div key={article._id} variants={fadeInUp}>
+                <NewsArticleCart article={article} />
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
 
-        {/* Category Tabs */}
-        <CategoryTabs active={category} onChange={handleCategoryChange} />
-
-        {/* Search result count */}
+        {/* Search Status */}
         {search && !loading && (
-          <p className="text-center sm:text-left text-sm text-gray-500 dark:text-gray-400 mt-4 mb-6 font-medium">
-            "{search}" এর জন্য{" "}
-            {news.length === 0
-              ? "কোনো খবর পাওয়া যায়নি"
-              : `${news.length}টি খবর দেখানো হচ্ছে (মোট ~${totalPages * 12}টি)`}
+          <p className="text-center text-gray-500 bg-gray-100 dark:bg-gray-800 py-3 rounded-lg">
+            Showing results for{" "}
+            <span className="font-bold text-emerald-600">"{search}"</span>(
+            {news.length === 0 ? "No news found" : `${news.length} articles`})
           </p>
         )}
 
-        {/* News Grid */}
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-80 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse shadow-md"
-              />
-            ))}
+        {/* Main News Grid */}
+        <section className="space-y-8">
+          <div className="flex items-center gap-2 border-l-4 border-blue-600 pl-4">
+            <UsersRound className="text-blue-600 w-6 h-6" />
+            <h2 className="text-2xl font-bold">Latest Updates</h2>
           </div>
-        ) : news.length === 0 ? (
-          <div className="text-center py-24 text-gray-400 dark:text-gray-500">
-            <p className="text-6xl mb-6">🗞️</p>
-            <p className="text-xl font-medium">
-              {search
-                ? `"${search}" এর সাথে মিলে এমন কোনো খবর পাওয়া যায়নি`
-                : "কোনো খবর নেই। 'Sync from NewsAPI' বাটনে ক্লিক করে খবর লোড করুন!"}
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {news.map((item) => (
-              <NewsCard key={item._id} news={item} />
-            ))}
-          </div>
-        )}
+
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="h-80 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse"
+                />
+              ))}
+            </div>
+          ) : news.length === 0 ? (
+            <div className="text-center py-20 bg-gray-50 dark:bg-gray-800/50 rounded-3xl">
+              <p className="text-6xl mb-4">🗞️</p>
+              <p className="text-xl text-gray-500">
+                No articles available at the moment.
+              </p>
+            </div>
+          ) : (
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={containerVariants}
+            >
+              {news.map((item) => (
+                <motion.div key={item._id} variants={fadeInUp}>
+                  <NewsCard news={item} />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </section>
+
+        {/* Newsletter Section */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+        >
+          <Newsletter />
+        </motion.div>
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-4 mt-12">
+          <div className="flex justify-center items-center gap-3 pt-10">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1 || loading}
-              className={`
-                px-6 py-3 rounded-xl font-medium
-                ${
-                  page === 1 || loading
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-800"
-                    : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm border border-gray-200 dark:border-gray-700 transition-all"
-                }
-              `}
+              className="p-4 rounded-xl border dark:border-gray-700 disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
-              ← Previous
+              ← Prev
             </button>
-
-            <span className="px-6 py-3 font-semibold text-lg text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="px-6 py-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border dark:border-gray-700 font-bold">
               {page} / {totalPages}
-            </span>
-
+            </div>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages || loading}
-              className={`
-                px-6 py-3 rounded-xl font-medium
-                ${
-                  page === totalPages || loading
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-800"
-                    : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm border border-gray-200 dark:border-gray-700 transition-all"
-                }
-              `}
+              className="p-4 rounded-xl border dark:border-gray-700 disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
               Next →
             </button>
