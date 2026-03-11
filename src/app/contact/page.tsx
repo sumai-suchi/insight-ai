@@ -173,7 +173,7 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-white border border-gray-200 rounded-3xl p-8 shadow-2xl"
             >
-              <h2 className="flex items-center gap-3 text-2xl font-semibold mb-1 tracking-tight text-gray-900">
+              <h2 className="flex items-center gap-3 text-2xl font-semibold mb-5 tracking-tight text-gray-900">
                 <span className="bg-[#8987ff] text-white p-2 rounded-xl flex items-center justify-center">
                   <Send size={28} strokeWidth={1.75} />
                 </span>
@@ -200,7 +200,7 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-xs text-gray-500 uppercase tracking-wider mb-2 block">
+                    <label className="text-xs text-gray-500 uppercase tracking-wider mb-4 block">
                       Your Name *
                     </label>
                     <input
@@ -215,7 +215,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-gray-500 uppercase tracking-wider mb-2 block">
+                    <label className="text-xs text-gray-500 uppercase tracking-wider mb-4 block">
                       Email Address *
                     </label>
                     <input
@@ -232,7 +232,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-gray-500 uppercase tracking-wider mb-2 block">
+                  <label className="text-xs text-gray-500 uppercase tracking-wider mb-4 block">
                     Subject *
                   </label>
                   <input
@@ -247,12 +247,12 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-gray-500 uppercase tracking-wider mb-2 block">
+                  <label className="text-xs text-gray-500 uppercase tracking-wider mb-4 block">
                     Message *
                   </label>
                   <textarea
                     required
-                    rows={5}
+                    rows={10}
                     value={form.message}
                     onChange={(e) =>
                       setForm({ ...form, message: e.target.value })

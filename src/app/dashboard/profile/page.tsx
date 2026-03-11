@@ -25,6 +25,7 @@ const ProfileManagement = () => {
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [saving, setSaving] = useState(false);
+  const [imgSrc, setImgSrc] = useState<string>("");
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -68,6 +69,14 @@ const ProfileManagement = () => {
 
   const cardStyle = "bg-white rounded-2xl shadow-sm border border-gray-100 p-6";
 
+  // Google image URL fix
+  const getFixedImageUrl = (imageUrl: string | null, userName: string) => {
+    if (imageUrl) {
+      return imageUrl.replace("=s96-c", "=s400-c").replace("=s96", "=s400");
+    }
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(userName || "User")}&background=6366f1&color=fff&size=200`;
+  };
+
   useEffect(() => {
     const fetchSession = async () => {
       const session = await authClient.getSession();
@@ -79,6 +88,7 @@ const ProfileManagement = () => {
       setUser(u);
       setName(u.name || "");
       setBio((u as any).bio || "");
+      setImgSrc(getFixedImageUrl(u.image || null, u.name || "User"));
       setLoading(false);
     };
     fetchSession();
@@ -89,6 +99,7 @@ const ProfileManagement = () => {
     if (!file) return;
 
     const previewUrl = URL.createObjectURL(file);
+    setImgSrc(previewUrl);
     setUser((prev: any) => ({ ...prev, image: previewUrl }));
 
     setImageUploading(true);
@@ -105,6 +116,7 @@ const ProfileManagement = () => {
       if (data.imageUrl) {
         await authClient.updateUser({ image: data.imageUrl });
         setUser((prev: any) => ({ ...prev, image: data.imageUrl }));
+        setImgSrc(getFixedImageUrl(data.imageUrl, user?.name || "User"));
       }
     } catch (err) {
       console.error("Image upload failed", err);
@@ -113,7 +125,6 @@ const ProfileManagement = () => {
     }
   };
 
-  // saves both name and bio
   const handleSave = async () => {
     if (!isEditing) {
       setIsEditing(true);
@@ -122,7 +133,6 @@ const ProfileManagement = () => {
     setSaving(true);
     await authClient.updateUser({ name, image: user?.image });
 
-    // Save bio via API
     try {
       await fetch("/api/profile", {
         method: "PATCH",
@@ -140,6 +150,7 @@ const ProfileManagement = () => {
 
   const handleLogout = async () => {
     await authClient.signOut();
+    refreshSession();
     router.push("/auth/sign-in");
   };
 
@@ -170,6 +181,8 @@ const ProfileManagement = () => {
     );
   }
 
+  const fallbackSrc = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=6366f1&color=fff&size=200`;
+
   const joinedDate = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString("en-US", {
         month: "long",
@@ -193,13 +206,14 @@ const ProfileManagement = () => {
                 onChange={handleImageChange}
                 className="hidden"
               />
+              
               <img
-                src={
-                  user.image ||
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=6366f1&color=fff`
-                }
+                src={imgSrc || fallbackSrc}
                 alt="Profile"
+                referrerPolicy="no-referrer"
+                crossOrigin="anonymous"
                 className="w-28 h-28 rounded-full border-4 border-white shadow-lg object-cover"
+                onError={() => setImgSrc(fallbackSrc)}
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
@@ -451,7 +465,7 @@ const ProfileManagement = () => {
                 </p>
                 {authorRequestSent ? (
                   <div className="w-full py-3 bg-green-100 text-green-700 font-bold rounded-lg flex items-center justify-center gap-2 text-sm">
-                    ✅ Request Submitted!
+                     Request Submitted!
                   </div>
                 ) : (
                   <button
