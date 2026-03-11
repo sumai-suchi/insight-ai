@@ -9,6 +9,7 @@ import ConditionalLayout from "@/components/ConditionalLayout";
 import { AuthProvider } from "@/Context/AuthContext";
 import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProgressiveProfilingGate from "@/components/profiling/ProgressiveProfilingGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
