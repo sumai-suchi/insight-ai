@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/db/mongoose";
+import connectMongo from "@/lib/mongoose-connect/connect-db";
 
 import { NewsAPIArticle, NewsCategory } from "@/types/news";
 import News from "@/lib/db/models/News";
@@ -32,7 +32,7 @@ async function fetchFromNewsAPI(
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
+    await connectMongo();
 
     const categories: Exclude<NewsCategory, "all">[] = [
       "technology",

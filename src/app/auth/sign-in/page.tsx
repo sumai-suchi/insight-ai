@@ -1,4 +1,6 @@
 "use client";
+
+import { useAuth } from "@/Context/AuthContext";
 import GithubBtn from "@/components/GithubBtn";
 import GoogleBtn from "@/components/GoogleBtn";
 import { authClient } from "@/lib/auth/auth-client";
@@ -37,55 +39,43 @@ export default function SignInPage() {
     }
   }, [session, sessionLoading]);
 
+  const router = useRouter();
+  const { refreshSession,session } = useAuth();
   
-  if (sessionLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  } 
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    const { error } = await authClient.signIn.email({
+  await authClient.signIn.email(
+    {
       email,
       password,
-      rememberMe,
-      callbackURL: redirectTo,
-    });
-
-    if (error) {
-      setError(error.message || "Invalid credentials");
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      if (res.status === 403 && data.lockUntil) {
-        setLockUntil(new Date(data.lockUntil).toLocaleString());
+      callbackURL: "/"
+    },
+    {
+      onSuccess: async () => {
+        await refreshSession(); // update context session
+        setLoading(false);
+        router.push("/dashboard");
+      },
+      onError: (ctx) => {
+        setError(ctx.error.message);
+        setLoading(false);
       }
-      setError(data.error || "Invalid credentials");
-      setLoading(false);
-      return;
     }
+  );
+}
 
-    router.push(redirectTo);
+   const handleGoogleSignIn = async () => {
+   
+   const data = await authClient.signIn.social({
+    provider: "google",
+  });
+  
+  console.log(data);
   }
-
-  const handleGoogleSignIn = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: redirectTo,
-    });
-  };
 
   const handleGitHubSignIn = async () => {
     await authClient.signIn.social({

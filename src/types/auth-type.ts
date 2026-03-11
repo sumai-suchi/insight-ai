@@ -1,13 +1,5 @@
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  emailVerified: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  image?: string | null;
-  role?: string;   // 👈 make optional
-};
+import { IUser } from "@/lib/mongoose-connect/User";
+
 export type AuthSession = {
   id: string;
   userId: string;
@@ -17,7 +9,7 @@ export type AuthSession = {
 };
 
 export type SessionData = {
-  user: User;
+  user: IUser;
   session: AuthSession;
 };
 export type AuthError = {
