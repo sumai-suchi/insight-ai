@@ -18,7 +18,7 @@ function SignInForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
-  const { session, loading: sessionLoading } = useAuth();
+  const { session, loading: sessionLoading, refreshSession } = useAuth();
 
   useEffect(() => {
     if (!sessionLoading && session?.user) {
@@ -39,21 +39,24 @@ function SignInForm() {
     setError("");
     setLoading(true);
 
-    const { error } = await authClient.signIn.email({
-      email,
-      password,
-      rememberMe,
-      callbackURL: redirectTo,
-    });
-
-    if (error) {
-      setError(error.message || "Invalid credentials");
-      setLoading(false);
-      return;
-    }
-
-    router.push(redirectTo);
-    setLoading(false);
+    await authClient.signIn.email(
+      {
+        email,
+        password,
+        callbackURL: redirectTo,
+      },
+      {
+        onSuccess: async () => {
+          await refreshSession();
+          setLoading(false);
+          router.push(redirectTo);
+        },
+        onError: (ctx) => {
+          setError(ctx.error.message || "Invalid credentials");
+          setLoading(false);
+        },
+      },
+    );
   }
 
   const handleGoogleSignIn = async () => {
@@ -84,7 +87,6 @@ function SignInForm() {
                 🤖
               </span>
             </div>
-
             <div>
               <h2 className="text-2xl font-bold leading-snug">
                 Welcome back <br /> to InsightAI
@@ -93,7 +95,6 @@ function SignInForm() {
                 Stay updated with AI-powered news and smart content.
               </p>
             </div>
-
             <div className="space-y-3 pt-4">
               <div className="flex items-center gap-3 bg-white/5 rounded-lg px-4 py-2">
                 🔒 Secure AI content
@@ -105,7 +106,6 @@ function SignInForm() {
                 🌍 Access anywhere
               </div>
             </div>
-
             <div className="bg-white text-black rounded-xl px-6 py-4 mt-6 shadow-md">
               <p className="text-xs uppercase font-semibold text-yellow-500">
                 Project Summary
@@ -209,8 +209,7 @@ function SignInForm() {
             </motion.button>
 
             <div className="flex items-center gap-4 text-sm text-gray-400">
-              <div className="flex-1 h-px bg-gray-200" />
-              OR
+              <div className="flex-1 h-px bg-gray-200" /> OR{" "}
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 

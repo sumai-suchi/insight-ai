@@ -11,14 +11,15 @@ import { useState } from "react";
 export default function SignUpPage() {
   const router = useRouter();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [image, setImage] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [image,setImage] = useState("");
+  const [password,setPassword] = useState("");
+  const [confirmPassword,setConfirmPassword] = useState("");
+  const [showPassword,setShowPassword] = useState(false);
+
+  const [error,setError] = useState("");
+  const [loading,setLoading] = useState(false);
 
   const hasMinLength = password.length >= 8;
   const hasNumber = /[0-9]/.test(password);
@@ -35,15 +36,14 @@ export default function SignUpPage() {
 
     setLoading(true);
 
-    await authClient.signUp.email(
-      {
-        email,
-        password,
-        name,
+     const { data } = await authClient.signUp.email({
+        email, // user email address
+        password, // user password -> min 8 characters by default
+        name, // user display name
         image,
-        callbackURL: "/dashboard",
-      },
-      {
+       
+        callbackURL: "/" // A URL to redirect to after the user verifies their email
+    }, {
         onRequest: (ctx) => {
           console.log("Sign up request started", ctx);
         },
@@ -127,6 +127,20 @@ export default function SignUpPage() {
                 className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
               />
             </div>
+            {/* Image URL */}
+             <div>
+
+              <input
+                type="text"
+                required
+                value={image}
+                onChange={(e)=>setImage(e.target.value)}
+                placeholder="Image URL"
+                className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
+              />
+
+            </div>
+
 
             {/* Image URL */}
             <div>

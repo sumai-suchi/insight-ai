@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/db";
+import connectMongo from "@/lib/mongoose-connect/connect-db";
 import UserProfile from "@/lib/models/UserProfile";
 import Post from "@/lib/models/Post";
 
 // GET saved posts
 export async function GET(req: NextRequest) {
-  await connectDB();
+  await connectMongo();
   const userId = req.nextUrl.searchParams.get("userId");
   const userProfile = await UserProfile.findById(userId);
   const savedPosts = await Post.find({
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
 // POST add new saved post
 export async function POST(req: NextRequest) {
-  await connectDB();
+  await connectMongo();
   const { userId, postId } = await req.json();
   const updated = await UserProfile.findByIdAndUpdate(
     userId,
