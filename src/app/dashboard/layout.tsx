@@ -5,7 +5,7 @@ import { SideNav } from "./_components/SideNav";
 import DashboardNavbar from "./_components/DashboardNavbar";
 import ChatBox from "./_components/ChatBox";
 
-function Layout({ children }: { children: React.ReactNode }) {
+function layout({ children }: { children: React.ReactNode }) {
   const [sideOpen, setSideOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
 
@@ -42,4 +42,4 @@ function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default Layout;
+export default layout;

@@ -1,5 +1,7 @@
 "use client";
 
+import GithubBtn from "@/components/GithubBtn";
+import GoogleBtn from "@/components/GoogleBtn";
 import { authClient } from "@/lib/auth/auth-client";
 import { motion } from "framer-motion";
 import Link from "next/link";
