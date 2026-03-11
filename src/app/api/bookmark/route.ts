@@ -1,11 +1,11 @@
-import { connectDB } from "@/lib/db/mongoose";
 import Bookmark from "@/lib/models/Bookmark";
+import connectMongo from "@/lib/mongoose-connect/connect-db";
 
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    await connectDB();
+    await connectMongo();
 
     const body = await req.json();
     const userId = body.userId || "demo-user-123";

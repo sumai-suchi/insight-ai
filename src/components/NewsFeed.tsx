@@ -34,10 +34,14 @@ export default function NewsFeed() {
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
-
+  const [trendingNews, setTrendingNes] = useState<INews[]>();
   const featuredArticleData = news[0];
-  const trendingArticles = news.slice(1, 4); // ৩টি ট্রেন্ডিং আর্টিকেল নিলে গ্রিড ভালো দেখায়
+  console.log(trendingNews);
 
+  useEffect(() => {
+    const trendingArticles = news.slice(2, 5);
+    setTrendingNes(trendingArticles);
+  }, [news]);
   const fetchNews = useCallback(
     async (cat: NewsCategory, pg: number, q: string) => {
       setLoading(true);
@@ -163,7 +167,7 @@ export default function NewsFeed() {
             viewport={{ once: true }}
             variants={containerVariants}
           >
-            {trendingArticles.map((article) => (
+            {trendingNews?.map((article) => (
               <motion.div key={article._id} variants={fadeInUp}>
                 <NewsArticleCart article={article} />
               </motion.div>
