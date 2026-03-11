@@ -1,6 +1,4 @@
 "use client";
-import GithubBtn from "@/components/GithubBtn";
-import GoogleBtn from "@/components/GoogleBtn";
 import { authClient } from "@/lib/auth/auth-client";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -20,31 +18,21 @@ function SignInForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
-  const { session, loading: sessionLoading } = useAuth(); // session check
-export default function SignInPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [lockUntil, setLockUntil] = useState("");
+  const { session, loading: sessionLoading } = useAuth();
 
-  
   useEffect(() => {
     if (!sessionLoading && session?.user) {
       router.push(redirectTo);
     }
   }, [session, sessionLoading]);
 
-  
   if (sessionLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
-  } 
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -60,24 +48,12 @@ export default function SignInPage() {
 
     if (error) {
       setError(error.message || "Invalid credentials");
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      if (res.status === 403 && data.lockUntil) {
-        setLockUntil(new Date(data.lockUntil).toLocaleString());
-      }
-      setError(data.error || "Invalid credentials");
       setLoading(false);
       return;
     }
 
     router.push(redirectTo);
+    setLoading(false);
   }
 
   const handleGoogleSignIn = async () => {
@@ -93,11 +69,6 @@ export default function SignInPage() {
       callbackURL: redirectTo,
     });
   };
-    // Success → redirect
-    0;
-    router.push("/dashboard");
-    setLoading(false);
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-slate-50 via-white to-blue-50">
@@ -276,7 +247,6 @@ export default function SignInPage() {
     </div>
   );
 }
-
 
 export default function SignInPage() {
   return (

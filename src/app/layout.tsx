@@ -8,6 +8,7 @@ import { SessionProvider } from "@/lib/auth/session-context";
 import ConditionalLayout from "@/components/ConditionalLayout";
 import { AuthProvider } from "@/Context/AuthContext";
 import ProgressiveProfilingGate from "@/components/profiling/ProgressiveProfilingGate";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
           <SessionProvider>
             <ProgressiveProfilingGate />
             <ConditionalLayout>{children}</ConditionalLayout>
+            <Toaster richColors position="top-right" />
           </SessionProvider>
         </AuthProvider>
       </body>
