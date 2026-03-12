@@ -1,5 +1,4 @@
 "use client";
-
 import { authClient } from "@/lib/auth/auth-client";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -21,7 +20,6 @@ function SignInForm() {
 
   const { session, loading: sessionLoading, refreshSession } = useAuth();
 
-  // Redirect if already logged in
   useEffect(() => {
     if (!sessionLoading && session?.user) {
       router.push(redirectTo);
@@ -82,7 +80,6 @@ function SignInForm() {
                 🤖
               </span>
             </div>
-
             <div>
               <h2 className="text-2xl font-bold leading-snug">
                 Welcome back <br /> to InsightAI
@@ -91,7 +88,6 @@ function SignInForm() {
                 Stay updated with AI-powered news and smart content.
               </p>
             </div>
-
             <div className="space-y-3 pt-4">
               <div className="flex items-center gap-3 bg-white/5 rounded-lg px-4 py-2">
                 🔒 Secure AI content
@@ -101,6 +97,18 @@ function SignInForm() {
               </div>
               <div className="flex items-center gap-3 bg-white/5 rounded-lg px-4 py-2">
                 🌍 Access anywhere
+              </div>
+            </div>
+            <div className="bg-white text-black rounded-xl px-6 py-4 mt-6 shadow-md">
+              <p className="text-xs uppercase font-semibold text-yellow-500">
+                Project Summary
+              </p>
+              <div className="flex items-end justify-between mt-2">
+                <div>
+                  <p className="text-2xl font-bold">08</p>
+                  <p className="text-xs text-gray-500">New Articles</p>
+                </div>
+                <div className="text-green-500 text-sm font-semibold">+75%</div>
               </div>
             </div>
           </div>
@@ -201,8 +209,7 @@ function SignInForm() {
             </motion.button>
 
             <div className="flex items-center gap-4 text-sm text-gray-400">
-              <div className="flex-1 h-px bg-gray-200" />
-              OR
+              <div className="flex-1 h-px bg-gray-200" /> OR{" "}
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 

@@ -77,7 +77,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 md:p-6 bg-[#F9FAFB]">
+    <div className="min-h-screen flex items-center justify-center p-4 pt-24 bg-[#F9FAFB]">
       <div className="w-full max-w-md lg:max-w-4xl rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row bg-white">
         {/* LEFT FORM */}
         <div className="flex-1 p-8 lg:p-10 flex flex-col">
