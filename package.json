@@ -15,6 +15,7 @@
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-separator": "^1.1.8",
     "@recharts/devtools": "^0.0.8",
+    "@stripe/stripe-js": "^8.9.0",
     "@tiptap/extension-highlight": "^3.20.0",
     "@tiptap/pm": "^3.20.0",
     "@tiptap/react": "^3.20.0",
@@ -47,7 +48,11 @@
     "react-toastify": "^11.0.5",
     "readline-sync": "^1.4.10",
     "recharts": "^3.7.0",
+<<<<<<< HEAD
+    "stripe": "^20.4.1",
+=======
     "sonner": "^2.0.7",
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
     "swiper": "^12.1.1",
     "tailwind-merge": "^3.4.0",
     "tsx": "^4.21.0"
