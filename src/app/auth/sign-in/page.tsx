@@ -1,8 +1,5 @@
 "use client";
 
-import { useAuth } from "@/Context/AuthContext";
-import GithubBtn from "@/components/GithubBtn";
-import GoogleBtn from "@/components/GoogleBtn";
 import { authClient } from "@/lib/auth/auth-client";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -22,60 +19,46 @@ function SignInForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
-  const { session, loading: sessionLoading } = useAuth(); // session check
-export default function SignInPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [lockUntil, setLockUntil] = useState("");
+  const { session, loading: sessionLoading, refreshSession } = useAuth();
 
-  
+  // Redirect if already logged in
   useEffect(() => {
     if (!sessionLoading && session?.user) {
       router.push(redirectTo);
     }
-  }, [session, sessionLoading]);
-
-  const router = useRouter();
-  const { refreshSession,session } = useAuth();
-  
+  }, [session, sessionLoading, router, redirectTo]);
 
   async function handleSubmit(e: React.FormEvent) {
-  e.preventDefault();
-  setError("");
-  setLoading(true);
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-  await authClient.signIn.email(
-    {
-      email,
-      password,
-      callbackURL: "/"
-    },
-    {
-      onSuccess: async () => {
-        await refreshSession(); // update context session
-        setLoading(false);
-        router.push("/dashboard");
+    await authClient.signIn.email(
+      {
+        email,
+        password,
+        callbackURL: "/",
       },
-      onError: (ctx) => {
-        setError(ctx.error.message);
-        setLoading(false);
+      {
+        onSuccess: async () => {
+          await refreshSession();
+          setLoading(false);
+          router.push("/dashboard");
+        },
+        onError: (ctx) => {
+          setError(ctx.error.message);
+          setLoading(false);
+        },
       }
-    }
-  );
-}
-
-   const handleGoogleSignIn = async () => {
-   
-   const data = await authClient.signIn.social({
-    provider: "google",
-  });
-  
-  console.log(data);
+    );
   }
+
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: redirectTo,
+    });
+  };
 
   const handleGitHubSignIn = async () => {
     await authClient.signIn.social({
@@ -83,15 +66,11 @@ export default function SignInPage() {
       callbackURL: redirectTo,
     });
   };
-    // Success → redirect
-    0;
-    router.push("/dashboard");
-    setLoading(false);
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-slate-50 via-white to-blue-50">
       <div className="w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row bg-white">
+        
         {/* LEFT PANEL */}
         <div className="lg:w-[45%] relative bg-[#111827] text-white p-10 flex flex-col justify-center items-center overflow-hidden">
           <div className="absolute top-0 left-0 w-40 h-40 bg-blue-500/20 rounded-br-[80px]" />
@@ -99,7 +78,7 @@ export default function SignInPage() {
 
           <div className="relative z-10 text-center space-y-6">
             <div className="mb-8">
-              <span className="p-5 rounded-xl text-3xl items-center border border-white/20 bg-white/10">
+              <span className="p-5 rounded-xl text-3xl border border-white/20 bg-white/10">
                 🤖
               </span>
             </div>
@@ -124,24 +103,12 @@ export default function SignInPage() {
                 🌍 Access anywhere
               </div>
             </div>
-
-            <div className="bg-white text-black rounded-xl px-6 py-4 mt-6 shadow-md">
-              <p className="text-xs uppercase font-semibold text-yellow-500">
-                Project Summary
-              </p>
-              <div className="flex items-end justify-between mt-2">
-                <div>
-                  <p className="text-2xl font-bold">08</p>
-                  <p className="text-xs text-gray-500">New Articles</p>
-                </div>
-                <div className="text-green-500 text-sm font-semibold">+75%</div>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* RIGHT PANEL */}
         <div className="flex-1 p-10 flex flex-col">
+
           <div className="flex justify-end text-sm text-gray-500 mb-6">
             New here?
             <Link
@@ -166,6 +133,8 @@ export default function SignInPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* EMAIL */}
             <div>
               <label className="text-sm text-gray-600">Email</label>
               <input
@@ -178,6 +147,7 @@ export default function SignInPage() {
               />
             </div>
 
+            {/* PASSWORD */}
             <div>
               <label className="text-sm text-gray-600">Password</label>
               <div className="relative">
@@ -193,13 +163,14 @@ export default function SignInPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute cursor-pointer right-4 top-3 text-gray-400"
+                  className="absolute right-4 top-3 text-gray-400 cursor-pointer"
                 >
                   👁
                 </button>
               </div>
             </div>
 
+            {/* OPTIONS */}
             <div className="flex justify-between text-sm">
               <label className="flex items-center gap-2 text-gray-600">
                 <input
@@ -209,6 +180,7 @@ export default function SignInPage() {
                 />
                 Remember me
               </label>
+
               <Link
                 href="/forgot-password"
                 className="text-blue-600 hover:underline"
@@ -217,12 +189,13 @@ export default function SignInPage() {
               </Link>
             </div>
 
+            {/* LOGIN BUTTON */}
             <motion.button
               type="submit"
               disabled={loading}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full cursor-pointer py-3 rounded-xl bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition"
+              className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition cursor-pointer"
             >
               {loading ? "Signing in..." : "Sign In"}
             </motion.button>
@@ -233,12 +206,13 @@ export default function SignInPage() {
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 
+            {/* GOOGLE */}
             <motion.button
               type="button"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleGoogleSignIn}
-              className="w-full cursor-pointer py-3 border rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition"
+              className="w-full py-3 border rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition cursor-pointer"
             >
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -247,12 +221,13 @@ export default function SignInPage() {
               Continue with Google
             </motion.button>
 
+            {/* GITHUB */}
             <motion.button
               type="button"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleGitHubSignIn}
-              className="w-full cursor-pointer py-3 border rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition"
+              className="w-full py-3 border rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition cursor-pointer"
             >
               <img
                 src="https://www.svgrepo.com/show/475654/github-color.svg"
@@ -260,13 +235,13 @@ export default function SignInPage() {
               />
               Continue with GitHub
             </motion.button>
+
           </form>
         </div>
       </div>
     </div>
   );
 }
-
 
 export default function SignInPage() {
   return (
