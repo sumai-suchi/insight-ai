@@ -4,7 +4,23 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
 export const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
-await client.connect();
+
+declare global {
+  // eslint-disable-next-line no-var
+  var __betterAuthMongoClientPromise: Promise<MongoClient> | undefined;
+}
+
+/**
+ * Connects to Mongo only when needed (runtime), and caches the connection promise
+ * across hot reloads / serverless invocations.
+ */
+export async function getAuthMongoClient(): Promise<MongoClient> {
+  if (!globalThis.__betterAuthMongoClientPromise) {
+    globalThis.__betterAuthMongoClientPromise = client.connect().then(() => client);
+  }
+  return globalThis.__betterAuthMongoClientPromise;
+}
+
 const db = client.db("Better_Auth");
 
 export const auth = betterAuth({
