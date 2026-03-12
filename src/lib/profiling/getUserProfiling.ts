@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { auth } from "@/lib/auth/auth";
 
 export type UserProfilingContext = {
@@ -31,7 +31,8 @@ export async function getUserProfilingContext(): Promise<UserProfilingContext | 
 
   try {
     await client.connect();
-    const doc = await collection.findOne({ _id: session.user.id });
+    if (!ObjectId.isValid(session.user.id)) return null;
+    const doc = await collection.findOne({ _id: new ObjectId(session.user.id) });
     if (!doc) return null;
 
     return {

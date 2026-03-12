@@ -3,14 +3,8 @@ import { MongoClient } from "mongodb";
 // import { admin } from "better-auth/plugins";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
-<<<<<<< HEAD
-const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
-await client.connect();
-=======
 export const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
 await client.connect();
-
->>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
 const db = client.db("Better_Auth");
 
 export const auth = betterAuth({
@@ -35,6 +29,11 @@ export const auth = betterAuth({
 
   user: {
     additionalFields: {
+      bio: {
+        type: "string",
+        required: false,
+        defaultValue: "",
+      },
       role: {
         type: "string",
         required: false,

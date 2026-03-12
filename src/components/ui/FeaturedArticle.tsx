@@ -148,7 +148,7 @@ const FeaturedArticle = ({ data }: { data: INews }) => {
         {/* Image Section - Zoom Effect Container */}
         <div className="relative w-full md:w-1/2 h-64 md:h-auto overflow-hidden">
           <Image
-            src={data.urlToImage}
+            src={data.urlToImage || "https://via.placeholder.com/800x600"}
             alt={data.title}
             fill // Responsive Layout-এর জন্য fill ব্যবহার করা ভালো
             className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
