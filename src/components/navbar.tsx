@@ -31,7 +31,7 @@ import SignOutButton from "./SignOutButton";
 // type SessionData = Awaited<
 //   ReturnType<typeof authClient.getSession>
 // >["data"];
-
+// https://docs.google.com/document/d/1HYksWnrhQ8ZRHSTwhR5Gr2C2iIeo8_6DForVqw_p1IA/edit?tab=t.0
 // type AuthError = {
 //   code?: string;
 //   message?: string;
