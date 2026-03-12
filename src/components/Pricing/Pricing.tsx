@@ -58,7 +58,7 @@ export default function PricingPage() {
         "Narrative & Bias tracking",
         "Export to PDF/CSV",
       ],
-      buttonText: "Start Free Trial",
+      buttonText: "Purchase Plan",
       highlighted: true,
     },
     {

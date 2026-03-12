@@ -1,18 +1,27 @@
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
+// import { admin } from "better-auth/plugins";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
+<<<<<<< HEAD
 const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
 await client.connect();
+=======
+export const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
+await client.connect();
+
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
 const db = client.db("Better_Auth");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
+
   emailAndPassword: {
     enabled: true,
   },
+
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -31,33 +40,24 @@ export const auth = betterAuth({
         required: false,
         defaultValue: "user",
       },
-      // Progressive profiling fields stored directly on the BetterAuth user
-      industry: {
+      status: {
         type: "string",
         required: false,
+        defaultValue: "active",
       },
-      teamSize: {
-        type: "string",
+      discount: {
+        type: "number",
         required: false,
+        defaultValue: 0,
       },
-      workType: {
-        type: "string",
+      isBlocked: {
+        type: "boolean",
         required: false,
-      },
-      companyName: {
-        type: "string",
-        required: false,
-      },
-      websiteUrl: {
-        type: "string",
-        required: false,
-      },
-      profilingCompletedAt: {
-        type: "date",
-        required: false,
+        defaultValue: false,
       },
     },
   },
-  secret: process.env.NEXT_PUBLIC_BETTER_AUTH_CLIENT_ID!,
+
+  secret: process.env.BETTER_AUTH_SECRET!,
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
 });

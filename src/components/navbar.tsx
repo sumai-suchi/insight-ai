@@ -13,26 +13,86 @@ import {
   PenTool,
   Menu,
   X,
+<<<<<<< HEAD
   User2,
   CreditCard,
+=======
+  LogOut,
+  User2,
+  
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
 } from "lucide-react";
 
 import { useAuth } from "@/Context/AuthContext";
+<<<<<<< HEAD
 import { User } from "@/types/auth-type";
+=======
+import { SessionData} from "@/types/auth-type";
+import type { IUser } from "@/lib/mongoose-connect/User";
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
 import SignOutButton from "./SignOutButton";
 
+<<<<<<< HEAD
+=======
+// type SessionData = Awaited<
+//   ReturnType<typeof authClient.getSession>
+// >["data"];
+
+// type AuthError = {
+//   code?: string;
+//   message?: string;
+//   status: number;
+//   statusText: string;
+// };
+
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+<<<<<<< HEAD
   const [user, setUser] = useState<User | null>(null);
+=======
+
+
+  const [User, setUser] = useState<IUser | null>(null);
+  
+  // replace with your actual user object
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
 
   const context = useAuth();
   const isHomePage = pathname === "/";
 
+<<<<<<< HEAD
   useEffect(() => {
     setUser(context?.session?.user || null);
   }, [context?.session?.user]);
+=======
+
+
+const { session } = useAuth();
+console.log("Current session in Navbar:", session);
+
+useEffect(() => {
+  if (session?.user) {
+    console.log("User session found:", session.user);
+    setUser({
+    id: session.user.id,          // ✅ map id → _id
+    name: session.user.name,
+    email: session.user.email,
+   
+    image: session.user.image ?? null,
+    role: "user",                  // default, or fetch from DB
+    isBlocked: false,              // default
+    discount: 0,                   // default
+    createdAt: session.user.createdAt,
+    updatedAt: session.user.updatedAt,
+  });
+  } else {
+    setUser(null);
+  }
+}, [session]);
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -47,6 +107,7 @@ export default function Navbar() {
   if (pathname?.startsWith("/dashboard")) return null;
 
   const navLinks = [
+<<<<<<< HEAD
     { name: "Home", href: "/", icon: <Home size={18} /> },
     { name: "Solutions", href: "/solutions", icon: <Lightbulb size={18} /> },
     { name: "AI Editor", href: "/dashboard", icon: <PenTool size={18} /> },
@@ -58,6 +119,14 @@ export default function Navbar() {
     },
     { name: "Pricing", href: "/pricing", icon: <CreditCard size={18} /> },
     { name: "Profile", href: "/dashboard/profile", icon: <User2 size={18} /> },
+=======
+    { name: "Home", href: "/", icon: <Home size={16} /> },
+    { name: "Solutions", href: "/solutions", icon: <Lightbulb size={16} /> },
+    { name: "News", href: "/news", icon: <Newspaper size={16} /> },
+   
+    { name: "Project-dashboard", href: "/Project-dashboard", icon: <PenTool size={16} /> },
+    { name: "Profile", href: "/dashboard/profile", icon: <User2 size={16} /> },
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
   ];
 
   const isTransparent = isHomePage && !scrolled;
@@ -93,8 +162,61 @@ export default function Navbar() {
               </Link>
             </div>
 
+<<<<<<< HEAD
             {/* Desktop Nav */}
             <div className="hidden lg:flex flex-1 justify-center items-center space-x-1">
+=======
+          {/* Profile/Auth */}
+          <div className="hidden md:flex items-center gap-4">
+            {User ? (
+              <SignOutButton></SignOutButton>
+            ) : (
+              <div className="flex gap-2">
+                <Link href="/auth/sign-in">
+                  <button
+                    className={`font-medium cursor-pointer transition-colors px-3 py-2 ${
+                      isTransparent ? "text-white" : "text-gray-600"
+                    }`}
+                  >
+                    Log In
+                  </button>
+                </Link>
+                <Link href="/auth/sign-up">
+                  <button className="bg-[#3B82F6] hover:bg-blue-600 cursor-pointer text-white px-5 py-2 rounded-full font-semibold transition-all">
+                    Start for free
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="lg:hidden flex items-center">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={`p-1.5 rounded-md ${isTransparent ? "text-white" : "text-gray-600"}`}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Sidebar */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-y-0 right-0 w-64 bg-purple-100 shadow-2xl z-60 lg:hidden flex flex-col p-6"
+          >
+            <button onClick={() => setIsOpen(false)} className="self-end mb-6 text-gray-400">
+              <X size={24} />
+            </button>
+            <div className="flex flex-col space-y-3">
+>>>>>>> a0359be006eece6cec13ca64d44f9e223377c8b1
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
