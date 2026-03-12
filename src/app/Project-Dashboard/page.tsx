@@ -1,4 +1,20 @@
-'use client';
+"use client";
+
+import { useEffect, useState } from "react";
+import { useAuth } from "@/Context/AuthContext";
+import { IUser } from "@/lib/mongoose-connect/User";
+
+import DashboardCard from "./DashboardCard";
+import ActionCard from "./ActionCard";
+import { RecentActivity } from "./RecentActivity";
+import { ProfileSidebar } from "./ProfileSidebar";
+import AiContentTools from "./AiContentTools";
+import SeoInsights from "./SeoInsights";
+import PlagiarismChecker from "./PlagiarismChecker";
+import PerformanceAnalytics from "./PerformanceAnalytics";
+import SavedDrafts from "./SavedDrafts";
+import PersonalizedNewsFeed from "./PersonalizedNewsFeed";
+
 import {
   FileText,
   Save,
@@ -11,30 +27,57 @@ import {
   LayoutTemplate,
   MessageSquare,
 } from "lucide-react";
-import { ReactNode, useEffect, useState} from "react";
-import DashboardCard from "./DashboardCard";
-import ActionCard from "./ActionCard";
-import { RecentActivity } from "./RecentActivity";
-import { ProfileSidebar } from "./ProfileSidebar";
-import AiContentTools from "./AiContentTools";
-import SeoInsights from "./SeoInsights";
-import PlagiarismChecker from "./PlagiarismChecker";
-import PerformanceAnalytics from "./PerformanceAnalytics";
-import SavedDrafts from "./SavedDrafts";
-import PersonalizedNewsFeed from "./PersonalizedNewsFeed";
-import { useAuth } from "@/Context/AuthContext";
-import { User } from "@/types/auth-type";
 
 export default function DashboardPage() {
-  const [User, setUser] = useState<User | null>(null);
-  type ActionItem = {
-    icon: ReactNode;
-    label: string;
-    gradient: string;
-    href: string;
+  const { session, error, loading: authLoading } = useAuth();
 
-  };
+  const [user, setUser] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch user after session is available
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (authLoading) return;
+
+      if (!session?.user?.id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/user/me", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: session.user.id }),
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch user");
+
+        const data = await res.json();
+        setUser(data);
+      } catch (error) {
+        console.error("User fetch error:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [session?.user?.id, authLoading]);
+
+  // Loading state
+  if (authLoading || loading) {
+    return (
+      <div className="p-10 text-center text-lg font-semibold">
+        Loading Dashboard...
+      </div>
+    );
+  }
+
+  // Stats & actions
   type StatItem = {
     title: string;
     value: string | number;
@@ -42,113 +85,116 @@ export default function DashboardPage() {
     changeType: "up" | "down";
     icon: React.ReactNode;
     bgColor: string;
-
   };
-const stats: StatItem[] = [
-  {
-    title: "Total Blogs",
-    value: 247,
-    change: "+12% this month",
-    changeType: "up",
-    icon: <FileText className="text-purple-600" size={22} />,
-    bgColor: "bg-purple-100",
-  },
-  {
-    title: "Drafts Saved",
-    value: 89,
-    change: "+8% this week",
-    changeType: "up",
-    icon: <Save className="text-blue-600" size={22} />,
-    bgColor: "bg-blue-100",
-  },
-  {
-    title: "Total Words",
-    value: "156K",
-    change: "+24% this month",
-    changeType: "up",
-    icon: <BarChart className="text-green-600" size={22} />,
-    bgColor: "bg-green-100",
-  },
-  {
-    title: "Avg SEO Score",
-    value: "85/100",
-    change: "+5 points",
-    changeType: "up",
-    icon: <Target className="text-yellow-600" size={22} />,
-    bgColor: "bg-yellow-100",
-  },
-  {
-    title: "Plagiarism Checks",
-    value: 142,
-    change: "23 remaining",
-    changeType: "down",
-    icon: <Shield className="text-red-600" size={22} />,
-    bgColor: "bg-red-100",
-  },
-];
-const actions: ActionItem[] = [
-  {
-    icon: <Plus />,
-    label: "Create New Blog",
-    gradient: "from-purple-500 to-indigo-500",
-    href: "/blog",
-  },
-  {
-    icon: <Sparkles />,
-    label: "Generate with AI",
-    gradient: "from-blue-500 to-cyan-500",
-    href: "/ai-generator",
-  },
-  {
-    icon: <Edit />,
-    label: "Continue Draft",
-    gradient: "from-green-500 to-emerald-500",
-    href: "/drafts",
-  },
-  {
-    icon: <LayoutTemplate />,
-    label: "Use Template",
-    gradient: "from-orange-500 to-amber-500",
-    href: "/templates",
-  },
-  {
-    icon: <MessageSquare />,
-    label: "Social Media Post",
-    gradient: "from-pink-500 to-rose-500",
-    href: "/social-post",
-  },
-];
-   const context=useAuth()
-  useEffect(() => {
-      if (context?.session?.user) {
-        console.log("User session found in context:", context?.session?.user);
-        setUser(context?.session?.user);
-      } else {
-        setUser(null);
-      }
-    }, [context?.session?.user]); 
+
+  type ActionItem = {
+    icon: React.ReactNode;
+    label: string;
+    gradient: string;
+    href: string;
+  };
+
+  const stats: StatItem[] = [
+    {
+      title: "Total Blogs",
+      value: 247,
+      change: "+12% this month",
+      changeType: "up",
+      icon: <FileText className="text-purple-600" size={22} />,
+      bgColor: "bg-purple-100",
+    },
+    {
+      title: "Drafts Saved",
+      value: 89,
+      change: "+8% this week",
+      changeType: "up",
+      icon: <Save className="text-blue-600" size={22} />,
+      bgColor: "bg-blue-100",
+    },
+    {
+      title: "Total Words",
+      value: "156K",
+      change: "+24% this month",
+      changeType: "up",
+      icon: <BarChart className="text-green-600" size={22} />,
+      bgColor: "bg-green-100",
+    },
+    {
+      title: "Avg SEO Score",
+      value: "85/100",
+      change: "+5 points",
+      changeType: "up",
+      icon: <Target className="text-yellow-600" size={22} />,
+      bgColor: "bg-yellow-100",
+    },
+    {
+      title: "Plagiarism Checks",
+      value: 142,
+      change: "23 remaining",
+      changeType: "down",
+      icon: <Shield className="text-red-600" size={22} />,
+      bgColor: "bg-red-100",
+    },
+  ];
+
+  const actions: ActionItem[] = [
+    {
+      icon: <Plus />,
+      label: "Create New Blog",
+      gradient: "from-purple-500 to-indigo-500",
+      href: "/blog",
+    },
+    {
+      icon: <Sparkles />,
+      label: "Generate with AI",
+      gradient: "from-blue-500 to-cyan-500",
+      href: "/ai-generator",
+    },
+    {
+      icon: <Edit />,
+      label: "Continue Draft",
+      gradient: "from-green-500 to-emerald-500",
+      href: "/drafts",
+    },
+    {
+      icon: <LayoutTemplate />,
+      label: "Use Template",
+      gradient: "from-orange-500 to-amber-500",
+      href: "/templates",
+    },
+    {
+      icon: <MessageSquare />,
+      label: "Social Media Post",
+      gradient: "from-pink-500 to-rose-500",
+      href: "/social-post",
+    },
+  ];
+
   return (
-    <div className="bg-gray-100 min-h-screen p-8">
+    <div className="p-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">{User?.role} Dashboard</h1>
+        <h1 className="text-3xl font-bold">{user?.role} Dashboard</h1>
         <p className="text-gray-500">
-          Welcome back! Here&apos;s your content overview <span className="text-purple-400 font-semibold text-2xl">{User?.name}</span>
+          Welcome back,{" "}
+          <span className="text-purple-400 font-semibold text-2xl">
+            {user?.name}
+          </span>
+          !
         </p>
       </div>
 
-      {/* Cards Grid */}
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         {stats.map((item, index) => (
-          <DashboardCard  key={index} {...item} />
+          <DashboardCard key={index} {...item} />
         ))}
       </div>
 
       {/* Quick Actions */}
       <div className="bg-white rounded-2xl shadow-md p-6 mt-10">
         <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-          <Sparkles className="text-purple-600" size={20} />
-          Quick Actions
+          <Sparkles className="text-purple-600" size={20} /> Quick Actions
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -158,35 +204,33 @@ const actions: ActionItem[] = [
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-16 gap-8  mt-10">
-        {/* Main Section */}
+      {/* Main + Sidebar */}
+      <div className="grid grid-cols-1 lg:grid-cols-16 gap-8 mt-10">
         <div className="lg:col-span-10">
           <RecentActivity />
         </div>
 
-        {/* Sidebar Section */}
         <div className="lg:col-span-6">
           <ProfileSidebar />
         </div>
       </div>
-      <div className="w-full   py-8">
-        {/* Top tools section - full width */}
+
+      {/* AI Tools */}
+      <div className="w-full py-8">
         <div className="mb-8">
           <AiContentTools />
         </div>
 
-        {/* Two-column layout for insights + plagiarism */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <SeoInsights />
           <PlagiarismChecker />
         </div>
       </div>
 
-      <div className="  pt-8 space-y-8">
-        {/* Top - Full width analytics */}
+      {/* Analytics + Drafts + News */}
+      <div className="pt-8 space-y-8">
         <PerformanceAnalytics />
 
-        {/* Bottom - Two column responsive layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           <SavedDrafts />
           <PersonalizedNewsFeed />
@@ -195,5 +239,3 @@ const actions: ActionItem[] = [
     </div>
   );
 }
-
-/* 🔹 Reusable Action Card */

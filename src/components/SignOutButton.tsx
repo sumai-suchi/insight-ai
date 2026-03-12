@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth/auth-client";
@@ -11,24 +12,49 @@ const SignOutButton = () => {
   const { session, refreshSession } = useAuth();
   const [open, setOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
   const ref = useRef<HTMLDivElement>(null);
 
   const user = session?.user;
 
-  const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=6366f1&color=fff&size=200`;
+  // Fetch avatar from backend API or fallback
+  useEffect(() => {
+    let isMounted = true;
+    const fetchAvatar = async () => {
+      try {
+        if (!user?.id) return;
 
+        const res = await fetch("/api/avatar", { method: "GET" });
+        if (!res.ok) throw new Error("Failed to fetch avatar");
+
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+
+        if (isMounted) setAvatarUrl(url);
+      } catch (err) {
+        console.error(err);
+        if (isMounted) setAvatarUrl("/images/default-avatar.png");
+      }
+    };
+
+    fetchAvatar();
+
+    return () => {
+      isMounted = false;
+      if (avatarUrl) URL.revokeObjectURL(avatarUrl);
+    };
+  }, [user?.id]);
+
+  // Determine image src safely
   const getImageSrc = () => {
-    if (imgError || !user?.image) return fallbackAvatar;
-    // Remove size restrictions from Google URL for better loading
+    if (imgError || !user?.image) return avatarUrl ?? "/images/default-avatar.png";
     return user.image.replace("=s96-c", "=s200-c").replace("=s96", "=s200");
   };
 
   // Close dropdown on outside click
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
@@ -84,13 +110,12 @@ const SignOutButton = () => {
                 onError={() => setImgError(true)}
               />
               <div>
-                <p className="text-sm font-semibold text-gray-800 truncate">
-                  {user?.name}
-                </p>
+                <p className="text-sm font-semibold text-gray-800 truncate">{user?.name}</p>
                 <p className="text-xs text-gray-500 truncate">{user?.email}</p>
               </div>
             </div>
           </div>
+
           <Link
             href="/dashboard/profile"
             onClick={() => setOpen(false)}
@@ -105,7 +130,9 @@ const SignOutButton = () => {
           >
             <Settings size={15} /> Settings
           </Link>
+
           <hr className="my-1 border-gray-100" />
+
           <button
             onClick={handleSignOut}
             className="flex items-center cursor-pointer gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition w-full text-left"

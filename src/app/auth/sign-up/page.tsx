@@ -59,6 +59,7 @@ export default function SignUpPage() {
         },
       },
     );
+    console.log("Sign up response:", data);
   }
 
   const handleGoogleSignIn = async () => {
@@ -142,16 +143,8 @@ export default function SignUpPage() {
             </div>
 
 
-            {/* Image URL */}
-            <div>
-              <input
-                type="text"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                placeholder="Image URL"
-                className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
-              />
-            </div>
+        
+         
 
             <div>
               <div className="flex items-center border-b border-gray-300 pb-2">

@@ -24,15 +24,7 @@ function SignInForm() {
     if (!sessionLoading && session?.user) {
       router.push(redirectTo);
     }
-  }, [session, sessionLoading]);
-
-  if (sessionLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
+  }, [session, sessionLoading, router, redirectTo]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -43,19 +35,19 @@ function SignInForm() {
       {
         email,
         password,
-        callbackURL: redirectTo,
+        callbackURL: "/",
       },
       {
         onSuccess: async () => {
           await refreshSession();
           setLoading(false);
-          router.push(redirectTo);
+          router.push("/dashboard");
         },
         onError: (ctx) => {
-          setError(ctx.error.message || "Invalid credentials");
+          setError(ctx.error.message);
           setLoading(false);
         },
-      },
+      }
     );
   }
 
@@ -76,6 +68,7 @@ function SignInForm() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-slate-50 via-white to-blue-50">
       <div className="w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row bg-white">
+        
         {/* LEFT PANEL */}
         <div className="lg:w-[45%] relative bg-[#111827] text-white p-10 flex flex-col justify-center items-center overflow-hidden">
           <div className="absolute top-0 left-0 w-40 h-40 bg-blue-500/20 rounded-br-[80px]" />
@@ -83,7 +76,7 @@ function SignInForm() {
 
           <div className="relative z-10 text-center space-y-6">
             <div className="mb-8">
-              <span className="p-5 rounded-xl text-3xl items-center border border-white/20 bg-white/10">
+              <span className="p-5 rounded-xl text-3xl border border-white/20 bg-white/10">
                 🤖
               </span>
             </div>
@@ -123,6 +116,7 @@ function SignInForm() {
 
         {/* RIGHT PANEL */}
         <div className="flex-1 p-10 flex flex-col">
+
           <div className="flex justify-end text-sm text-gray-500 mb-6">
             New here?
             <Link
@@ -147,6 +141,8 @@ function SignInForm() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* EMAIL */}
             <div>
               <label className="text-sm text-gray-600">Email</label>
               <input
@@ -159,6 +155,7 @@ function SignInForm() {
               />
             </div>
 
+            {/* PASSWORD */}
             <div>
               <label className="text-sm text-gray-600">Password</label>
               <div className="relative">
@@ -174,13 +171,14 @@ function SignInForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute cursor-pointer right-4 top-3 text-gray-400"
+                  className="absolute right-4 top-3 text-gray-400 cursor-pointer"
                 >
                   👁
                 </button>
               </div>
             </div>
 
+            {/* OPTIONS */}
             <div className="flex justify-between text-sm">
               <label className="flex items-center gap-2 text-gray-600">
                 <input
@@ -190,6 +188,7 @@ function SignInForm() {
                 />
                 Remember me
               </label>
+
               <Link
                 href="/forgot-password"
                 className="text-blue-600 hover:underline"
@@ -198,12 +197,13 @@ function SignInForm() {
               </Link>
             </div>
 
+            {/* LOGIN BUTTON */}
             <motion.button
               type="submit"
               disabled={loading}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full cursor-pointer py-3 rounded-xl bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition"
+              className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition cursor-pointer"
             >
               {loading ? "Signing in..." : "Sign In"}
             </motion.button>
@@ -213,12 +213,13 @@ function SignInForm() {
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 
+            {/* GOOGLE */}
             <motion.button
               type="button"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleGoogleSignIn}
-              className="w-full cursor-pointer py-3 border rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition"
+              className="w-full py-3 border rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition cursor-pointer"
             >
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -227,12 +228,13 @@ function SignInForm() {
               Continue with Google
             </motion.button>
 
+            {/* GITHUB */}
             <motion.button
               type="button"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleGitHubSignIn}
-              className="w-full cursor-pointer py-3 border rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition"
+              className="w-full py-3 border rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition cursor-pointer"
             >
               <img
                 src="https://www.svgrepo.com/show/475654/github-color.svg"
@@ -240,6 +242,7 @@ function SignInForm() {
               />
               Continue with GitHub
             </motion.button>
+
           </form>
         </div>
       </div>

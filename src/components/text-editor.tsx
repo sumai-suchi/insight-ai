@@ -20,7 +20,6 @@ import {
   LinkIcon,
   ListIcon,
   ListOrderedIcon,
-  Quote,
   RedoIcon,
   StrikethroughIcon,
   UnderlineIcon,
@@ -38,8 +37,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { BubbleMenu as TiptapBubbleMenu } from "@tiptap/react/menus";
-import { FloatingMenu as TiptapFloatingMenu } from "@tiptap/react/menus";
 
 // editorProps lets me customize the HTML element that Tiptap creates for the editor.
 // I add Tailwind’s prose classes so my editor text looks beautiful — with proper heading sizes, spacing, lists, blockquotes, and typography. Without this, the editor looks plain and unstyled

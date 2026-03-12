@@ -4,9 +4,9 @@ export interface IUser {
   id: string;
   name: string;
   email: string;
-  role: "user" | "admin";
+  role: string;
   image?: string | null;
- 
+  emailVerified?: Boolean;
   status?: string;
   isBlocked?: boolean;
   discount?: number;
