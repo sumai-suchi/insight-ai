@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import Footer from "./Footer";
-import Navbar from "./navbar";
+import Navbar from "./Navbar/Navbar";
 
 export default function ConditionalLayout({
   children,
