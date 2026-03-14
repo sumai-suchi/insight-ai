@@ -56,7 +56,7 @@ export default function Navbar() {
       { name: "Home", href: "/", icon: <Home size={18} /> },
       { name: "Solutions", href: "/solutions", icon: <Lightbulb size={18} /> },
       { name: "News", href: "/news", icon: <Newspaper size={18} /> },
-      { name: "Projects", href: "/Project-Dashboard", icon: <LayoutDashboard size={18} /> },
+      { name: "Projects", href: "/Project-dashboard", icon: <LayoutDashboard size={18} /> },
       { name: "Pricing", href: "/pricing", icon: <CreditCard size={18} /> },
       { name: "Profile", href: "/dashboard/profile", icon: <User2 size={18} /> },
     ],

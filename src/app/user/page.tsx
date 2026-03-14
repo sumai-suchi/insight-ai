@@ -6,16 +6,18 @@ import { toast } from "react-toastify";
 import { UserPlus, Download, Upload } from "lucide-react";
 import {  Award, Slash } from "lucide-react";
 import { useAuth } from "@/Context/AuthContext";
+import ModalToAddUser from "./user-management-component/ModalToAddUser";
+import { IUser } from "@/lib/mongoose-connect/User";
 
 
-type User = {
-  id: number;
-  name: string;
-  email: string;
-  role: "user" | "admin";
-  status: "active" | "blocked";
-  discount: number;
-};
+// type User = {
+//   id: number;
+//   name: string;
+//   email: string;
+//   role: "user" | "admin";
+//   status: "active" | "blocked";
+//   discount: number;
+// };
 
 type StatCardProps = {
   title: string;
@@ -33,16 +35,24 @@ type Stats = {
 };
 
 
+
 export default function UserManagement() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState<Stats | null>(null);
+      const [isOpen, setIsOpen] = useState(false);
       const { session, error, loading: authLoading } = useAuth();
 
     const [filter, setFilter] = useState("All");
 
-    useEffect(() => {
-    async function fetchStats() {
+
+
+    const addUserToTable = (newUser: any) => {
+          setUsers((prev) => [...prev, newUser]);
+        fetchStats(); // also refresh stats
+       };
+
+      async function fetchStats() {
         // if (authLoading) return;
 
       try {
@@ -57,6 +67,11 @@ export default function UserManagement() {
         setLoading(false);
       }
     }
+
+
+    
+    useEffect(() => {
+  
 
     fetchStats();
   }, []);
@@ -97,10 +112,10 @@ const deleteUser = async (userId: string) => {
     if (!res.ok) {
       throw new Error("Failed to delete user");
     }
-
+   
     const data = await res.json();
     console.log("Delete success:", data);
-
+      fetchStats(); // Refresh stats after deletion
     // Remove user from UI
     setUsers((prev) => prev.filter((user) => user._id !== userId));
 
@@ -118,7 +133,7 @@ const toggleBlockUser = async (userId: string) => {
       console.error("Block failed:", data);
       return;
     }
-
+     fetchStats(); // Refresh stats after blocking/unblocking
     console.log(data.message);
 
 
@@ -149,7 +164,9 @@ const updateUser = async (userId: string, role?: string, discount?: number) => {
         u._id === userId ? { ...u, role: role ?? u.role, discount: discount ?? u.discount } : u
       )
     );
-}
+}  
+
+
 
   const makeAdmin = (id: number) => {
     setUsers(
@@ -194,7 +211,7 @@ const updateUser = async (userId: string, role?: string, discount?: number) => {
   },
 ];
   return (
-    <div className="min-h-screen bg-linear-to-br from-purple-100 to-purple-200 pt-20 px-4 sm:px-8 lg:px-16">
+    <div className="min-h-screen bg-linear-to-br from-purple-100 to-purple-200 pt-10px px-4 sm:px-8 lg:px-16">
        <div className="p-8  min-h-screen">
       {/* Header */}
       <div className="mb-6">
@@ -235,11 +252,19 @@ const updateUser = async (userId: string, role?: string, discount?: number) => {
           <button className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm bg-gray-200 hover:bg-gray-300">
             <Upload size={16} /> Import
           </button>
-          <button className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm bg-purple-500 text-white hover:bg-purple-600">
+          <button className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm bg-purple-500 text-white hover:bg-purple-600"
+          
+            onClick={() => {
+              setIsOpen(true)
+              
+          
+            }}>
             <UserPlus size={16} /> Add User
           </button>
         </div>
+        
       </div>
+      <ModalToAddUser isOpen={isOpen} setIsOpen={setIsOpen}  addUserToTable={addUserToTable} />
 
       {/* Placeholder for Users Table */}
       <div className="bg-white rounded-xl shadow-md p-6">
@@ -258,6 +283,9 @@ const updateUser = async (userId: string, role?: string, discount?: number) => {
                 <th className="p-3">Role</th>
                 <th className="p-3">Status</th>
                 <th className="p-3">Discount</th>
+                <th className="p-3">Plan</th>
+                <th className="p-3">Article</th>
+                <th className="p-3">Last joined</th>
                 <th className="p-3 rounded-r-xl text-center">Actions</th>
 
               </tr>
@@ -269,15 +297,15 @@ const updateUser = async (userId: string, role?: string, discount?: number) => {
                    key={user._id}
                   className="border-b hover:bg-gray-50 transition"
                 >
-                  <td className="p-4 font-medium">{user.name}</td>
+                  <td className="p-4 font-medium">{user.name || session?.user?.name || "User"}</td>
                   <td className="p-4">
                     <img
-                      src={user.image}
-                      alt={user.name}
+                      src={user.image || "/avatar.jpg"}
+                      alt={user.name || session?.user?.name || "User Avatar"}
                       className="w-10 h-10 rounded-full object-cover"
                     />
                   </td>
-                  <td className="p-4 text-gray-600">{user.email}</td>
+                  <td className="p-4 text-gray-600">{user.email || session?.user?.email || "Email"}</td>
                   <td className="p-4 capitalize">{user.role}</td>
                   <td className="p-4">
                     <span
@@ -291,6 +319,9 @@ const updateUser = async (userId: string, role?: string, discount?: number) => {
                     </span>
                   </td>
                   <td className="p-4">{user.discount}%</td>
+                  <td className="p-4 capitalize">{user.plan}</td>
+                  <td className="p-4 capitalize">{user.article}</td>
+                  <td className="p-4 capitalize">{user.joinedAt}</td>
 
                   {/* Actions */}
                   <td className="p-4 flex flex-wrap gap-3 justify-center">
