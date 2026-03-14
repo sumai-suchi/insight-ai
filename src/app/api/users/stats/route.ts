@@ -14,7 +14,7 @@ export async function GET() {
     const totalUsers = await  UserCurd.countDocuments({});
     const activeUsers = await UserCurd.countDocuments({ status: "active" });
     const proPlans = await UserCurd.countDocuments({ role: "pro" });
-    const suspended = await UserCurd.countDocuments({ status: "suspended" });
+    const suspended = await UserCurd.countDocuments({ isBlocked: true });
     console.log("Stats fetched:", { totalUsers, activeUsers, proPlans, suspended });
 
     return NextResponse.json({

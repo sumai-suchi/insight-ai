@@ -70,6 +70,21 @@ export const auth = betterAuth({
         required: false,
         defaultValue: false,
       },
+      plan: {
+        type: "string",
+        required: false,
+        defaultValue: "free",
+      },
+      article: {
+        type: "string",
+        required: false,
+        defaultValue: 0,
+      },
+      joinedAt: {
+        type: "date",
+        required: false,
+        defaultValue: new Date(),
+      },
     },
   },
 
