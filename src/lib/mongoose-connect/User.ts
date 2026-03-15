@@ -1,20 +1,20 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
-export interface IUser {
-  _id: string;
+export interface IUser extends Document {
+  _id: Types.ObjectId
   name: string;
   email: string;
-  role: string;
+  role: "user" | "admin" | "editor";
   bio?: string;
-  image?: string | null;
-  emailVerified?: Boolean;
-  status?: string;
+  image?: string; // store URL or empty string
+  emailVerified?: boolean;
+  status?: "active" | "inactive";
   isBlocked?: boolean;
   discount?: number;
   createdAt: Date;
   updatedAt: Date;
-  
-  plan?: string;
+
+  plan?: "free" | "pro";
   article?: number;
   joinedAt: Date;
 }
@@ -27,7 +27,7 @@ const UserSchema = new Schema<IUser>(
     isBlocked: { type: Boolean, default: false },
     discount: { type: Number, default: 0 },
     status: { type: String, enum: ["active", "inactive"], default: "active" },
-    image: { type: String, default: "" },
+    image: { type: String, default: "" }, // empty string if no image
     bio: { type: String, default: "" },
     emailVerified: { type: Boolean, default: false },
     plan: { type: String, enum: ["free", "pro"], default: "free" },
@@ -37,6 +37,5 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-// Prevent model overwrite error in dev
 export const UserCurd: Model<IUser> =
-  mongoose.models.user || mongoose.model<IUser>("user", UserSchema,"user");
+  mongoose.models.user || mongoose.model<IUser>("user", UserSchema, "user");

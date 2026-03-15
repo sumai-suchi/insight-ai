@@ -15,48 +15,62 @@ export interface ProductLinks {
 
 export const Products = () => {
   const productLinks: ProductLinks[] = [
-    {
-      title: "AI Text Detector",
-      link: "/products/ai-text-detector",
-      description:
-        "Detect AI content made with the most advanced AI writing tools such as ChatGPT, Google Gemini, Claude and much more.",
-      icon: <div className="w-6 h-6 bg-gray-300 rounded-full" />,
-    },
-    {
-      title: "Writing Feedback",
-      link: "/products/writing-feedback",
-      description:
-        "Get instant, easy-to-implement insights to supercharge your content.",
-      icon: <div className="w-6 h-6 bg-gray-300 rounded-full" />,
-    },
-    {
-      title: "Plagiarism Checker",
-      link: "/products/plagiarism-checker",
-      description:
-        "Ensure the originality of your content with our cutting-edge plagiarism detection technology.",
-      icon: <div className="w-6 h-6 bg-gray-300 rounded-full" />,
-    },
-    {
-      title: "HUMN-1 Website Certification",
-      link: "/products/humn-1-certification",
-      description:
-        "The first website certification. Boost your engagements, foster trust with your audience, and outrank AI generated content on search engines.",
-      icon: <div className="w-6 h-6 bg-gray-300 rounded-full" />,
-    },
-    {
-      title: "AI Image Detector",
-      link: "/products/ai-image-detector",
-      description:
-        "Detect Images and Deepfakes generated with Midjourney, DALL-E, Stable diffusion and more.",
-      icon: <div className="w-6 h-6 bg-gray-300 rounded-full" />,
-    },
-    {
-      title: "Fact Checker Tool",
-      link: "/products/fact-checker-tool",
-      description:
-        "Instantly verify facts, spot misinformation, and detect AI hallucinations in your content.",
-      icon: <div className="w-6 h-6 bg-gray-300 rounded-full" />,
-    },
+      {
+    title: "AI Content Writer",
+    link: "/products/ai-content-writer",
+    description:
+      "Write blogs, newsletters, and social media posts quickly with AI-powered suggestions.",
+    icon: <div className="w-6 h-6 bg-blue-400 rounded-full" />,
+  },
+ {
+  title: "Articles",
+  link: "/articles", // This is the main articles/news page
+  description:
+    "Create, read, and manage high-quality articles instantly. Access all published content on the Articles page.",
+  icon: <div className="w-6 h-6 bg-green-400 rounded-full" />,
+},
+  {
+    title: "AI News Digest",
+    link: "/news",
+    description:
+      "Summarize trending news and articles daily, curated by AI for you.",
+    icon: <div className="w-6 h-6 bg-yellow-400 rounded-full" />,
+  },
+  {
+    title: "AI Summarizer",
+    link: "/products/ai-summarizer",
+    description:
+      "Condense long articles, reports, and research papers into quick summaries.",
+    icon: <div className="w-6 h-6 bg-purple-400 rounded-full" />,
+  },
+  {
+    title: "AI Headlines & Titles",
+    link: "/products/ai-headlines",
+    description:
+      "Generate catchy headlines and titles for blogs, emails, or news content.",
+    icon: <div className="w-6 h-6 bg-pink-400 rounded-full" />,
+  },
+  {
+    title: "AI SEO Optimizer",
+    link: "/products/ai-seo-optimizer",
+    description:
+      "Optimize your content with AI-driven keywords, meta tags, and structure for better visibility.",
+    icon: <div className="w-6 h-6 bg-red-400 rounded-full" />,
+  },
+  {
+    title: "Insight Connect",
+    link: "/products/insight-connect",
+    description:
+      "Chat live with real humans for instant help, guidance, or problem-solving through our WebSocket-powered support.",
+    icon: <div className="w-6 h-6 bg-teal-400 rounded-full" />,
+  },
+  {
+    title: "API / Integrations",
+    link: "/products/api-integrations",
+    description:
+      "Connect your AI tools to your apps, CMS, or workflows for seamless automation.",
+    icon: <div className="w-6 h-6 bg-gray-400 rounded-full" />,
+  },
   ];
   return (
     <NavigationMenuItem className="hidden md:flex">

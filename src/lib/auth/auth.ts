@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 // import { admin } from "better-auth/plugins";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { emailOTP } from "better-auth/plugins"
 
 export const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
 
@@ -90,4 +91,18 @@ export const auth = betterAuth({
 
   secret: process.env.BETTER_AUTH_SECRET!,
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
+
+  plugins: [
+        emailOTP({ 
+            async sendVerificationOTP({ email, otp, type }) { 
+                if (type === "sign-in") { 
+                    // Send the OTP for sign in
+                } else if (type === "email-verification") { 
+                    // Send the OTP for email verification
+                } else { 
+                    // Send the OTP for password reset
+                } 
+            }, 
+        }) 
+    ]
 });

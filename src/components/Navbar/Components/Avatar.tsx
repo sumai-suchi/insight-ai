@@ -1,5 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,21 +15,26 @@ import {
 } from "lucide-react";
 import { authClient } from "@/lib/auth/auth-client";
 import Link from "next/link";
+import { useAuth } from "@/Context/AuthContext";
+
+
+
 
 export function UserAvatar() {
+   const { session } = useAuth();
   return (
     <DropdownMenu hover>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
-            <AvatarFallback>LR</AvatarFallback>
-          </Avatar>
-        </Button>
+        {/* fallback to empty string if image is missing */}
+  <img
+  src={session?.user?.image || "/avatar.jpg"} // "" or null or undefined → fallback
+  alt="User Avatar"
+  className="w-10 h-10 rounded-full"
+/>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
-          <Link href="/dashboard">
+          <Link href="/Project-dashboard">
             <DropdownMenuItem>
               <LayoutDashboard />
               Dashboard
@@ -42,7 +45,7 @@ export function UserAvatar() {
               <BadgeCheckIcon />
               Account
             </DropdownMenuItem>
-          </Link>{" "}
+          </Link>
           <Link href="/dashboard/billing">
             <DropdownMenuItem>
               <CreditCardIcon />

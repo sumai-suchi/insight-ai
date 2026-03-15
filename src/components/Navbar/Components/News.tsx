@@ -7,7 +7,7 @@ import { ListItem } from "./ListItem";
 
 function News() {
   const NewsLinks = [
-    { name: "Latest Updates", href: "/news/latest" },
+    { name: "Latest Updates", href: "/news" },
     { name: "Technology", href: "/news/technology" },
     { name: "Politics", href: "/news/politics" },
     { name: "Health", href: "/news/health" },
