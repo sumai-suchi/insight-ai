@@ -19,14 +19,28 @@ import { UserAvatar } from "./Components/Avatar";
 import { Button } from "../ui/button";
 import { useAuth } from "@/Context/AuthContext";
 import { User } from "lucide-react";
+import { IUser } from "@/lib/mongoose-connect/User";
 export default function Navbar() {
+//   type SessionUser = {
+//   id: string;
+//   name: string;
+//   email: string;
+//   emailVerified: boolean;
+//   image?: string | null;
+//   createdAt: Date;
+//   updatedAt: Date;
+// };
+
+    const { session } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { session } = useAuth();
+  // const [User, setUser] = useState<SessionUser | null>(session?.user ?? null);
+
   const isAuthed = !!session?.user;
+  
   // const handleLogout = async () => {
   //   await signOut({ redirect: true, callbackUrl: "/" });
   // };
-
+//  console.log(session)
   return (
     <nav className="bg-opacity-60 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b-gray-300 border-opacity-30">
       <div className="mx-auto px-4">
@@ -57,13 +71,21 @@ export default function Navbar() {
                   <Link href="/pricing">Pricing</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link href="/dashboard">Ai Genaration</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex text-white text-2xl items-center space-x-6">
             {isAuthed ? (
-              <UserAvatar />
+              <UserAvatar ></UserAvatar>
             ) : (
               <>
                 <Link
