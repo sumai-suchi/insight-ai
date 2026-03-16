@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Sidebar from "./SideBar";
+import Sidebar from "./_component/SideBar";
 import { Menu } from "lucide-react"; // optional hamburger icon
 
 export default function AuthLayout({

@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/Context/AuthContext";
 import { IUser } from "@/lib/mongoose-connect/User";
 
-import DashboardCard from "./DashboardCard";
-import ActionCard from "./ActionCard";
-import { RecentActivity } from "./RecentActivity";
-import { ProfileSidebar } from "./ProfileSidebar";
-import AiContentTools from "./AiContentTools";
-import SeoInsights from "./SeoInsights";
-import PlagiarismChecker from "./PlagiarismChecker";
-import PerformanceAnalytics from "./PerformanceAnalytics";
-import SavedDrafts from "./SavedDrafts";
-import PersonalizedNewsFeed from "./PersonalizedNewsFeed";
+import DashboardCard from "./_component/DashboardCard";
+import ActionCard from "./_component/ActionCard";
+import { RecentActivity } from "./_component/RecentActivity";
+import { ProfileSidebar } from "./_component/ProfileSidebar";
+import AiContentTools from "./_component/AiContentTools";
+import SeoInsights from "./_component/SeoInsights";
+import PlagiarismChecker from "./_component/PlagiarismChecker";
+import PerformanceAnalytics from "./_component/PerformanceAnalytics";
+import SavedDrafts from "./_component/SavedDrafts";
+import PersonalizedNewsFeed from "./_component/PersonalizedNewsFeed";
 
 import {
   FileText,
