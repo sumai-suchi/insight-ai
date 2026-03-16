@@ -14,7 +14,6 @@ interface Props {
   onChange: (cat: NewsCategory) => void;
 }
 
-
 export default function CategoryTabs({ active, onChange }: Props) {
   return (
     <div className="flex flex-wrap gap-2 mb-6">
@@ -24,7 +23,7 @@ export default function CategoryTabs({ active, onChange }: Props) {
           onClick={() => onChange(cat.value)}
           className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
             active === cat.value
-              ? "bg-blue-600 text-white shadow-md"
+              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md"
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >

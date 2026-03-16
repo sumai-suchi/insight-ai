@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/db/mongoose";
+import connectMongo from "@/lib/mongoose-connect/connect-db";
 import { NewsCategory } from "@/types/news";
 import News from "@/lib/db/models/News";
 
 export async function GET(req: NextRequest) {
   try {
-    await connectDB();
+    await connectMongo();
 
     const { searchParams } = new URL(req.url);
     const category = (searchParams.get("category") as NewsCategory) || "all";

@@ -1,18 +1,38 @@
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
+// import { admin } from "better-auth/plugins";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { emailOTP } from "better-auth/plugins"
 
-const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
-// await client.connect();
+export const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
+
+declare global {
+  // eslint-disable-next-line no-var
+  var __betterAuthMongoClientPromise: Promise<MongoClient> | undefined;
+}
+
+/**
+ * Connects to Mongo only when needed (runtime), and caches the connection promise
+ * across hot reloads / serverless invocations.
+ */
+export async function getAuthMongoClient(): Promise<MongoClient> {
+  if (!globalThis.__betterAuthMongoClientPromise) {
+    globalThis.__betterAuthMongoClientPromise = client.connect().then(() => client);
+  }
+  return globalThis.__betterAuthMongoClientPromise;
+}
+
 const db = client.db("Better_Auth");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
+
   emailAndPassword: {
     enabled: true,
   },
+
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -26,38 +46,63 @@ export const auth = betterAuth({
 
   user: {
     additionalFields: {
+      bio: {
+        type: "string",
+        required: false,
+        defaultValue: "",
+      },
       role: {
         type: "string",
         required: false,
         defaultValue: "user",
       },
-      // Progressive profiling fields stored directly on the BetterAuth user
-      industry: {
+      status: {
         type: "string",
         required: false,
+        defaultValue: "active",
       },
-      teamSize: {
+      discount: {
+        type: "number",
+        required: false,
+        defaultValue: 0,
+      },
+      isBlocked: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+      },
+      plan: {
         type: "string",
         required: false,
+        defaultValue: "free",
       },
-      workType: {
+      article: {
         type: "string",
         required: false,
+        defaultValue: 0,
       },
-      companyName: {
-        type: "string",
-        required: false,
-      },
-      websiteUrl: {
-        type: "string",
-        required: false,
-      },
-      profilingCompletedAt: {
+      joinedAt: {
         type: "date",
         required: false,
+        defaultValue: new Date(),
       },
     },
   },
-  secret: process.env.NEXT_PUBLIC_BETTER_AUTH_CLIENT_ID!,
+
+  secret: process.env.BETTER_AUTH_SECRET!,
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
+
+  plugins: [
+        emailOTP({ 
+            async sendVerificationOTP({ email, otp, type }) { 
+                if (type === "sign-in") { 
+                    // Send the OTP for sign in
+                } else if (type === "email-verification") { 
+                    // Send the OTP for email verification
+                } else { 
+                    // Send the OTP for password reset
+                } 
+            }, 
+        }) 
+    ]
 });

@@ -14,15 +14,18 @@ import {
 } from "lucide-react";
 import { authClient } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/Context/AuthContext";
 
 const ProfileManagement = () => {
   const router = useRouter();
+  const { refreshSession } = useAuth();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [saving, setSaving] = useState(false);
+  const [imgSrc, setImgSrc] = useState<string>("");
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -66,7 +69,14 @@ const ProfileManagement = () => {
 
   const cardStyle = "bg-white rounded-2xl shadow-sm border border-gray-100 p-6";
 
-  // Fetch session on mount
+  // Google image URL fix
+  const getFixedImageUrl = (imageUrl: string | null, userName: string) => {
+    if (imageUrl) {
+      return imageUrl.replace("=s96-c", "=s400-c").replace("=s96", "=s400");
+    }
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(userName || "User")}&background=6366f1&color=fff&size=200`;
+  };
+
   useEffect(() => {
     const fetchSession = async () => {
       const session = await authClient.getSession();
@@ -78,21 +88,20 @@ const ProfileManagement = () => {
       setUser(u);
       setName(u.name || "");
       setBio((u as any).bio || "");
+      setImgSrc(getFixedImageUrl(u.image || null, u.name || "User"));
       setLoading(false);
     };
     fetchSession();
   }, []);
 
-  // Handle image upload
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Preview instantly
     const previewUrl = URL.createObjectURL(file);
+    setImgSrc(previewUrl);
     setUser((prev: any) => ({ ...prev, image: previewUrl }));
 
-    // Upload to your server
     setImageUploading(true);
     try {
       const formData = new FormData();
@@ -107,6 +116,7 @@ const ProfileManagement = () => {
       if (data.imageUrl) {
         await authClient.updateUser({ image: data.imageUrl });
         setUser((prev: any) => ({ ...prev, image: data.imageUrl }));
+        setImgSrc(getFixedImageUrl(data.imageUrl, user?.name || "User"));
       }
     } catch (err) {
       console.error("Image upload failed", err);
@@ -115,26 +125,35 @@ const ProfileManagement = () => {
     }
   };
 
-  // Save profile changes
   const handleSave = async () => {
     if (!isEditing) {
       setIsEditing(true);
       return;
     }
     setSaving(true);
-    await authClient.updateUser({ name });
-    setUser((prev: any) => ({ ...prev, name }));
+    await authClient.updateUser({ name, image: user?.image });
+
+    try {
+      await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bio }),
+      });
+    } catch (err) {
+      console.error("Bio save failed", err);
+    }
+
+    setUser((prev: any) => ({ ...prev, name, bio }));
     setSaving(false);
     setIsEditing(false);
   };
 
-  // Logout
   const handleLogout = async () => {
     await authClient.signOut();
+    refreshSession();
     router.push("/auth/sign-in");
   };
 
-  // Password update
   const handlePasswordUpdate = async () => {
     if (!currentPassword || !newPassword) {
       setPasswordMsg("Please fill both fields.");
@@ -162,6 +181,8 @@ const ProfileManagement = () => {
     );
   }
 
+  const fallbackSrc = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=6366f1&color=fff&size=200`;
+
   const joinedDate = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString("en-US", {
         month: "long",
@@ -172,13 +193,12 @@ const ProfileManagement = () => {
   return (
     <div className="min-h-screen bg-[#F8F9FB] py-12 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* TOP SECTION: User Header */}
+        {/* TOP SECTION */}
         <div
           className={`${cardStyle} mb-6 flex flex-col md:flex-row justify-between items-center gap-6`}
         >
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="relative group">
-              {/* Hidden file input */}
               <input
                 type="file"
                 accept="image/*"
@@ -186,13 +206,14 @@ const ProfileManagement = () => {
                 onChange={handleImageChange}
                 className="hidden"
               />
+              
               <img
-                src={
-                  user.image ||
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=random`
-                }
+                src={imgSrc || fallbackSrc}
                 alt="Profile"
+                referrerPolicy="no-referrer"
+                crossOrigin="anonymous"
                 className="w-28 h-28 rounded-full border-4 border-white shadow-lg object-cover"
+                onError={() => setImgSrc(fallbackSrc)}
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
@@ -200,7 +221,7 @@ const ProfileManagement = () => {
                 className="absolute cursor-pointer bottom-1 right-1 bg-white p-2 rounded-full shadow-md border border-gray-100 hover:text-blue-600 transition disabled:opacity-50"
               >
                 {imageUploading ? (
-                  <div className="w-4.5 h-4.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <Camera size={18} />
                 )}
@@ -236,7 +257,6 @@ const ProfileManagement = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* LEFT: Profile Info & Security */}
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Info */}
             <div className={cardStyle}>
@@ -283,7 +303,7 @@ const ProfileManagement = () => {
               </div>
             </div>
 
-            {/* Password Section */}
+            {/* Password */}
             <div className={cardStyle}>
               <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
                 <Lock className="text-red-500" /> Security & Password
@@ -306,11 +326,7 @@ const ProfileManagement = () => {
               </div>
               {passwordMsg && (
                 <p
-                  className={`mt-3 text-sm font-medium ${
-                    passwordMsg.includes("success")
-                      ? "text-green-600"
-                      : "text-red-500"
-                  }`}
+                  className={`mt-3 text-sm font-medium ${passwordMsg.includes("success") ? "text-green-600" : "text-red-500"}`}
                 >
                   {passwordMsg}
                 </p>
@@ -353,7 +369,7 @@ const ProfileManagement = () => {
                 Account Options
               </h2>
               <div className="space-y-4">
-                {/* Language Dropdown */}
+                {/* Language */}
                 <div className="relative">
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">
                     Language
@@ -391,7 +407,7 @@ const ProfileManagement = () => {
                   )}
                 </div>
 
-                {/* Nationality Dropdown */}
+                {/* Nationality */}
                 <div className="relative">
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">
                     Nationality
@@ -449,7 +465,7 @@ const ProfileManagement = () => {
                 </p>
                 {authorRequestSent ? (
                   <div className="w-full py-3 bg-green-100 text-green-700 font-bold rounded-lg flex items-center justify-center gap-2 text-sm">
-                    ✅ Request Submitted!
+                     Request Submitted!
                   </div>
                 ) : (
                   <button
