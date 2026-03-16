@@ -15,10 +15,10 @@ function News() {
     { name: "Sports", href: "/news/sports" },
   ];
   return (
-    <NavigationMenuItem className="hidden md:flex">
+    <NavigationMenuItem className="">
       <NavigationMenuTrigger>News</NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ul className="grid gap-2 grid-cols-2 w-100">
+        <ul className="grid gap-2 grid-cols-2 w-[90vw] lg:w-80">
           {NewsLinks.map((news) => (
             <ListItem
               key={news.name}
