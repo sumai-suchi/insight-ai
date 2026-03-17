@@ -22,17 +22,16 @@ function layout({ children }: { children: React.ReactNode }) {
   };
 
   const pathname = usePathname();
-  
 
   return (
     <div className="min-h-screen flex bg-gray-50">
-      <SideNav isOpen={sideOpen} />
+      <SideNav onToggleSide={toggleSide} isOpen={sideOpen} />
       <div
         className={`flex-1 transition-margin duration-300 ease-in-out ${
-          sideOpen ? "md:ml-50 lg:ml-70" : "md:ml-0 lg:ml-0"
+          sideOpen ? "md:ml-50 lg:ml-100" : "md:ml-0 lg:ml-0"
         }`}
       >
-        <DashboardNavbar onToggleSide={toggleSide} onToggleChat={toggleChat} />
+        <DashboardNavbar onToggleSide={toggleSide} isOpen={sideOpen} />
         {children}
       </div>
       {pathname !== "/dashboard/chat" && (
