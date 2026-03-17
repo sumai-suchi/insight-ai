@@ -19,16 +19,31 @@ export default function Sidebar() {
   // Track the currently active item
   const [activeItem, setActiveItem] = useState("Dashboard");
 
-
   // Menu items with labels, icons, and hrefs
   const menuItems = [
     { icon: <Home size={18} />, label: "Home", href: "/" },
-    { icon: <LayoutDashboard size={18} />, label: "Overview", href: "/dashboard" },
+    {
+      icon: <LayoutDashboard size={18} />,
+      label: "Overview",
+      href: "/dashboard",
+    },
     { icon: <PenTool size={18} />, label: "AI Editor", href: "/ai-editor" },
-    { icon: <Lightbulb size={18} />, label: "Personalized Feed", href: "/solutions" },
-    { icon: <Newspaper size={18} />, label: "Bookmarks", href: "/news" },
-    { icon: <FileText size={18} />, label: "Reading History", href: "/templates" },
-   
+    {
+      icon: <Lightbulb size={18} />,
+      label: "Personalized Feed",
+      href: "/solutions",
+    },
+    {
+      icon: <Newspaper size={18} />,
+      label: "Bookmarks",
+      href: "/bookmarks",
+    },
+    {
+      icon: <FileText size={18} />,
+      label: "Reading History",
+      href: "/reading-history",
+    },
+
     { icon: <User size={18} />, label: "Users", href: "/user" },
     { icon: <User size={18} />, label: "Notifications", href: "/notification" },
     { icon: <User size={18} />, label: "Account Setting", href: "/user" },
@@ -112,7 +127,6 @@ function SidebarItem({
         {icon}
         {label}
       </Link>
-      
     </li>
   );
 }
