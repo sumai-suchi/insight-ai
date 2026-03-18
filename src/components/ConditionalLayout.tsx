@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import Footer from "./Footer";
-import Navbar from "./navbar";
+import Navbar from "./Navbar/Navbar";
 
 export default function ConditionalLayout({
   children,
@@ -17,7 +17,7 @@ export default function ConditionalLayout({
   return (
     <>
       {/* Navbar handles its own visibility check */}
-      {!isProjectDashboard && <Navbar />}
+      {!isProjectDashboard && !isDashboard && <Navbar />}
       {/* Add padding-top for fixed navbar when not in dashboard */}
       {children}
       {/* Hide footer in dashboard */}

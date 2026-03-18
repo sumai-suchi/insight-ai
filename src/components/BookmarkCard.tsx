@@ -1,36 +1,53 @@
+import { Trash2 } from "lucide-react";
 import React from "react";
-import { ExternalLink, Calendar } from "lucide-react";
 
 interface BookmarkData {
-  _id: string;
-  articleId: string;
-  title: string;
-  url: string;
-  userId: string;
-  createdAt: string;
+  data: {
+    _id: string;
+    articleId: string;
+    title: string;
+    url: string;
+    userId: string;
+    createdAt: string;
+  };
+  onDelete: (id: string) => void;
 }
 
-const BookmarkCard = ({ data }: { data: BookmarkData }) => {
-  return (
-    <div className="bg-white border rounded-xl shadow-sm p-5 hover:shadow-md transition">
-      <h2 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
-        {data.title}
-      </h2>
+const BookmarkCard = ({ data, onDelete }: BookmarkData) => {
+  const handleDelete = async () => {
+    const res = await fetch(`/api/bookmark?id=${data._id}`, {
+      method: "DELETE",
+    });
+    const resData = await res.json();
+    if (resData.success) onDelete(data._id);
+  };
+  console.log("data is", data);
 
-      <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-        <Calendar size={16} />
-        <span>{new Date(data.createdAt).toLocaleDateString()}</span>
+  return (
+    <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow hover:shadow-lg transition-shadow duration-300 w-full max-w-xl">
+      {/* Content */}
+      <div className="flex-1 mb-3 md:mb-0">
+        <a
+          href={data.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-purple-500 font-semibold text-lg hover:underline"
+        >
+          {data.title}
+        </a>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+          Added on: {new Date(data.createdAt).toLocaleDateString()}
+        </p>
       </div>
 
-      <a
-        href={data.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-blue-600 hover:underline"
+      {/* Delete Button */}
+      <button
+        onClick={handleDelete}
+        className="flex items-center justify-center p-2 rounded-full bg-purple-100 hover:bg-purple-200 text-purple-600 transition-colors"
+        title="Delete Bookmark"
       >
-        Read Article
-        <ExternalLink size={16} />
-      </a>
+        <Trash2 size={20} />
+      </button>
     </div>
   );
 };

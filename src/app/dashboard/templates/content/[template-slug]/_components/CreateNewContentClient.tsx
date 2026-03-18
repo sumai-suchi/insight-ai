@@ -5,7 +5,7 @@ import FormSection from "./FormSection";
 import OutputSection from "./OutputSection";
 
 import { TemplateOutputProvider } from "./TemplateOutputContext";
-import { TEMPLATE } from "@/app/dashboard/_components/TemplateList";
+import { TEMPLATE } from "../../../TemplateList";
 
 interface PROPS {
   selectedTemplate?: TEMPLATE;

@@ -56,3 +56,31 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    await connectMongo();
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "History not found" },
+        { status: 404 },
+      );
+    }
+
+    await Bookmark.findByIdAndDelete(id);
+    return NextResponse.json({
+      success: true,
+      message: "History deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return NextResponse.json(
+      { message: "Failed to delete history" },
+      { status: 500 },
+    );
+  }
+}

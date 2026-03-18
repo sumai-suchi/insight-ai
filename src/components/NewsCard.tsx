@@ -63,7 +63,7 @@ export default function NewsCard({ news }: { news: INews }) {
 
   const handleReadHistory = async () => {
     try {
-      const res = await fetch("/api/history", {
+      const res = await fetch("/api/news_history", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

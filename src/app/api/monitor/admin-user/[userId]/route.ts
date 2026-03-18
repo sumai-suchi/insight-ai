@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import { client } from "@/lib/auth/auth";
+import { getAuthMongoClient } from "@/lib/auth/auth";
 
 // PATCH = update user (block, role, discount)
 // DELETE = remove user
@@ -13,6 +13,7 @@ export async function PATCH(
 
     if (!userId) return NextResponse.json({ error: "User ID required" }, { status: 400 });
 
+    const client = await getAuthMongoClient();
     const db = client.db("Better_Auth");
     const usersCollection = db.collection("user");
 

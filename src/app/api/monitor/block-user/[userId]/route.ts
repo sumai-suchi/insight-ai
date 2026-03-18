@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import { client } from "@/lib/auth/auth"; // reuse existing MongoClient
+import { getAuthMongoClient } from "@/lib/auth/auth";
 
 export async function PATCH(
   req: Request,
@@ -13,6 +13,7 @@ export async function PATCH(
       return NextResponse.json({ error: "User ID is required" }, { status: 400 });
     }
 
+    const client = await getAuthMongoClient();
     const db = client.db("Better_Auth");
     const usersCollection = db.collection("user"); // check collection name
 

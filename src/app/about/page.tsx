@@ -1,11 +1,11 @@
 import React from "react";
-import Hero from "./components/Hero";
-import Stats from "./components/Stats";
-import Story from "./components/Story";
-import Values from "./components/Values";
-import Jurney from "./components/Jurney";
-import Team from "./components/Team";
-import Community from "./components/Community";
+import Hero from "./_components/Hero";
+import Stats from "./_components/Stats";
+import Story from "./_components/Story";
+import Values from "./_components/Values";
+import Jurney from "./_components/Jurney";
+import Team from "./_components/Team";
+import Community from "./_components/Community";
 
 export default function page() {
   return (

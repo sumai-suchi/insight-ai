@@ -1,36 +1,3 @@
-// import History from "@/lib/models/History";
-// import connectMongo from "@/lib/mongoose-connect/connect-db";
-// import { NextResponse } from "next/server";
-
-// export async function POST(req: NextResponse) {
-//   const body = await req.json();
-//   const { userId, article } = body;
-
-//   await connectMongo();
-
-//   const historyData = {
-//     userId,
-//     articleId: article._id,
-//     title: article.title,
-//     url: article.url,
-//     urlToImage: article.urlToImage,
-//     sourceName: article.sourceName,
-//     category: article.category,
-//     publishedAt: article.publishedAt,
-//     readAt: new Date(),
-//   };
-
-//   const result = await History.findOneAndReplace(
-//     {
-//       userId,
-//       articleId: article._id,
-//     },
-//     historyData,
-//     { upsert: true, new: true },
-//   );
-
-//   return NextResponse.json(result);
-// }
 import History from "@/lib/models/History";
 import connectMongo from "@/lib/mongoose-connect/connect-db";
 import { NextRequest, NextResponse } from "next/server";
@@ -83,6 +50,7 @@ export async function POST(req: Request) {
 
 export async function GET(req: NextRequest) {
   try {
+    console.log("api is heated");
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
     if (!userId) {
