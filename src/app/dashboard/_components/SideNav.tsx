@@ -40,6 +40,7 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
     // },
     { label: "History", icon: History, href: "/dashboard/history" },
     { label: "News History", icon: History, href: "/dashboard/news_history" },
+    { label: "Apps", icon: History, href: "/dashboard/apps" },
   ];
   return (
     <aside

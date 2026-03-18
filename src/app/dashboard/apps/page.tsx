@@ -1,29 +1,3 @@
-// "use client";
-// import AppCard from "@/components/AppCard";
-// import React, { useEffect, useState } from "react";
-
-// const App = () => {
-//   const [apps, setApps] = useState([]);
-
-//   useEffect(() => {
-//     fetch("/api/apps")
-//       .then((res) => res.json())
-//       .then((data) => setApps(data));
-//   }, []);
-
-//   console.log(apps);
-//   return (
-//     <div className="mt-12">
-//       <h3 className="text-5xl">This is apps page</h3>
-//       {apps.map((app, i) => (
-//         <AppCard key={i} app={app}></AppCard>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default App;
-
 "use client";
 import AppCard from "@/components/AppCard";
 import React, { useEffect, useState } from "react";
@@ -66,7 +40,7 @@ const AppPage = () => {
   const filteredApps = getFilteredApps();
 
   return (
-    <div className="mt-20 max-w-7xl mx-auto px-4">
+    <div className="mt-20 mb-10 max-w-7xl mx-auto px-4">
       {/* ক্যাটাগরি বাটন সমূহ */}
 
       <h2 className="text-4xl font-bold mb-7">Apps</h2>
