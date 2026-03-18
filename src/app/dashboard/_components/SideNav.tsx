@@ -30,7 +30,7 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
       label: "Use Templates",
       href: "/dashboard/templates",
     },
-    { icon: Newspaper, label: "Bookmarks", href: "/dashboard/news" },
+    { icon: Newspaper, label: "Bookmarks", href: "/dashboard/bookmark" },
     { label: "Plagiarism", icon: ScrollText, href: "/dashboard/plagiarism" },
     { label: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
     // {
@@ -39,6 +39,7 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
     //   href: "/dashboard/instructions",
     // },
     { label: "History", icon: History, href: "/dashboard/history" },
+    { label: "News History", icon: History, href: "/dashboard/news_history" },
   ];
   return (
     <aside
