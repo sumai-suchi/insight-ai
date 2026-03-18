@@ -11,6 +11,7 @@ import {
   Image,
   Settings,
   User,
+  LayoutGrid,
 } from "lucide-react";
 import { useState } from "react";
 import SignOutButton from "@/components/SignOutButton";
@@ -46,6 +47,11 @@ export default function Sidebar() {
 
     { icon: <User size={18} />, label: "Users", href: "/user" },
     { icon: <User size={18} />, label: "Notifications", href: "/notification" },
+    {
+      icon: <LayoutGrid size={18} />,
+      label: "App",
+      href: "/Project-Dashboard/apps",
+    },
     { icon: <User size={18} />, label: "Account Setting", href: "/user" },
   ];
 

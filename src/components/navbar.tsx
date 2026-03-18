@@ -93,7 +93,7 @@ useEffect(() => {
     { name: "AI Editor", href: "/dashboard", icon: <PenTool size={16} /> },
     { name: "News", href: "/news", icon: <Newspaper size={16} /> },
     { name: "AI Editor", href: "/ai-editing", icon: <PenTool size={16} /> },
-    { name: "Project-dashboard", href: "/Project-dashboard", icon: <PenTool size={16} /> },
+    { name: "Project-dashboard", href: "/Project-Dashboard", icon: <PenTool size={16} /> },
     { name: "Profile", href: "/dashboard/profile", icon: <User2 size={16} /> },
   ];
 
