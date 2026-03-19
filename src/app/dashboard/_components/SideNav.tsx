@@ -1,4 +1,4 @@
-import { FolderKanban, Home, ScrollText, History, Settings, CircleUserRound } from "lucide-react";
+import { FolderKanban, Home, ScrollText, History, Settings, CircleUserRound, PenTool } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -15,6 +15,8 @@ export const SideNav: React.FC<SideNavProps> = ({ isOpen = true }) => {
       icon: ScrollText,
       href: "/dashboard/plagiarism",
     },
+    
+    { name: "AI Editor", icon: PenTool, href: "/ai-editor" },
     { name: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
     { name: "Instructions", icon: ScrollText, href: "/dashboard/instructions" },
     { name: "History", icon: History, href: "/dashboard/history" },

@@ -167,7 +167,8 @@ export default function AddUserModal({ isOpen, setIsOpen ,addUserToTable}: Props
             onChange={handleChange}
           >
             <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
+            <option value="inactive">Suspended</option>
+            <option value="inactive">pending</option>
           </select>
 
           <input

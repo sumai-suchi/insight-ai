@@ -55,6 +55,7 @@ export const auth = betterAuth({
         type: "string",
         required: false,
         defaultValue: "user",
+        enum: ["admin", "editor", "user"],
       },
       status: {
         type: "string",

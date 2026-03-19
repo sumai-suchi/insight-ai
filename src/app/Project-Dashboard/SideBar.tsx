@@ -11,11 +11,113 @@ import {
   Image,
   Settings,
   User,
+  FileEdit,
+  Bell,
+  ShieldCheck,
+  CheckCircle,
+  Pencil,
+  Calendar,
+  Tag,
+  AlertCircle,
+  MessageCircle,
+  BarChart2,
+  History,
+  Bookmark,
+  Sliders,
+  CreditCard,
+  HelpCircle,
+  Shield,
 } from "lucide-react";
 import { useState } from "react";
 import SignOutButton from "@/components/SignOutButton";
 
-export default function Sidebar() {
+interface SidebarProps {
+  role: "admin" | "editor" | "user";
+}
+
+ const sidebarConfig = {
+ admin: [
+    { icon: <Home size={18} />, label: "Home", href: "/" },
+    { icon: <LayoutDashboard size={18} />, label: "Overview", href: "/Project-dashboard/adminDashboard/adminComponents/overview" },
+
+    { icon: <User size={18} />, label: "Manage Users", href: "/user" },
+    { icon: <ShieldCheck size={18} />, label: "Roles & Permissions", href: "/Project-dashboard/adminDashboard/adminComponents/role-and-permision" },
+
+    { icon: <Newspaper size={18} />, label: "All Articles", href: "/Project-dashboard/adminDashboard/adminComponents/allArticles" },
+    { icon: <FileText size={18} />, label: "Reports", href: "/Project-dashboard/adminDashboard/adminComponents/reports" },
+
+    { icon: <Bell size={18} />, label: "Notifications", href: "/Project-dashboard/adminDashboard/adminComponents/notifications" },
+    { icon: <Settings size={18} />, label: "System Settings", href: "/Project-dashboard/adminDashboard/adminComponents/system-settings" },
+  ],
+
+  editor: [
+   { icon: <Home size={18} />, label: "Dashboard", href: "/" },
+  { icon: <FileText size={18} />, label: "Pending Articles", href: "/Project-dashboard/editorDashboard/editorComponents/pendingArticle" },
+  { icon: <CheckCircle size={18} />, label: "AI Content Review", href: "/Project-dashboard/editorDashboard/editorComponents/ai-genarated-content" },
+  { icon: <Pencil size={18} />, label: "Edit Articles", href: "/Project-dashboard/editorDashboard/editorComponents/editeArticle" },
+  { icon: <FileEdit size={18} />, label: "Published Articles", href: "/Project-dashboard/editorDashboard/editorComponents/publishedArticle" },
+  { icon: <Calendar size={18} />, label: "Scheduled Articles", href: "/Project-dashboard/editorDashboard/editorComponents/schedule-article" },
+  { icon: <Tag size={18} />, label: "Categories & Tags", href: "/Project-dashboard/editorDashboard/editorComponents/category-tags" },
+  { icon: <AlertCircle size={18} />, label: "Content Reports", href: "/Project-dashboard/editorDashboard/editorComponents/reports" },
+  { icon: <MessageCircle size={18} />, label: "Comments Moderation", href: "/Project-dashboard/editorDashboard/editorComponents/comment-modaration" },
+  { icon: <Bell size={18} />, label: "Notifications", href: "/Project-dashboard/editorDashboard/editorComponents/notifications" },
+  { icon: <BarChart2 size={18} />, label: "SEO Tools", href: "/Project-dashboard/editorDashboard/editorComponents/seo-tools" },
+  { icon: <User size={18} />, label: "Profile", href: "/Project-dashboard/editorDashboard/editorComponents/editor-profile" },
+  ],
+
+  user: [
+   { icon: <LayoutDashboard size={18} />, label: "Dashboard", href: "/Project-dashboard/userDashboard/useComponents/dashboard" },
+
+  // 2. Personalized Feed
+  { icon: <Lightbulb size={18} />, label: "Personalized Feed", href: "/Project-dashboard/userDashboard/useComponents/feed" },
+
+  // 3. Explore News
+  { icon: <Newspaper size={18} />, label: "Explore News", href: "/Project-dashboard/userDashboard/useComponents/explore" },
+
+  // 4. AI Content Writer
+  { icon: <FileText size={18} />, label: "AI Writer", href: "/Project-dashboard/userDashboard/useComponents/ai-writer" },
+
+  // 5. My Articles
+  { icon: <FileText size={18} />, label: "My Articles", href: "/Project-dashboard/userDashboard/useComponents/articles" },
+
+  // 6. Saved / Bookmarks
+  { icon: <Bookmark size={18} />, label: "Bookmarks", href: "/Project-dashboard/userDashboard/useComponents/bookmarks" },
+
+  // 7. Reading History
+  { icon: <History size={18} />, label: "Reading History", href: "/Project-dashboard/userDashboard/useComponents/history" },
+
+  // 8. Notifications
+  { icon: <Bell size={18} />, label: "Notifications", href: "/Project-dashboard/userDashboard/useComponents/notifications" },
+
+  // 9. Comments
+  { icon: <MessageCircle size={18} />, label: "Comments", href: "/Project-dashboard/userDashboard/useComponents/comments" },
+
+  // 10. Profile
+  { icon: <User size={18} />, label: "Profile", href: "/Project-dashboard/userDashboard/useComponents/profile" },
+
+  // 11. Preferences
+  { icon: <Sliders size={18} />, label: "Preferences", href: "/Project-dashboard/userDashboard/useComponents/preferences" },
+
+  // 12. Subscription
+  { icon: <CreditCard size={18} />, label: "Subscription", href: "/Project-dashboard/userDashboard/useComponents/subscription" },
+
+  // 13. Support
+  { icon: <HelpCircle size={18} />, label: "Support", href: "/Project-dashboard/userDashboard/useComponents/support" },
+
+  // 14. Security
+  { icon: <Shield size={18} />, label: "Security", href: "/Project-dashboard/userDashboard/useComponents/security" },
+
+  // 15. Settings (optional combined)
+  { icon: <Settings size={18} />, label: "Settings", href: "/Project-dashboard/userDashboard/useComponents/settings" },
+  ],
+} as const;
+
+
+
+export default function Sidebar({ role }: SidebarProps) {
+  const items = sidebarConfig[role];
+  console.log( 'this sidebars',items)
+
   // Track the currently active item
   const [activeItem, setActiveItem] = useState("Dashboard");
 
@@ -24,7 +126,7 @@ export default function Sidebar() {
   const menuItems = [
     { icon: <Home size={18} />, label: "Home", href: "/" },
     { icon: <LayoutDashboard size={18} />, label: "Overview", href: "/dashboard" },
-    { icon: <PenTool size={18} />, label: "AI Editor", href: "/ai-editor" },
+ 
     { icon: <Lightbulb size={18} />, label: "Personalized Feed", href: "/solutions" },
     { icon: <Newspaper size={18} />, label: "Bookmarks", href: "/news" },
     { icon: <FileText size={18} />, label: "Reading History", href: "/templates" },
@@ -34,8 +136,10 @@ export default function Sidebar() {
     { icon: <User size={18} />, label: "Account Setting", href: "/user" },
   ];
 
+  
+
   return (
-    <div className="h-screen w-64 flex flex-col justify-between bg-gradient-to-b from-purple-700 to-purple-900 text-white p-5">
+    <div className="h-screen w-64 flex flex-col justify-between bg-linear-to-b from-purple-700 to-purple-900 text-white p-5">
       {/* Top Section */}
       <div>
         {/* Logo */}
@@ -45,8 +149,8 @@ export default function Sidebar() {
         </div>
 
         {/* Menu */}
-        <ul className="space-y-3">
-          {menuItems.map((item) => (
+        <ul className="space-y-2">
+          {items.map((item) => (
             <SidebarItem
               key={item.label}
               icon={item.icon}
@@ -59,26 +163,20 @@ export default function Sidebar() {
         </ul>
       </div>
 
-      {/* Bottom Section */}
-      <div>
-        <SidebarItem
-          icon={<Settings size={18} />}
-          label="Settings"
-          href="/settings"
-          active={activeItem === "Settings"}
-          onClick={() => setActiveItem("Settings")}
-        />
+    
+ 
+       
 
         {/* Upgrade Card */}
-        <div className="mt-6 bg-purple-800 rounded-xl p-4 shadow-lg">
+        {/* <div className="mt-6 bg-purple-800 rounded-xl p-4 shadow-lg">
           <p className="text-sm">Free Plan</p>
           <p className="text-xs text-purple-200 mb-3">1,500 words remaining</p>
 
           <button className="w-full py-2 rounded-lg bg-gradient-to-r from-fuchsia-500 to-purple-600 font-semibold">
             Upgrade Now
           </button>
-        </div>
-      </div>
+        </div> */}
+     
     </div>
   );
 }
