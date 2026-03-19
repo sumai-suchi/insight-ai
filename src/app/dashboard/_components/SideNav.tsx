@@ -1,14 +1,4 @@
-import {
-  FolderKanban,
-  ScrollText,
-  History,
-  Settings,
-  Newspaper,
-  PenTool,
-  LayoutDashboard,
-  LayoutTemplate,
-  X,
-} from "lucide-react";
+import { FolderKanban, Home, ScrollText, History, Settings, CircleUserRound, PenTool, X, LayoutDashboard, LayoutTemplate } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -30,17 +20,13 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
       label: "Use Templates",
       href: "/dashboard/templates",
     },
-    { icon: Newspaper, label: "Bookmarks", href: "/dashboard/bookmark" },
-    { label: "Plagiarism", icon: ScrollText, href: "/dashboard/plagiarism" },
-    { label: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
-    // {
-    //   label: "Instructions",
-    //   icon: ScrollText,
-    //   href: "/dashboard/instructions",
-    // },
-    { label: "History", icon: History, href: "/dashboard/history" },
-    { label: "News History", icon: History, href: "/dashboard/news_history" },
-    { label: "Apps", icon: History, href: "/dashboard/apps" },
+    
+    { name: "AI Editor", icon: PenTool, href: "/ai-editor" },
+    { name: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
+    { name: "Instructions", icon: ScrollText, href: "/dashboard/instructions" },
+    { name: "History", icon: History, href: "/dashboard/history" },
+    { name: "Settings", icon: Settings, href: "/dashboard/settings" },
+    { name: "Profile", icon: CircleUserRound, href: "/dashboard/profile" },
   ];
   return (
     <aside
