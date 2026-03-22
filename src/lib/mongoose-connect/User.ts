@@ -22,6 +22,16 @@ export interface IUser extends Document {
   joinedAt: Date;
 }
 
+export type AuthUser ={
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        email: string;
+        emailVerified: boolean;
+        name: string;
+        image?: string | null | undefined;
+    }
+
 const UserSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },

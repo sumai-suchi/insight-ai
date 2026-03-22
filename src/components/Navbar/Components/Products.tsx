@@ -65,10 +65,10 @@ export const Products = () => {
     // },
   ];
   return (
-    <NavigationMenuItem className="">
+    <NavigationMenuItem className="w-full">
       <NavigationMenuTrigger>Products</NavigationMenuTrigger>
-      <NavigationMenuContent>
-        <ul className="grid gap-2 grid-cols-1 md:grid-cols-3 md:w-3xl px-4">
+      <NavigationMenuContent className="w-500px">
+        <ul className="grid  grid-cols-1 md:grid-cols-3 gap-8   ">
           {productLinks.map((product) => (
             <ListItem
               key={product.title}

@@ -30,7 +30,7 @@ function Solutions() {
     <NavigationMenuItem>
       <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ul className="lg:w-xl px-4">
+        <ul className="lg:w-4xl">
           {solutions.map((solution) => (
             <ListItem
               key={solution.title}

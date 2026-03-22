@@ -1,4 +1,4 @@
-import { FolderKanban, Home, ScrollText, History, Settings, CircleUserRound, PenTool, X, LayoutDashboard, LayoutTemplate } from "lucide-react";
+import { FolderKanban, Home, ScrollText, History, Settings, CircleUserRound, PenTool, X, LayoutDashboard, LayoutTemplate, Newspaper } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -13,24 +13,27 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
 
   // Menu items with labels, icons, and hrefs
   const menuItems = [
+    
+    
     { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
     { icon: PenTool, label: "AI Editor", href: "/dashboard/ai-editor" },
-    {
-      icon: LayoutTemplate,
-      label: "Use Templates",
-      href: "/dashboard/templates",
-    },
     
-    { name: "AI Editor", icon: PenTool, href: "/ai-editor" },
-    { name: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
-    { name: "Instructions", icon: ScrollText, href: "/dashboard/instructions" },
-    { name: "History", icon: History, href: "/dashboard/history" },
-    { name: "Settings", icon: Settings, href: "/dashboard/settings" },
-    { name: "Profile", icon: CircleUserRound, href: "/dashboard/profile" },
+    {icon: LayoutTemplate,
+      label: "Use Templates",
+      href: "/dashboard/templates",},
+    { icon: Newspaper, label: "Bookmarks", href: "/dashboard/news" },
+    { label: "Plagiarism", icon: ScrollText, href: "/dashboard/plagiarism" },
+    { label: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
+    // {
+    //   label: "Instructions",
+    //   icon: ScrollText,
+    //   href: "/dashboard/instructions",
+    // },
+    { label: "History", icon: History, href: "/dashboard/history" },
   ];
   return (
     <aside
-      className={`h-screen fixed lg:min-w-100 flex flex-col justify-between p-5 shadow-sm border bg-gradient-to-b
+       className={`h-screen fixed lg:min-w-100 flex flex-col justify-between p-5 shadow-sm border bg-gradient-to-b
      from-purple-700 to-purple-900 transform transition-transform duration-300 ease-in-out z-40
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
