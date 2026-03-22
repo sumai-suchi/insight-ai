@@ -2,7 +2,6 @@
 import React from "react";
 import { motion, Variants } from "framer-motion";
 
-
 export interface Step {
   id: number;
   title: string;
@@ -60,7 +59,7 @@ const itemVariants: Variants = {
 };
 export default function HowItWorks() {
   return (
-    <section className="py-24 bg-white dark:bg-[#0F172A] max-w-7xl mx-auto overflow-hidden">
+    <section className="mt-12 bg-white dark:bg-[#0F172A] max-w-7xl mx-auto overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Header Section */}
         <motion.div
@@ -68,10 +67,10 @@ export default function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-20"
+          className="text-center mb-13"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            How It Works
+            How It <span className="text-purple-600">Works</span>
           </h2>
           <p className="text-gray-500 dark:text-gray-400 text-lg">
             Get started in 4 simple steps
