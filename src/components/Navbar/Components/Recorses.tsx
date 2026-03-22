@@ -18,7 +18,7 @@ function Recorses() {
     <NavigationMenuItem>
       <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ul className="lg:w-56 w-[90vw] p-1">
+        <ul className="grid grid-cols-1 md:grid-cols-2 w-96">
           {resources.map((resource) => (
             <ListItem
               key={resource.name}

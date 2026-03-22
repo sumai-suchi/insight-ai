@@ -66,9 +66,9 @@ export const Products = () => {
   ];
   return (
     <NavigationMenuItem className="w-full">
-      <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+      <NavigationMenuTrigger className="w-full">Products</NavigationMenuTrigger>
       <NavigationMenuContent className="w-500px">
-        <ul className="grid  grid-cols-1 md:grid-cols-3 gap-8   ">
+        <ul className="grid  grid-cols-1 md:grid-cols-3 gap-2 w-200   ">
           {productLinks.map((product) => (
             <ListItem
               key={product.title}

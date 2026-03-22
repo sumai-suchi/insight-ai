@@ -18,7 +18,7 @@ function News() {
     <NavigationMenuItem className="">
       <NavigationMenuTrigger>News</NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ul className="">
+        <ul className="grid grid-cols-1 md:grid-cols-2 w-96">
           {NewsLinks.map((news) => (
             <ListItem
               key={news.name}
