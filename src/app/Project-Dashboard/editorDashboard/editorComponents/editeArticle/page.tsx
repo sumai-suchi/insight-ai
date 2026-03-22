@@ -1,9 +1,8 @@
 import React from 'react'
+import ArticleEditor from './ArticleEditor'
 
-const EditeArticle = () => {
-  return (
-    <div>EditeArticle</div>
-  )
+const page = () => {
+  return  <ArticleEditor></ArticleEditor>
 }
 
-export default EditeArticle
+export default page

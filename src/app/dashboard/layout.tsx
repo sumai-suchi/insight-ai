@@ -31,7 +31,7 @@ function layout({ children }: { children: React.ReactNode }) {
           sideOpen ? "md:ml-50 lg:ml-100" : "md:ml-0 lg:ml-0"
         }`}
       >
-        <DashboardNavbar onToggleSide={toggleSide} isOpen={sideOpen} />
+        {/* <DashboardNavbar onToggleSide={toggleSide} isOpen={sideOpen} /> */}
         {children}
       </div>
       {pathname !== "/dashboard/chat" && (

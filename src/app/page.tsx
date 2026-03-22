@@ -8,16 +8,17 @@ import NewsData from "@/components/homepage/NewsData";
 
 import TrendingNews from "@/components/homepage/TrendingNews";
 import Testimonials from "@/components/homepage/Testimonials";
+import Navbar from "@/components/Navbar/Navbar";
 
 export default function Home() {
   return (
     <>
-      {/* <Navbar /> */}
+      
       <main className="flex min-h-screen w-full flex-col items-center justify-center gap-10 bg-white dark:bg-black">
         <Hero />
         <Features />
         <HowItWorks />
-        <TrendingNews />
+        {/* <TrendingNews /> */}
 
         <NewsData />
         {/* <OutputPreview /> */}

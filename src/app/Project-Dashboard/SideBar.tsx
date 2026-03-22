@@ -28,6 +28,8 @@ import {
   HelpCircle,
   Shield,
   LayoutGrid,
+  Save,
+  ClipboardCheck,
 } from "lucide-react";
 import { useState } from "react";
 import SignOutButton from "@/components/SignOutButton";
@@ -53,7 +55,8 @@ interface SidebarProps {
 
   editor: [
    { icon: <Home size={18} />, label: "Dashboard", href: "/" },
-  { icon: <FileText size={18} />, label: "Pending Articles", href: "/Project-dashboard/editorDashboard/editorComponents/pendingArticle" },
+ { icon: <ClipboardCheck size={18} />, label: "Review Queue", href: "/Project-dashboard/editorDashboard/editorComponents/reviewArticle" },
+  { icon: <Save size={18} />, label: "Draft Articles", href: "/Project-dashboard/editorDashboard/editorComponents/ArticleDraft " },
   { icon: <CheckCircle size={18} />, label: "AI Content Review", href: "/Project-dashboard/editorDashboard/editorComponents/ai-genarated-content" },
   { icon: <Pencil size={18} />, label: "Edit Articles", href: "/Project-dashboard/editorDashboard/editorComponents/editeArticle" },
   { icon: <FileEdit size={18} />, label: "Published Articles", href: "/Project-dashboard/editorDashboard/editorComponents/publishedArticle" },
