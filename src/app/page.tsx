@@ -8,14 +8,15 @@ import NewsData from "@/components/homepage/NewsData";
 
 import TrendingNews from "@/components/homepage/TrendingNews";
 import Testimonials from "@/components/homepage/Testimonials";
-import Navbar from "@/components/Navbar/Navbar";
+import HeroSection from "@/components/hero/HeroSection";
 
 export default function Home() {
   return (
     <>
       
       <main className="flex min-h-screen w-full flex-col items-center justify-center gap-10 bg-white dark:bg-black">
-        <Hero />
+        {/* <Hero /> */}
+        <HeroSection></HeroSection>
         <Features />
         <HowItWorks />
         {/* <TrendingNews /> */}

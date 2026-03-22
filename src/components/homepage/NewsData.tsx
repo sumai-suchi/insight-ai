@@ -44,7 +44,7 @@ export default function NewsData() {
   }, [category, fetchNews]);
 
   return (
-    <section className="max-w-7xl mx-auto px-20 py-10 font-sans">
+    <section className="max-w-7xl mx-auto px-20 py-10 font-sans mt-12">
       <div className="flex justify-between items-end mb-8">
         <div>
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
