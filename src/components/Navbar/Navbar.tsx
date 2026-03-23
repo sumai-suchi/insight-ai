@@ -32,7 +32,7 @@ export default function Navbar() {
     <nav className="bg-white backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200">
 
       {/* 🔝 Navbar */}
-      <div className="mx-auto flex items-center justify-between px-4 lg:px-8 h-[70px]">
+      <div className="mx-auto flex items-center justify-between px-4 lg:px-8 h-17.5">
 
         {/* Logo */}
         <Link href="/" className="flex items-center">
