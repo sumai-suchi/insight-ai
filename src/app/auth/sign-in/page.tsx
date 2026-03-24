@@ -51,6 +51,30 @@ function SignInForm() {
     );
   }
 
+  const handleDemoLogin=async(email:any, password :any)=>{
+
+  await authClient.signIn.email(
+      {
+        email,
+        password,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: async () => {
+          await refreshSession();
+          setLoading(false);
+          router.push("/dashboard");
+        },
+        onError: (ctx) => {
+          setError(ctx.error.message);
+          setLoading(false);
+        },
+      }
+    );
+ 
+
+  }
+
   const handleGoogleSignIn = async () => {
     await authClient.signIn.social({
       provider: "google",
@@ -207,6 +231,15 @@ function SignInForm() {
             >
               {loading ? "Signing in..." : "Sign In"}
             </motion.button>
+           
+          <div className="flex gap-3 justify-around w-full">
+            
+            <button className="bg-blue-400 text-white p-1 rounded-b-sm" onClick={()=>{handleDemoLogin("rabeya@gmail.com","Rabeya@123")}}> user</button>
+            <button className="bg-blue-400 text-white p-1 rounded-b-sm" onClick={()=>{handleDemoLogin("sumaiyamoina@gmail.com","Sumaiya@123")}}> admin</button>
+            <button className="bg-blue-400 text-white p-1 rounded-b-sm" onClick={()=>{handleDemoLogin("hatim@gmail.com","Hatim@123")}}>  editor</button>
+          </div>
+
+
 
             <div className="flex items-center gap-4 text-sm text-gray-400">
               <div className="flex-1 h-px bg-gray-200" /> OR{" "}

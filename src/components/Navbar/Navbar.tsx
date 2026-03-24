@@ -29,10 +29,10 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-white backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200">
+    <nav className="bg-black text-white backdrop-blur-md shadow-lg sticky  top-0 z-50 ">
 
       {/* 🔝 Navbar */}
-      <div className="mx-auto flex items-center justify-between px-4 lg:px-8 h-17.5">
+      <div className="mx-auto flex items-center justify-between py-6  px-4 lg:px-8 h-[70px]">
 
         {/* Logo */}
         <Link href="/" className="flex items-center">
@@ -59,6 +59,14 @@ export default function Navbar() {
                   <Link href="/dashboard">Dashboard</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <Link href="/all-articles">All article</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+
             </NavigationMenuList>
           </NavigationMenu>
         </div>

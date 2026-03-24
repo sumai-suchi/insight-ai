@@ -1,4 +1,4 @@
-import { TEMPLATE } from "../../_components/TemplateList";
+import { TEMPLATE } from "../../TemplateList"
 import Templates from "@/lib/templates";
 import CreateNewContentClient from "./_components/CreateNewContentClient";
 

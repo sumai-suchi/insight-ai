@@ -26,7 +26,7 @@ export function UserAvatar() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {/* fallback to empty string if image is missing */}
-        <div className="flex items-center justify-end px-4 lg:justify-between">
+        <div className="flex items-center justify-end px-4 lg:justify-between text-white">
           <img
             src={session?.user?.image || "/avatar.jpg"} // "" or null or undefined → fallback
             alt="User Avatar"
@@ -34,7 +34,7 @@ export function UserAvatar() {
           />
           <div className="ml-2 flex items-center">
             <div className="">
-              <p className="text-lg text-black font-medium">
+              <p className="text-lg text-whitefont-medium">
                 {session?.user?.name}
               </p>
               <p className="text-sm text-gray-500">{session?.user?.email}</p>

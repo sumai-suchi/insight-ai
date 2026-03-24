@@ -156,6 +156,7 @@ export default function ArticleEditor() {
                 <SelectItem value="tech">Tech</SelectItem>
                 <SelectItem value="health">Health</SelectItem>
                 <SelectItem value="ai">AI</SelectItem>
+                <SelectItem value="crime">Crime</SelectItem>
               </SelectContent>
             </Select>
           </CardContent>

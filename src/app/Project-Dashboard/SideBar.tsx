@@ -153,7 +153,8 @@ export default function Sidebar({ role }: SidebarProps) {
         {/* Logo */}
         <div className="flex items-center gap-2 mb-10">
           <span className="text-2xl">✨</span>
-          <h1 className="text-xl font-bold">InSight-ai</h1>
+          <Link href={'/'}><h1 className="text-xl font-bold">InSight-ai</h1></Link>
+          
         </div>
 
         {/* Menu */}
