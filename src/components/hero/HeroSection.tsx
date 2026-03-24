@@ -15,7 +15,7 @@ const HeroSection = () => {
     }
   }, []);
   return (
-    <section className="relative w-full h-[70vh] overflow-hidden">
+    <section className="relative w-full h-[80vh] overflow-hidden">
       {/* video Backround */}
       <motion.video
         ref={videoRef}
