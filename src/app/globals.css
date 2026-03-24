@@ -55,8 +55,8 @@
   /* Brand palette (from color.md) */
   --brand-primary: #9c30cc;
   --brand-secondary: #5448f0;
-  --brand-text: #303030;
-  --brand-bg-light: #f0e4e4;
+  --brand-text: #1b1414;
+  --brand-bg-light: #ffffff;
   --brand-gray: #90a8b4;
   --brand-red: #f03c3c;
   --brand-orange: #ff6e00;
@@ -115,7 +115,7 @@
 .dark {
   --background: #0b0b12;
   --foreground: #f3f4f6;
-
+  --brand-text: #cfe2fd;
   --card: #111827;
   --card-foreground: var(--foreground);
   --popover: #111827;

@@ -6,6 +6,7 @@ import React from "react";
 import HomeButton from "../ui/HomeButton";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
   // এনিমেশন ভেরিয়েন্ট
@@ -41,6 +42,8 @@ const Hero = () => {
     },
   };
 
+
+  const router = useRouter();
   return (
     <section className="relative overflow-hidden bg-linear-to-r from-[#57198A] to-[#382A86] text-white py-16 lg:py-28 w-full">
       {/* --- ব্যাকগ্রাউন্ড এনিমেটেড স্টিকার/শেপস --- */}
@@ -102,7 +105,11 @@ const Hero = () => {
             className="flex flex-wrap gap-4 mb-8"
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <HomeButton variant="primary" icon={Sparkles}>
+              <HomeButton
+                variant="primary"
+                icon={Sparkles}
+                onClick={() => router.push("/ai-editor")}   // ai-editor page route add
+              >
                 Try AI Editor
               </HomeButton>
             </motion.div>
