@@ -2,24 +2,68 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/lib/mongoose-connect/connect-db";
 import NewArticle from "@/lib/models/NewArticle";
 import cloudinary from "@/lib/cloudinary";
+import { auth } from "@/lib/auth/auth";
+import User from "@/lib/models/User";
 
 // Helper function to generate slug
 export async function generateSlug(title: string): Promise<string> {
-  return new Promise((resolve) => {
-    const slug = title
+  const slug = title
     .toLowerCase()
     .trim()
-    .replace(/[:]+/g, "")        // remove colons
-    .replace(/\s+/g, "-")        // spaces → hyphens
-    .replace(/[^\w-]+/g, "")     // remove other special chars
-    .replace(/--+/g, "-");  // remove special chars
-    resolve(slug);
-  });
+    .replace(/[:]+/g, "") // remove colons
+    .replace(/\s+/g, "-") // spaces → hyphens
+    .replace(/[^\w-]+/g, "") // remove other special chars
+    .replace(/--+/g, "-"); // remove multiple hyphens
+  return slug;
 }
+export async function GET(req: Request) {
+  try {
+    await connectMongo();
+
+    const session = await auth.api.getSession({ headers: req.headers });
+    const userEmail = session?.user?.email;
+
+    let articles;
+
+    if (userEmail) {
+      const userProfile = await User.findOne({ email: userEmail });
+      const preferences = userProfile?.preferences?.categories || [];
+      const readHistory = userProfile?.readingHistory || [];
+
+      articles = await NewArticle.aggregate([
+        {
+          $addFields: {
+            isPreferred: { $cond: [{ $in: ["$category", preferences] }, 1, 0] },
+            isRead: { $cond: [{ $in: ["$_id", readHistory] }, 1, 0] },
+          },
+        },
+        {
+          $sort: {
+            isPreferred: -1,
+            isRead: 1,
+            createdAt: -1,
+          },
+        },
+      ]);
+    } else {
+      articles = await NewArticle.find({ status: "published" }).sort({
+        createdAt: -1,
+      });
+    }
+
+    return NextResponse.json({ success: true, articles });
+  } catch (error: any) {
+    console.error("Fetch Articles Error:", error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
-
     await connectMongo();
 
     // Extract form fields
@@ -29,33 +73,24 @@ export async function POST(req: Request) {
     const tags = (formData.get("tags") as string) || "";
     const metaTitle = formData.get("metaTitle") as string;
     const metaDescription = formData.get("metaDescription") as string;
-    const status = formData.get("status") as string;
+    const status = (formData.get("status") as string) || "published";
     const imageFile = formData.get("image") as File | null;
 
-    // Generate slug
- let slug = await generateSlug(title);
-  console.log({
-  title,
-  content,
-  category,
-  tags: tags.split(",").map((t) => t.trim()),
-  slug,
-});
+    let slug = await generateSlug(title);
 
-    // Check for duplicates
     let exists = await NewArticle.findOne({ slug });
-    console.log(exists)
     let counter = 1;
+
     while (exists) {
-      console.log(exists)
-      slug = generateSlug(title) + "-" + counter;
+      const baseSlug = await generateSlug(title);
+      slug = `${baseSlug}-${counter}`;
       counter++;
       exists = await NewArticle.findOne({ slug });
     }
 
     // Upload image if exists
     let imageUrl = "";
-    if (imageFile) {
+    if (imageFile && imageFile.size > 0) {
       const bytes = await imageFile.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
@@ -77,20 +112,19 @@ export async function POST(req: Request) {
       slug,
       content,
       category,
-      tags: tags.split(",").map((t) => t.trim()),
+      tags: tags ? tags.split(",").map((t) => t.trim()) : [],
       metaTitle,
       metaDescription,
       status,
       image: imageUrl,
-       // ✅ Save slug here!
     });
 
     return NextResponse.json({ success: true, article: newArticle });
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error("Article Post Error:", error);
     return NextResponse.json(
-      { success: false, error: "Something went wrong" },
-      { status: 500 }
+      { success: false, error: error.message || "Something went wrong" },
+      { status: 500 },
     );
   }
 }

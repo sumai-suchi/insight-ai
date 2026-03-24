@@ -55,7 +55,7 @@ export default function AuthLayout({children,}: { children: React.ReactNode;}) {
     <div className="flex min-h-screen">
       
       {/* Sidebar for large screens */}
-      <div className="hidden md:flex w-64 sticky top-0 h-full bg-gradient-to-b from-purple-700 to-purple-900 shadow-md">
+      <div className="hidden md:flex w-64 sticky top-0 h-full bg-linear-to-b from-purple-700 to-purple-900 shadow-md">
         <Sidebar role={user?.role || "user"} />
       </div>
 
