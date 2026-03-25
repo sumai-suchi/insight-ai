@@ -2,9 +2,12 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 // import { admin } from "better-auth/plugins";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { emailOTP } from "better-auth/plugins"
+import { emailOTP, twoFactor } from "better-auth/plugins";
+import { sendEmail } from "../email/email";
 
-export const client = new MongoClient(process.env.BETTER_AUTH_MONGODB_URI as string);
+export const client = new MongoClient(
+  process.env.BETTER_AUTH_MONGODB_URI as string,
+);
 
 declare global {
   // eslint-disable-next-line no-var
@@ -17,7 +20,9 @@ declare global {
  */
 export async function getAuthMongoClient(): Promise<MongoClient> {
   if (!globalThis.__betterAuthMongoClientPromise) {
-    globalThis.__betterAuthMongoClientPromise = client.connect().then(() => client);
+    globalThis.__betterAuthMongoClientPromise = client
+      .connect()
+      .then(() => client);
   }
   return globalThis.__betterAuthMongoClientPromise;
 }
@@ -31,6 +36,32 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+  },
+
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    requireEmailVerification: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendEmail({
+        to: user.email,
+        subject: "Verify your InsightAI account",
+        html: `
+          <div style="font-family: Arial; max-width: 500px; margin: auto;">
+            <h2>Welcome to InsightAI! 🤖</h2>
+            <p>নিচের button-এ click করে তোমার email verify করো:</p>
+            <a href="${url}" 
+               style="background: #3B82F6; color: white; padding: 12px 24px; 
+                      border-radius: 999px; text-decoration: none; display: inline-block;">
+              Verify Email
+            </a>
+            <p style="color: #999; font-size: 12px; margin-top: 20px;">
+              যদি তুমি signup না করে থাকো, এই email ignore করো।
+            </p>
+          </div>
+        `,
+      });
+    },
   },
 
   socialProviders: {

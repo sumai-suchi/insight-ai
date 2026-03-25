@@ -1,4 +1,16 @@
-import { FolderKanban, Home, ScrollText, History, Settings, CircleUserRound, PenTool, X, LayoutDashboard, LayoutTemplate, Newspaper } from "lucide-react";
+import {
+  FolderKanban,
+  Home,
+  ScrollText,
+  History,
+  Settings,
+  CircleUserRound,
+  PenTool,
+  X,
+  LayoutDashboard,
+  LayoutTemplate,
+  Newspaper,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -13,14 +25,14 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
 
   // Menu items with labels, icons, and hrefs
   const menuItems = [
-    
-    
     { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
     { icon: PenTool, label: "AI Editor", href: "/dashboard/ai-editor" },
-    
-    {icon: LayoutTemplate,
+
+    {
+      icon: LayoutTemplate,
       label: "Use Templates",
-      href: "/dashboard/templates",},
+      href: "/dashboard/templates",
+    },
     { icon: Newspaper, label: "Bookmarks", href: "/dashboard/news" },
     { label: "Plagiarism", icon: ScrollText, href: "/dashboard/plagiarism" },
     { label: "Projects", icon: FolderKanban, href: "/dashboard/projects" },
@@ -33,7 +45,7 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
   ];
   return (
     <aside
-       className={`h-screen fixed lg:min-w-100 flex flex-col justify-between p-5 shadow-sm border bg-gradient-to-b
+      className={`h-screen fixed lg:min-w-100 flex flex-col justify-between p-5 shadow-sm border bg-gradient-to-b
      from-purple-700 to-purple-900 transform transition-transform duration-300 ease-in-out z-40
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >

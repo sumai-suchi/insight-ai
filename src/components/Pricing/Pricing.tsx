@@ -78,51 +78,97 @@ export default function PricingPage() {
     },
   ];
 
-  const handleCheckout = async (planName: string) => {
-    if (planName === "Explorer") {
-      router.push("/signup");
+  // const handleCheckout = async (planName: string) => {
+  //   if (planName === "Explorer") {
+  //     router.push("/signup");
+  //     return;
+  //   }
+
+  //   if (planName === "Enterprise") {
+  //     router.push("/contact");
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoadingPlan(planName);
+
+  //     const res = await fetch("/api/checkout", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ plan: planName }),
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (!res.ok) {
+  //       console.error("Stripe error:", data.error);
+  //       setLoadingPlan(null);
+  //       return;
+  //     }
+
+  //     const stripe = await stripePromise;
+
+  //     if (!stripe) {
+  //       console.error("Stripe failed to initialize");
+  //       setLoadingPlan(null);
+  //       return;
+  //     }
+
+  //     setCheckoutUrl(data.url);
+  //   } catch (error) {
+  //     console.error("Checkout error:", error);
+  //     setLoadingPlan(null);
+  //   }
+  // };
+const handleCheckout = async (planName: string) => {
+  if (planName === "Explorer") {
+    router.push("/signup");
+    return;
+  }
+
+  if (planName === "Enterprise") {
+    router.push("/contact");
+    return;
+  }
+
+  try {
+    setLoadingPlan(planName);
+
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ plan: planName }),
+      credentials: "include", // important for Better Auth
+    });
+
+    const data = await res.json();
+
+    // ❌ Handle unauthorized / redirect to login
+    if (res.status === 401 && data.redirect) {
+      router.push(data.redirect);
       return;
     }
 
-    if (planName === "Enterprise") {
-      router.push("/contact");
-      return;
-    }
-
-    try {
-      setLoadingPlan(planName);
-
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ plan: planName }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        console.error("Stripe error:", data.error);
-        setLoadingPlan(null);
-        return;
-      }
-
+    // ✅ Stripe Checkout
+    if (data.url) {
       const stripe = await stripePromise;
-
       if (!stripe) {
         console.error("Stripe failed to initialize");
         setLoadingPlan(null);
         return;
       }
-
-      setCheckoutUrl(data.url);
-    } catch (error) {
-      console.error("Checkout error:", error);
-      setLoadingPlan(null);
+      window.location.href = data.url;
+    } else {
+      console.error("Checkout error:", data.error);
     }
-  };
-
+  } catch (error) {
+    console.error("Checkout error:", error);
+  } finally {
+    setLoadingPlan(null);
+  }
+};
   return (
     <div className="min-h-screen bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       {/* Header */}
