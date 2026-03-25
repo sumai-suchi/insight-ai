@@ -48,7 +48,7 @@ export function UserAvatar() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-50">
         <DropdownMenuGroup>
-          <Link href="/Project-dashboard">
+          <Link href="/Project-Dashboard">
             <DropdownMenuItem>
               <LayoutDashboard />
               Dashboard

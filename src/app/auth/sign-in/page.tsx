@@ -43,11 +43,17 @@ function SignInForm() {
           setLoading(false);
           router.push("/dashboard");
         },
+        // onSuccess: (ctx) => {
+        //   setLoading(false);
+
+        //   // 🔥 email verify page এ পাঠাও
+        //   router.push(`/verify-email?email=${email}`);
+        // },
         onError: (ctx) => {
           setError(ctx.error.message);
           setLoading(false);
         },
-      }
+      },
     );
   }
 
@@ -68,7 +74,6 @@ function SignInForm() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-slate-50 via-white to-blue-50">
       <div className="w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row bg-white">
-        
         {/* LEFT PANEL */}
         <div className="lg:w-[45%] relative bg-[#111827] text-white p-10 flex flex-col justify-center items-center overflow-hidden">
           <div className="absolute top-0 left-0 w-40 h-40 bg-blue-500/20 rounded-br-[80px]" />
@@ -116,7 +121,6 @@ function SignInForm() {
 
         {/* RIGHT PANEL */}
         <div className="flex-1 p-10 flex flex-col">
-
           <div className="flex justify-end text-sm text-gray-500 mb-6">
             New here?
             <Link
@@ -141,7 +145,6 @@ function SignInForm() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-
             {/* EMAIL */}
             <div>
               <label className="text-sm text-gray-600">Email</label>
@@ -242,7 +245,6 @@ function SignInForm() {
               />
               Continue with GitHub
             </motion.button>
-
           </form>
         </div>
       </div>
