@@ -1,5 +1,5 @@
 "use client";
-import { TEMPLATE } from "@/app/dashboard/_components/TemplateList";
+import { TEMPLATE } from "../../../TemplateList";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";

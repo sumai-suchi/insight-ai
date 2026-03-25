@@ -60,7 +60,7 @@ const HeroContent = () => {
 
       {/* buttons */}
       <motion.div
-        className="mt-10 flex flex-col sm:flex-row gap-4"
+        className="mt-10 mb-10 flex flex-col sm:flex-row gap-4"
         variants={itemVariants}
       >
         <motion.button

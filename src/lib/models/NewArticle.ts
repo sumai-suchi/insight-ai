@@ -9,11 +9,13 @@ const ArticleSchema = new mongoose.Schema(
     metaTitle: String,
     metaDescription: String,
     status: String,
-    image: String, 
+    image: String,
     slug: { type: String, unique: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.models.Article ||
-  mongoose.model("Article", ArticleSchema);
+const Article =
+  mongoose.models.Article || mongoose.model("Article", ArticleSchema, "news");
+
+export default Article;

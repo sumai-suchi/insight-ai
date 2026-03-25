@@ -15,12 +15,12 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Ensure the API key exists
-    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-      throw new Error("NEXT_PUBLIC_GEMINI_API_KEY is missing from environment variables");
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error("GEMINI_API_KEY is missing from environment variables");
     }
 
     // 3. Initialize the Gemini API client
-    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
     // 4. Choose the model
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });

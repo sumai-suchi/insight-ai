@@ -21,6 +21,7 @@ import {
   AlignLeft,
   AlertCircle,
 } from "lucide-react";
+import { useAuth } from "@/Context/AuthContext";
 
 type Tone = "Professional" | "Casual" | "Friendly" | "Formal" | "Enthusiastic";
 
@@ -87,6 +88,7 @@ export default function AIEditorPage() {
   const [copied, setCopied] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
   const [error, setError] = useState("");
+
 
   const wordCount = generatedContent.trim()
     ? generatedContent.trim().split(/\s+/).length
@@ -172,9 +174,15 @@ export default function AIEditorPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSaveDraft = () => {
+  const handleSaveDraft = async() => {
+
+
+   
+
+
     setSavedDraft(true);
     setTimeout(() => setSavedDraft(false), 2500);
+
   };
 
   // LEFT SIDEBAR CONTENT 
@@ -386,8 +394,8 @@ export default function AIEditorPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F2F4F8] py-6 md:py-10 lg:py-20 px-3 md:px-4">
-      <div className="max-w-7xl mx-auto flex gap-5 items-start">
+    <div className="min-h-screen bg-[#F2F4F8] py-6 md:py-10  px-3 md:px-4">
+      <div className="max-w-7xl mx-auto flex gap-10 items-start">
         {/* LEFT SIDEBAR */}
         <aside className="hidden lg:flex w-62.5 shrink-0 flex-col gap-4">
           <LeftSidebarContent />

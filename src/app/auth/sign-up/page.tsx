@@ -52,9 +52,8 @@ export default function SignUpPage() {
         },
         onSuccess: (ctx) => {
           setLoading(false);
-          console.log("sign up is success", ctx);
-          // router.push("/dashboard");
-          router.push("/email");
+          console.log("success", ctx);
+          router.push("/");
         },
         onError: (ctx) => {
           console.log(ctx.error.message);
@@ -215,12 +214,12 @@ export default function SignUpPage() {
                   <option value="editor">Editor</option>
                 </select>
 
-                {/* Arrow */}
-                <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">
-                  ▼
-                </span>
-              </div>
-            </div>
+    
+        <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">
+          ▼
+        </span>
+      </div>
+    </div> */}
 
             {/* Submit */}
             <motion.button
