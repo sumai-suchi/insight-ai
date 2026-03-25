@@ -12,15 +12,14 @@ export default function ConditionalLayout({
 }) {
   const pathname = usePathname();
   const isDashboard = pathname?.startsWith("/dashboard");
-  const isProjectDashboard = pathname?.startsWith("/Project-dashboard");
+  const isProjectDashboard = pathname?.startsWith("/Project-Dashboard");
 
   return (
     <>
-      {/* Navbar handles its own visibility check */}
       {!isProjectDashboard && !isDashboard && <Navbar />}
-      {/* Add padding-top for fixed navbar when not in dashboard */}
+
       {children}
-      {/* Hide footer in dashboard */}
+      
       {!isProjectDashboard && !isDashboard && <Footer />}
     </>
   );
