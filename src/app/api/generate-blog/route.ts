@@ -4,7 +4,7 @@ export async function POST(request: Request) {
   const { prompt } = await request.json();
 
   try {
-    const key = process.env.NEXT_PUBLIC_GEMINI_API_KEY; // your API key in .env
+    const key = process.env.GEMINI_API_KEY; // your API key in .env
     const url =
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
@@ -17,9 +17,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         contents: [
           {
-            parts: [
-              { text: prompt },
-            ],
+            parts: [{ text: prompt }],
           },
         ],
       }),
@@ -30,6 +28,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ text });
   } catch (err) {
-    return NextResponse.json({ error: "Failed to generate content" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to generate content" },
+      { status: 500 },
+    );
   }
 }

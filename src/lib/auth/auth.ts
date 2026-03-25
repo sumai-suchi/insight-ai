@@ -93,17 +93,17 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET!,
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
 
-  plugins: [
-        emailOTP({ 
-            async sendVerificationOTP({ email, otp, type }) { 
-                if (type === "sign-in") { 
-                    // Send the OTP for sign in
-                } else if (type === "email-verification") { 
-                    // Send the OTP for email verification
-                } else { 
-                    // Send the OTP for password reset
-                } 
-            }, 
-        }) 
-    ]
+  // plugins: [
+  //       emailOTP({ 
+  //           async sendVerificationOTP({ email, otp, type }) { 
+  //               if (type === "sign-in") { 
+  //                   // Send the OTP for sign in
+  //               } else if (type === "email-verification") { 
+  //                   // Send the OTP for email verification
+  //               } else { 
+  //                   // Send the OTP for password reset
+  //               } 
+  //           }, 
+  //       }) 
+  //   ]
 });
