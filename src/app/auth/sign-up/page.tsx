@@ -11,15 +11,16 @@ import { useState } from "react";
 export default function SignUpPage() {
   const router = useRouter();
 
-  const [name,setName] = useState("");
-  const [email,setEmail] = useState("");
-  const [image,setImage] = useState("");
-  const [password,setPassword] = useState("");
-  const [confirmPassword,setConfirmPassword] = useState("");
-  const [showPassword,setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [image, setImage] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState<"user" | "editor">("user");
 
-  const [error,setError] = useState("");
-  const [loading,setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const hasMinLength = password.length >= 8;
   const hasNumber = /[0-9]/.test(password);
@@ -36,25 +37,31 @@ export default function SignUpPage() {
 
     setLoading(true);
 
-     const { data } = await authClient.signUp.email({
+    const { data } = await authClient.signUp.email(
+      {
         email, // user email address
         password, // user password -> min 8 characters by default
         name, // user display name
         image,
-       
-        callbackURL: "/" // A URL to redirect to after the user verifies their email
-    }, {
+
+        callbackURL: "/", // A URL to redirect to after the user verifies their email
+      },
+      {
         onRequest: (ctx) => {
           console.log("Sign up request started", ctx);
         },
         onSuccess: (ctx) => {
           setLoading(false);
           console.log("success", ctx);
-          router.push("/dashboard");
+          router.push("/");
         },
         onError: (ctx) => {
           console.log(ctx.error.message);
-          setError(ctx.error.message || "Sign up failed");
+          if (ctx.error.message.includes("Email not verified")) {
+            setError("আগে email verify করো!");
+          } else {
+            setError(ctx.error.message || "Sign up failed");
+          }
           setLoading(false);
         },
       },
@@ -81,6 +88,7 @@ export default function SignUpPage() {
       <div className="w-full max-w-md lg:max-w-4xl rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row bg-white">
         {/* LEFT FORM */}
         <div className="flex-1 p-8 lg:p-10 flex flex-col">
+          {/* Top */}
           <div className="flex justify-end mb-8">
             <p className="text-sm text-gray-500">
               Already a member?
@@ -93,6 +101,7 @@ export default function SignUpPage() {
             </p>
           </div>
 
+          {/* Title */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-800">Create Account</h1>
             <p className="text-sm text-gray-500">
@@ -100,52 +109,46 @@ export default function SignUpPage() {
             </p>
           </div>
 
+          {/* Error */}
           {error && (
             <div className="mb-5 bg-red-50 text-red-500 p-3 rounded-lg text-sm">
               {error}
             </div>
           )}
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Full Name"
-                className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
-              />
-            </div>
+            {/* Name */}
+            <input
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Full Name"
+              className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500"
+            />
 
-            <div>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email Address"
-                className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
-              />
-            </div>
-            {/* Image URL */}
-             <div>
+            {/* Email */}
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email Address"
+              className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500"
+            />
 
-              <input
-                type="text"
-                required
-                value={image}
-                onChange={(e)=>setImage(e.target.value)}
-                placeholder="Image URL"
-                className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
-              />
+            {/* Image */}
+            <input
+              type="text"
+              required
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              placeholder="Image URL"
+              className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500"
+            />
 
-            </div>
-
-
-        
-         
-
+            {/* Password */}
             <div>
               <div className="flex items-center border-b border-gray-300 pb-2">
                 <input
@@ -165,6 +168,7 @@ export default function SignUpPage() {
                 </button>
               </div>
 
+              {/* Validation */}
               {password && (
                 <div className="mt-3 text-xs space-y-1">
                   <p
@@ -184,39 +188,62 @@ export default function SignUpPage() {
               )}
             </div>
 
-            <div>
-              <input
-                type="password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm Password"
-                className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500 transition"
-              />
-            </div>
+            {/* Confirm Password */}
+            <input
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm Password"
+              className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500"
+            />
 
+            {/* 🔥 Role Selection (Dropdown) */}
+            <div>
+              <label className="text-sm text-gray-500 mb-2 block">
+                Select Role
+              </label>
+
+              <div className="relative">
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as "user" | "editor")}
+                  className="w-full appearance-none border border-gray-300 rounded-lg px-3 py-2 pr-10 outline-none focus:border-blue-500"
+                >
+                  <option value="user">User</option>
+                  <option value="editor">Editor</option>
+                </select>
+
+    
+        <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">
+          ▼
+        </span>
+      </div>
+    </div> */}
+
+            {/* Submit */}
             <motion.button
               type="submit"
               disabled={loading}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full cursor-pointer py-3 rounded-full bg-blue-500 text-white font-semibold hover:bg-blue-600 transition shadow-md"
+              className="w-full py-3 rounded-full bg-blue-500 text-white font-semibold hover:bg-blue-600"
             >
               {loading ? "Creating Account..." : "Create Account"}
             </motion.button>
 
+            {/* Divider */}
             <div className="flex items-center gap-3 text-sm text-gray-400">
               <div className="flex-1 h-px bg-gray-200" />
               OR
               <div className="flex-1 h-px bg-gray-200" />
             </div>
 
+            {/* Google */}
             <motion.button
               type="button"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               onClick={handleGoogleSignIn}
-              className="w-full cursor-pointer py-3 border rounded-full flex items-center justify-center gap-2 hover:bg-gray-50"
+              className="w-full py-3 border rounded-full flex items-center justify-center gap-2"
             >
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -225,12 +252,11 @@ export default function SignUpPage() {
               Continue with Google
             </motion.button>
 
+            {/* GitHub */}
             <motion.button
               type="button"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               onClick={handleGitHubSignIn}
-              className="w-full cursor-pointer py-3 border rounded-full flex items-center justify-center gap-2 hover:bg-gray-50"
+              className="w-full py-3 border rounded-full flex items-center justify-center gap-2"
             >
               <img
                 src="https://www.svgrepo.com/show/475654/github-color.svg"
@@ -240,7 +266,6 @@ export default function SignUpPage() {
             </motion.button>
           </form>
         </div>
-
         {/* RIGHT SIDE */}
         <div className="lg:w-[45%] relative overflow-hidden flex flex-col items-center justify-center p-8 lg:p-10 bg-[#1F2937] text-white">
           <div className="absolute top-0 left-0 w-40 h-40 bg-blue-500/20 rounded-br-[80px]" />

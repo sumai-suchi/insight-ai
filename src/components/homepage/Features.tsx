@@ -101,7 +101,7 @@ const itemVariants: Variants = {
 
 const Features: FC = () => {
   return (
-    <section className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
+    <section className="mt-12 bg-white dark:bg-slate-950 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6">
         {/* Header Animation */}
         <motion.div
@@ -112,7 +112,7 @@ const Features: FC = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
-            Powerful Features for Content Creators
+            Powerful Features for <br /> <span className="text-purple-500"> Content Creators</span>
           </h2>
           <p className="text-slate-500 dark:text-slate-400">
             Everything you need to create, optimize, and stay informed

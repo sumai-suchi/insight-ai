@@ -1,7 +1,7 @@
 // app/api/monitor/delete-user/[userId]/route.ts
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import {client} from "@/lib/auth/auth";
+import { getAuthMongoClient } from "@/lib/auth/auth";
 
 export async function DELETE(
   req: Request,
@@ -13,7 +13,7 @@ export async function DELETE(
     return NextResponse.json({ error: "User ID is required" }, { status: 400 });
   }
   try {
-    console.log("Connecting to MongoDB...");
+    const client = await getAuthMongoClient();
     const db = client.db("Better_Auth");
     const usersCollection = db.collection("user"); // check your collection name
 

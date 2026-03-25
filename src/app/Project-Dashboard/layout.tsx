@@ -1,22 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./SideBar";
 import { Menu } from "lucide-react"; // optional hamburger icon
+import { useAuth } from "@/Context/AuthContext";
+import { IUser } from "@/lib/mongoose-connect/User";
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({children,}: { children: React.ReactNode;}) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+
+    const { session, error, loading: authLoading } = useAuth();
+    
+      const [user, setUser] = useState<IUser | null>(null);
+      const [loading, setLoading] = useState(true);
+    
+      // Fetch user after session is available
+      useEffect(() => {
+        const fetchUser = async () => {
+          if (authLoading) return;
+    
+          if (!session?.user?.id) {
+            setLoading(false);
+            return;
+          }
+    
+          try {
+            const res = await fetch("/api/user/me", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: session.user.id }),
+            });
+    
+            if (!res.ok) throw new Error("Failed to fetch user");
+    
+            const data = await res.json();
+            setUser(data);
+          } catch (error) {
+            console.error("User fetch error:", error);
+            setUser(null);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchUser();
+      }, [session?.user?.id, authLoading]);
+      
+    console.log(user)
 
   return (
     <div className="flex min-h-screen">
       
       {/* Sidebar for large screens */}
-      <div className="hidden md:flex w-64 sticky top-0 h-screen bg-white shadow-md">
-        <Sidebar />
+      <div className="hidden md:flex w-64 sticky top-0 h-full bg-linear-to-b from-purple-700 to-purple-900 shadow-md">
+        <Sidebar role={user?.role || "user"} />
       </div>
 
       {/* Sidebar for mobile (drawer) */}
@@ -32,7 +72,7 @@ export default function AuthLayout({
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          <Sidebar />
+          <Sidebar role={user?.role || "user"} />
         </div>
       </div>
 
@@ -42,7 +82,7 @@ export default function AuthLayout({
         <div className="md:hidden mb-4">
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="p-2 rounded bg-white shadow-md"
+            className="p-2 rounded shadow-md"
           >
             <Menu className="w-6 h-6" />
           </button>

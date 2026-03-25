@@ -61,6 +61,28 @@ export default function NewsCard({ news }: { news: INews }) {
     }
   };
 
+  const handleReadHistory = async () => {
+    try {
+      const res = await fetch("/api/news_history", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          userId: session?.user.id,
+          article: news,
+        }),
+      });
+
+      if (res) {
+        console.log("successful");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
       {/* Image Section */}
@@ -115,6 +137,7 @@ export default function NewsCard({ news }: { news: INews }) {
             target="_blank"
             rel="noopener noreferrer"
             className="text-purple-600 text-sm font-bold flex items-center gap-1 hover:text-purple-700 transition-colors group/link"
+            onClick={handleReadHistory}
           >
             Read Full News
             <ArrowUpRight

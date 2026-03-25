@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/Context/AuthContext";
 import { IUser } from "@/lib/mongoose-connect/User";
 
-import DashboardCard from "./DashboardCard";
-import ActionCard from "./ActionCard";
-import { RecentActivity } from "./RecentActivity";
-import { ProfileSidebar } from "./ProfileSidebar";
-import AiContentTools from "./AiContentTools";
-import SeoInsights from "./SeoInsights";
-import PlagiarismChecker from "./PlagiarismChecker";
-import PerformanceAnalytics from "./PerformanceAnalytics";
-import SavedDrafts from "./SavedDrafts";
-import PersonalizedNewsFeed from "./PersonalizedNewsFeed";
+// import DashboardCard from "./DashboardCard";
+// import ActionCard from "./ActionCard";
+// import { RecentActivity } from "./RecentActivity";
+// import { ProfileSidebar } from "./ProfileSidebar";
+// import AiContentTools from "./AiContentTools";
+// import SeoInsights from "./SeoInsights";
+// import PlagiarismChecker from "./PlagiarismChecker";
+// import PerformanceAnalytics from "./PerformanceAnalytics";
+// import SavedDrafts from "./SavedDrafts";
+// import PersonalizedNewsFeed from "./PersonalizedNewsFeed";
 
 import {
   FileText,
@@ -27,6 +27,9 @@ import {
   LayoutTemplate,
   MessageSquare,
 } from "lucide-react";
+import UserDashboard from "./userDashboard/page";
+import AdminDashboard from "./adminDashboard/page";
+import EditorDashboard from "./editorDashboard/page";
 
 export default function DashboardPage() {
   const { session, error, loading: authLoading } = useAuth();
@@ -50,7 +53,7 @@ export default function DashboardPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ id: session.user.id }),
+          body: JSON.stringify({ id: session?.user?.id }),
         });
 
         if (!res.ok) throw new Error("Failed to fetch user");
@@ -67,6 +70,8 @@ export default function DashboardPage() {
 
     fetchUser();
   }, [session?.user?.id, authLoading]);
+
+  console.log(user);
 
   // Loading state
   if (authLoading || loading) {
@@ -170,72 +175,7 @@ export default function DashboardPage() {
     },
   ];
 
-  return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">{user?.role} Dashboard</h1>
-        <p className="text-gray-500">
-          Welcome back,{" "}
-          <span className="text-purple-400 font-semibold text-2xl">
-            {user?.name}
-          </span>
-          !
-        </p>
-      </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        {stats.map((item, index) => (
-          <DashboardCard key={index} {...item} />
-        ))}
-      </div>
-
-      {/* Quick Actions */}
-      <div className="bg-white rounded-2xl shadow-md p-6 mt-10">
-        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-          <Sparkles className="text-purple-600" size={20} /> Quick Actions
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {actions.map((item, index) => (
-            <ActionCard key={index} {...item} />
-          ))}
-        </div>
-      </div>
-
-      {/* Main + Sidebar */}
-      <div className="grid grid-cols-1 lg:grid-cols-16 gap-8 mt-10">
-        <div className="lg:col-span-10">
-          <RecentActivity />
-        </div>
-
-        <div className="lg:col-span-6">
-          <ProfileSidebar />
-        </div>
-      </div>
-
-      {/* AI Tools */}
-      <div className="w-full py-8">
-        <div className="mb-8">
-          <AiContentTools />
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <SeoInsights />
-          <PlagiarismChecker />
-        </div>
-      </div>
-
-      {/* Analytics + Drafts + News */}
-      <div className="pt-8 space-y-8">
-        <PerformanceAnalytics />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          <SavedDrafts />
-          <PersonalizedNewsFeed />
-        </div>
-      </div>
-    </div>
-  );
+  if (user?.role === "user") return <UserDashboard></UserDashboard>;
+  if (user?.role === "admin") return <AdminDashboard></AdminDashboard>;
+  if (user?.role === "editor") return <EditorDashboard></EditorDashboard>;
 }

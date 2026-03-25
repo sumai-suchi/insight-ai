@@ -43,12 +43,42 @@ function SignInForm() {
           setLoading(false);
           router.push("/dashboard");
         },
+        // onSuccess: (ctx) => {
+        //   setLoading(false);
+
+        //   // 🔥 email verify page এ পাঠাও
+        //   router.push(`/verify-email?email=${email}`);
+        // },
+        onError: (ctx) => {
+          setError(ctx.error.message);
+          setLoading(false);
+        },
+      },
+    );
+  }
+
+  const handleDemoLogin=async(email:any, password :any)=>{
+
+  await authClient.signIn.email(
+      {
+        email,
+        password,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: async () => {
+          await refreshSession();
+          setLoading(false);
+          router.push("/dashboard");
+        },
         onError: (ctx) => {
           setError(ctx.error.message);
           setLoading(false);
         },
       }
     );
+ 
+
   }
 
   const handleGoogleSignIn = async () => {
@@ -68,7 +98,6 @@ function SignInForm() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-linear-to-br from-slate-50 via-white to-blue-50">
       <div className="w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row bg-white">
-        
         {/* LEFT PANEL */}
         <div className="lg:w-[45%] relative bg-[#111827] text-white p-10 flex flex-col justify-center items-center overflow-hidden">
           <div className="absolute top-0 left-0 w-40 h-40 bg-blue-500/20 rounded-br-[80px]" />
@@ -116,7 +145,6 @@ function SignInForm() {
 
         {/* RIGHT PANEL */}
         <div className="flex-1 p-10 flex flex-col">
-
           <div className="flex justify-end text-sm text-gray-500 mb-6">
             New here?
             <Link
@@ -141,7 +169,6 @@ function SignInForm() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-
             {/* EMAIL */}
             <div>
               <label className="text-sm text-gray-600">Email</label>
@@ -207,6 +234,15 @@ function SignInForm() {
             >
               {loading ? "Signing in..." : "Sign In"}
             </motion.button>
+           
+          <div className="flex gap-3 justify-around w-full">
+            
+            <button className="bg-blue-400 text-white p-1 rounded-b-sm" onClick={()=>{handleDemoLogin("rabeya@gmail.com","Rabeya@123")}}> user</button>
+            <button className="bg-blue-400 text-white p-1 rounded-b-sm" onClick={()=>{handleDemoLogin("sumaiyamoina@gmail.com","Sumaiya@123")}}> admin</button>
+            <button className="bg-blue-400 text-white p-1 rounded-b-sm" onClick={()=>{handleDemoLogin("hatim@gmail.com","Hatim@123")}}>  editor</button>
+          </div>
+
+
 
             <div className="flex items-center gap-4 text-sm text-gray-400">
               <div className="flex-1 h-px bg-gray-200" /> OR{" "}
@@ -242,7 +278,6 @@ function SignInForm() {
               />
               Continue with GitHub
             </motion.button>
-
           </form>
         </div>
       </div>
