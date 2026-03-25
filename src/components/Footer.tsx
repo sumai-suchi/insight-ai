@@ -31,10 +31,10 @@ const Footer = () => {
     ];
 
     const features = [
-        { name: 'AI Writing Assistant', href: '/features/ai-writing', icon: FaPenFancy },
-        { name: 'Plagiarism Checker', href: '/features/plagiarism', icon: FaSearch },
-        { name: 'Trending News', href: '/trending', icon: FaChartLine, badge: 'HOT' },
-        { name: 'AI Editor', href: '/editor', icon: FaRobot },
+        { name: 'AI Writing Assistant', href: '', icon: FaPenFancy },
+        { name: 'Plagiarism Checker', href: '', icon: FaSearch },
+        { name: 'Trending News', href: '', icon: FaChartLine, badge: 'HOT' },
+        { name: 'AI Editor', href: '', icon: FaRobot },
     ];
 
     const socialLinks = [
