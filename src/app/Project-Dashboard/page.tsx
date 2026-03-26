@@ -31,7 +31,6 @@ import UserDashboard from "./userDashboard/page";
 import AdminDashboard from "./adminDashboard/page";
 
 import EditorDashboardPage from "./editorDashboard/page";
-import EditorDashboardClientWrapper from "./editorDashboard/EditorDashboardClientWrapper";
 
 export default function DashboardPage() {
   const { session, error, loading: authLoading } = useAuth();
