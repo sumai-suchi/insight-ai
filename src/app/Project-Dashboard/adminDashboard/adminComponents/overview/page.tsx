@@ -80,6 +80,15 @@ const DashboardOverview = () => {
     },
     {
       id: 2,
+      label: "Total Users",
+      value: statsData?.totalUsers || 0,
+      icon: <FiUsers />,
+      trend: "All Registered",
+      color: "text-indigo-600",
+      bg: "bg-indigo-50",
+    },
+    {
+      id: 3,
       label: "System Admins",
       value: statsData?.totalAdmins || 0,
       icon: <FiShield />,
@@ -88,7 +97,7 @@ const DashboardOverview = () => {
       bg: "bg-red-50",
     },
     {
-      id: 3,
+      id: 4,
       label: "Content Editors",
       value: statsData?.totalEditors || 0,
       icon: <FiEdit3 />,
@@ -97,11 +106,15 @@ const DashboardOverview = () => {
       bg: "bg-purple-50",
     },
     {
-      id: 4,
-      label: "Total Members",
-      value: statsData?.totalUsers || 0,
-      icon: <FiUsers />,
-      trend: "Community Size",
+      id: 5,
+      label: "Active Members",
+      value: Math.max(
+        0,
+        (statsData?.totalUsers || 0) -
+          ((statsData?.totalAdmins || 0) + (statsData?.totalEditors || 0)),
+      ),
+      icon: <FiActivity />,
+      trend: "General Users",
       color: "text-emerald-600",
       bg: "bg-emerald-50",
     },
@@ -151,25 +164,27 @@ const DashboardOverview = () => {
       </header>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         {stats.map((stat) => (
           <div
             key={stat.id}
-            className="bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-400 transition-all shadow-sm"
+            className="bg-white p-4 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all shadow-sm flex flex-col justify-between group"
           >
             <div className="flex justify-between items-start">
-              <div className={`p-3 rounded-lg ${stat.bg} ${stat.color}`}>
+              <div
+                className={`p-2.5 rounded-xl ${stat.bg} ${stat.color} text-lg transition-transform group-hover:scale-110`}
+              >
                 {stat.icon}
               </div>
-              <span className="text-[10px] font-bold px-2 py-1 rounded-full border bg-slate-50 text-slate-500 border-slate-100 uppercase">
+              <span className="text-[9px] font-bold px-2 py-0.5 rounded-full border bg-slate-50 text-slate-400 border-slate-100 uppercase tracking-tighter">
                 {stat.trend}
               </span>
             </div>
             <div className="mt-4">
-              <h3 className="text-slate-500 text-sm font-medium">
+              <h3 className="text-slate-500 text-[11px] font-bold uppercase tracking-wider">
                 {stat.label}
               </h3>
-              <p className="text-2xl font-bold mt-1 text-slate-900">
+              <p className="text-2xl font-black mt-1 text-slate-900">
                 {stat.value}
               </p>
             </div>
@@ -308,7 +323,7 @@ const DashboardOverview = () => {
         </div>
       </div>
 
-      {/* --- Recent Articles Table (New Section) --- */}
+      {/* --- Recent Articles Table --- */}
       <div className="mt-8 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-slate-100 flex justify-between items-center">
           <h2 className="text-xl font-semibold text-slate-800 flex items-center gap-2">
