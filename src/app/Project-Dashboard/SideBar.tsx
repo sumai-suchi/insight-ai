@@ -41,20 +41,20 @@ interface SidebarProps {
  const sidebarConfig = {
  admin: [
     { icon: <Home size={18} />, label: "Home", href: "/" },
-    { icon: <LayoutDashboard size={18} />, label: "Overview", href: "/Project-Dashboard/adminDashboard/adminComponents/overview" },
+    { icon: <LayoutDashboard size={18} />, label: "Overview", href: "/Project-dashboard/adminDashboard/adminComponents/overview" },
 
     { icon: <User size={18} />, label: "Manage Users", href: "/user" },
-    { icon: <ShieldCheck size={18} />, label: "Roles & Permissions", href: "/Project-Dashboard/adminDashboard/adminComponents/role-and-permision" },
+    { icon: <ShieldCheck size={18} />, label: "Roles & Permissions", href: "/Project-dashboard/adminDashboard/adminComponents/role-and-permision" },
 
-    { icon: <Newspaper size={18} />, label: "All Articles", href: "/Project-Dashboard/adminDashboard/adminComponents/allArticles" },
-    { icon: <FileText size={18} />, label: "Reports", href: "/Project-Dashboard/adminDashboard/adminComponents/reports" },
+    { icon: <Newspaper size={18} />, label: "All Articles", href: "/Project-dashboard/adminDashboard/adminComponents/allArticles" },
+    { icon: <FileText size={18} />, label: "Reports", href: "/Project-dashboard/adminDashboard/adminComponents/reports" },
 
-    { icon: <Bell size={18} />, label: "Notifications", href: "/Project-Dashboard/adminDashboard/adminComponents/notifications" },
-    { icon: <Settings size={18} />, label: "System Settings", href: "/Project-Dashboard/adminDashboard/adminComponents/system-settings" },
+    { icon: <Bell size={18} />, label: "Notifications", href: "/Project-dashboard/adminDashboard/adminComponents/notifications" },
+    { icon: <Settings size={18} />, label: "System Settings", href: "/Project-dashboard/adminDashboard/adminComponents/system-settings" },
   ],
 
   editor: [
-   { icon: <Home size={18} />, label: "Dashboard", href: "/" },
+   { icon: <Home size={18} />, label: "Dashboard", href: "/Project-dashboard/editorDashboard" },
  { icon: <ClipboardCheck size={18} />, label: "Review Queue", href: "/Project-dashboard/editorDashboard/editorComponents/reviewArticle" },
   { icon: <Save size={18} />, label: "Draft Articles", href: "/Project-dashboard/editorDashboard/editorComponents/ArticleDraft " },
   { icon: <CheckCircle size={18} />, label: "AI Content Review", href: "/Project-dashboard/editorDashboard/editorComponents/ai-genarated-content" },
@@ -70,48 +70,48 @@ interface SidebarProps {
   ],
 
   user: [
-   { icon: <LayoutDashboard size={18} />, label: "Dashboard", href: "/Project-Dashboard/userDashboard/useComponents/dashboard" },
+   { icon: <LayoutDashboard size={18} />, label: "Dashboard", href: "/Project-dashboard/userDashboard/useComponents/dashboard" },
 
   // 2. Personalized Feed
-  { icon: <Lightbulb size={18} />, label: "Personalized Feed", href: "/Project-Dashboard/userDashboard/useComponents/feed" },
+  { icon: <Lightbulb size={18} />, label: "Personalized Feed", href: "/Project-dashboard/userDashboard/useComponents/feed" },
   // 3. Explore News
-  { icon: <Newspaper size={18} />, label: "Explore News", href: "/Project-Dashboard/userDashboard/useComponents/explore" },
+  { icon: <Newspaper size={18} />, label: "Explore News", href: "/Project-dashboard/userDashboard/useComponents/explore" },
 
   // 4. AI Content Writer
-  { icon: <FileText size={18} />, label: "AI Writer", href: "/Project-Dashboard/userDashboard/useComponents/ai-writer" },
+  { icon: <FileText size={18} />, label: "AI Writer", href: "/Project-dashboard/userDashboard/useComponents/ai-writer" },
 
   // 5. My Articles
-  { icon: <FileText size={18} />, label: "My Articles", href: "/Project-Dashboard/userDashboard/useComponents/articles" },
+  { icon: <FileText size={18} />, label: "My Articles", href: "/Project-dashboard/userDashboard/useComponents/articles" },
 
   // 6. Saved / Bookmarks
-  { icon: <Bookmark size={18} />, label: "Bookmarks", href: "/Project-Dashboard/userDashboard/useComponents/bookmarks" },
+  { icon: <Bookmark size={18} />, label: "Bookmarks", href: "/Project-dashboard/userDashboard/useComponents/bookmarks" },
 
   // 7. Reading History
-  { icon: <History size={18} />, label: "Reading History", href: "/Project-Dashboard/userDashboard/useComponents/history" },
+  { icon: <History size={18} />, label: "Reading History", href: "/Project-dashboard/userDashboard/useComponents/history" },
 
   // 8. Notifications
-  { icon: <Bell size={18} />, label: "Notifications", href: "/Project-Dashboard/userDashboard/useComponents/notifications" },
+  { icon: <Bell size={18} />, label: "Notifications", href: "/Project-dashboard/userDashboard/useComponents/notifications" },
 
   // 9. Comments
-  { icon: <MessageCircle size={18} />, label: "Comments", href: "/Project-Dashboard/userDashboard/useComponents/comments" },
+  { icon: <MessageCircle size={18} />, label: "Comments", href: "/Project-dashboard/userDashboard/useComponents/comments" },
 
   // 10. Profile
-  { icon: <User size={18} />, label: "Profile", href: "/Project-Dashboard/userDashboard/useComponents/profile" },
+  { icon: <User size={18} />, label: "Profile", href: "/Project-dashboard/userDashboard/useComponents/profile" },
 
   // 11. Preferences
-  { icon: <Sliders size={18} />, label: "Preferences", href: "/Project-Dashboard/userDashboard/useComponents/preferences" },
+  { icon: <Sliders size={18} />, label: "Preferences", href: "/Project-dashboard/userDashboard/useComponents/preferences" },
 
   // 12. Subscription
-  { icon: <CreditCard size={18} />, label: "Subscription", href: "/Project-Dashboard/userDashboard/useComponents/subscription" },
+  { icon: <CreditCard size={18} />, label: "Subscription", href: "/Project-dashboard/userDashboard/useComponents/subscription" },
 
   // 13. Support
-  { icon: <HelpCircle size={18} />, label: "Support", href: "/Project-Dashboard/userDashboard/useComponents/support" },
+  { icon: <HelpCircle size={18} />, label: "Support", href: "/Project-dashboard/userDashboard/useComponents/support" },
 
   // 14. Security
-  { icon: <Shield size={18} />, label: "Security", href: "/Project-Dashboard/userDashboard/useComponents/security" },
+  { icon: <Shield size={18} />, label: "Security", href: "/Project-dashboard/userDashboard/useComponents/security" },
 
   // 15. Settings (optional combined)
-  { icon: <Settings size={18} />, label: "Settings", href: "/Project-Dashboard/userDashboard/useComponents/settings" },
+  { icon: <Settings size={18} />, label: "Settings", href: "/Project-dashboard/userDashboard/useComponents/settings" },
   ],
 } as const;
 
