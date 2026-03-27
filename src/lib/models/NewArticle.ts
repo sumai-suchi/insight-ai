@@ -16,6 +16,7 @@ const ArticleSchema = new mongoose.Schema(
 );
 
 const Article =
-  mongoose.models.Article || mongoose.model("Article", ArticleSchema, "news");
+  mongoose.models.Article ||
+  mongoose.model("Article", ArticleSchema, "articles");
 
 export default Article;
