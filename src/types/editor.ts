@@ -69,6 +69,12 @@ export interface Article {
   tags: Tag[];
   status: ArticleStatus;
   contentType: ContentType;
+  // --- ADDED ENGAGEMENT FIELDS ---
+  views: number;
+  likes: number;
+  dislikes: number;
+  commentCount: number;
+  // -------------------------------
   seo: SeoMeta;
   aiReview?: AIReviewResult;
   wordCount: number;
