@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import Link from "next/link";
+
 import Image from "next/image";
 import { ArrowUpRight, Bookmark, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 interface Article {
   _id: string;
@@ -59,6 +60,7 @@ export default function PersonalizedFeed() {
       } else {
         setArticles((prev) => [...prev, ...(data.articles || [])]);
       }
+      console.log("hasMMMMM is", data.hasMore);
       setHasMore(data.hasMore || false);
     } catch (err) {
       setError("Something went wrong.");
@@ -80,6 +82,7 @@ export default function PersonalizedFeed() {
     setPage(next);
     fetchFeed(activeCategory, search, next);
   };
+  console.log("has more is", hasMore);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -172,19 +175,21 @@ export default function PersonalizedFeed() {
 
               {/* Action Bottom Bar */}
               <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-                <Link
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-600 text-sm font-bold flex items-center gap-1 hover:text-purple-700 transition-colors group/link"
-                  onClick={() => trackHistory(article._id)}
-                >
-                  Read Full News
-                  <ArrowUpRight
-                    size={16}
-                    className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-                  />
-                </Link>
+                {article.url && (
+                  <Link
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-600 text-sm font-bold flex items-center gap-1 hover:text-purple-700 transition-colors group/link"
+                    onClick={() => trackHistory(article._id)}
+                  >
+                    Read Full News
+                    <ArrowUpRight
+                      size={16}
+                      className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
+                    />
+                  </Link>
+                )}
 
                 <div className="flex items-center gap-2">
                   <button
@@ -206,7 +211,7 @@ export default function PersonalizedFeed() {
         ))}
       </div>
 
-      {hasMore && (
+      {/* {hasMore && (
         <div className="text-center mt-12">
           <button
             onClick={loadMore}
@@ -214,6 +219,18 @@ export default function PersonalizedFeed() {
             className="px-8 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
           >
             {loading ? "Loading..." : "Load More"}
+          </button>
+        </div>
+      )} */}
+
+      {articles.length > 0 && (
+        <div className="text-center mt-12">
+          <button
+            onClick={loadMore}
+            disabled={loading || !hasMore}
+            className="px-8 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
+          >
+            {loading ? "Loading..." : hasMore ? "Load More" : "No More Data"}
           </button>
         </div>
       )}

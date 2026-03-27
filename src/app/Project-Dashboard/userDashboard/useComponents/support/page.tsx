@@ -1,94 +1,114 @@
-// import Link from "next/link";
-// import React from "react";
-
-// const suppot = () => {
-//   return (
-//     <div className="flex flex-col gap-4">
-//       <Link href="/Project-Dashboard/userDashboard/useComponents/support/contact">
-//         Contact
-//       </Link>
-//       <Link href="/Project-Dashboard/userDashboard/useComponents/support/FAQs">
-//         FAQs
-//       </Link>
-//       <Link href="/Project-Dashboard/userDashboard/useComponents/support/mytickets">
-//         My Ticket
-//       </Link>
-//     </div>
-//   );
-// };
-
-// export default suppot;
-"use client";
-import Link from "next/link";
 import React from "react";
-import { MessageSquare, HelpCircle, Ticket, ChevronRight } from "lucide-react";
+import Link from "next/link";
+
+import {
+  MessageSquare,
+  HelpCircle,
+  Ticket,
+  MoveRight,
+  Mail,
+  Phone,
+} from "lucide-react";
 
 const SupportMenu = () => {
   const menuItems = [
     {
       name: "Contact",
       href: "/Project-Dashboard/userDashboard/useComponents/support/contact",
-      icon: <MessageSquare size={20} />,
+      icon: <MessageSquare size={24} className="text-blue-600" />,
+      iconBg: "bg-blue-50",
       desc: "Get in touch with our team",
-      color: "text-blue-600 bg-blue-50",
+      // ছবির মতো বাটন স্টাইল
+      action: (
+        <Link
+          href="/Project-Dashboard/userDashboard/useComponents/support/contact"
+          className="w-full"
+        >
+          <button className="w-full flex items-center justify-center gap-2 py-3 bg-black text-white rounded-xl font-bold hover:bg-gray-800 transition-all active:scale-95 text-sm">
+            Start chat <MoveRight size={16} />
+          </button>
+        </Link>
+      ),
     },
     {
       name: "FAQs",
       href: "/Project-Dashboard/userDashboard/useComponents/support/FAQs",
-      icon: <HelpCircle size={20} />,
+      icon: <HelpCircle size={24} className="text-purple-600" />,
+      iconBg: "bg-purple-50",
       desc: "Find quick answers here",
-      color: "text-orange-600 bg-orange-50",
+      action: (
+        <Link
+          href="/Project-Dashboard/userDashboard/useComponents/support/FAQs"
+          className="w-full py-3 text-center font-bold text-black border border-gray-200 rounded-xl block text-sm hover:bg-gray-50 transition-colors"
+        >
+          support@doormat.ca
+        </Link>
+      ),
     },
     {
       name: "My Ticket",
       href: "/Project-Dashboard/userDashboard/useComponents/support/mytickets",
-      icon: <Ticket size={20} />,
+      icon: <Ticket size={24} className="text-red-500" />,
+      iconBg: "bg-red-50",
       desc: "Track your support requests",
-      color: "text-purple-600 bg-purple-50",
+      action: (
+        <Link
+          href="/Project-Dashboard/userDashboard/useComponents/support/mytickets"
+          className="w-full py-3 text-center font-bold text-black border border-gray-200 rounded-xl block text-sm hover:bg-gray-50 transition-colors"
+        >
+          +1 (647) 492-9515
+        </Link>
+      ),
     },
   ];
 
   return (
-    <div className="max-w-sm w-full bg-white/80 backdrop-blur-md p-5 rounded-3xl shadow-xl border border-purple-100">
-      <h2 className="text-xl font-bold text-gray-800 mb-6 px-2">
-        Support Center
-      </h2>
+    <section className="bg-gray-100 py-16 px-6 font-sans">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section - ছবির মতো স্টাইল */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#1a2b3b] mb-4">
+            We are here for you, <br />
+            contact us at <span className="text-black italic">anytime</span>
+          </h2>
+          <p className="text-gray-500 text-lg">
+            Have any questions about our services or just want to talk with us?
+            Please reach out.
+          </p>
+        </div>
 
-      <div className="flex flex-col gap-3">
-        {menuItems.map((item, index) => (
-          <Link
-            key={index}
-            href={item.href}
-            className="group flex items-center justify-between p-4 rounded-2xl bg-white border border-transparent hover:border-purple-200 hover:shadow-md transition-all duration-300 active:scale-[0.98]"
-          >
-            <div className="flex items-center gap-4">
+        {/* Support Cards Grid - ৩টি অপশন */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          {menuItems.map((item, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-[32px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col items-center text-center group hover:shadow-xl transition-all duration-300"
+            >
+              {/* Icon Container */}
               <div
-                className={`p-3 rounded-xl transition-colors duration-300 ${item.color} group-hover:bg-[#9333ea] group-hover:text-white`}
+                className={`w-16 h-16 ${item.iconBg} rounded-full flex items-center justify-center mb-6`}
               >
                 {item.icon}
               </div>
-              <div>
-                <p className="font-bold text-gray-800 group-hover:text-[#9333ea] transition-colors uppercase text-sm">
-                  {item.name}
-                </p>
-                <p className="text-xs text-gray-400">{item.desc}</p>
-              </div>
+
+              <h3 className="text-xl font-bold text-black mb-1">{item.name}</h3>
+              <p className="text-gray-400 text-sm mb-8">{item.desc}</p>
+
+              {/* Action area (Link/Button) */}
+              <div className="w-full mt-auto">{item.action}</div>
             </div>
+          ))}
+        </div>
 
-            <ChevronRight
-              size={18}
-              className="text-gray-300 group-hover:text-[#9333ea] group-hover:translate-x-1 transition-all"
-            />
-          </Link>
-        ))}
+        {/* Bottom Bar - ছবির নিচের সেকশন */}
+        <div className="max-w-5xl mx-auto py-5 px-8 bg-white border border-gray-100 rounded-2xl text-center shadow-sm">
+          <p className="text-gray-600 font-medium">
+            We'll get back to you as soon as possible. Our team is available{" "}
+            <span className="text-black font-bold">8am-6pm on weekdays.</span>
+          </p>
+        </div>
       </div>
-
-      <div className="mt-6 p-4 bg-[#9333ea]/5 rounded-2xl border border-dashed border-[#9333ea]/20 text-center">
-        <p className="text-xs text-purple-600 font-medium">
-          Need urgent help? Call us 24/7
-        </p>
-      </div>
-    </div>
+    </section>
   );
 };
 
