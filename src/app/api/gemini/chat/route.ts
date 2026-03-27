@@ -9,11 +9,11 @@ export async function POST(req: NextRequest) {
       messages: Array<{ role: string; content: string }>;
     };
 
-    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-      throw new Error("NEXT_PUBLIC_GEMINI_API_KEY missing from environment");
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error("GEMINI_API_KEY missing from environment");
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({
       model: "models/gemini-2.5-flash",
     });

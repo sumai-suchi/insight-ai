@@ -29,7 +29,8 @@ import {
 } from "lucide-react";
 import UserDashboard from "./userDashboard/page";
 import AdminDashboard from "./adminDashboard/page";
-import EditorDashboard from "./editorDashboard/page";
+
+import EditorDashboardPage from "./editorDashboard/page";
 
 export default function DashboardPage() {
   const { session, error, loading: authLoading } = useAuth();
@@ -177,5 +178,5 @@ export default function DashboardPage() {
 
   if (user?.role === "user") return <UserDashboard></UserDashboard>;
   if (user?.role === "admin") return <AdminDashboard></AdminDashboard>;
-  if (user?.role === "editor") return <EditorDashboard></EditorDashboard>;
+  if (user?.role === "editor") return <EditorDashboardPage></EditorDashboardPage>;
 }
