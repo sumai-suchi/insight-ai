@@ -40,6 +40,8 @@ export default function ArticleDetails({ params }: PageProps) {
     if (json.success) {
       setArticle(json.data);
       // ... rest of your logic
+      // Automatically trigger a view increment after successful fetch
+        handleEngagement("view");
     }
   } catch (err) {
     console.error("Client-side error:", err);
@@ -48,9 +50,42 @@ export default function ArticleDetails({ params }: PageProps) {
   }
 }, [slug]); // Use the unwrapped slug as a dependency
 
+  const handleEngagement = async (action: string) => {
+    try {
+      await fetch(`/api/articles/${slug}/engagement`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action }),
+      });
+    } catch (err) {
+      console.error(`Failed to record ${action}`, err);
+    }
+  };
+
+
+
+
+// 3. Like Toggle
+  const toggleLike = () => {
+    if (disliked) toggleDislike(); // Can't like and dislike at same time
+    const action = liked ? "unlike" : "like";
+    setLiked(!liked);
+    handleEngagement(action);
+  };
+
+  // 4. Dislike Toggle
+  const toggleDislike = () => {
+    if (liked) toggleLike(); 
+    const action = disliked ? "undislike" : "dislike";
+    setDisliked(!disliked);
+    handleEngagement(action);
+  };
+
   useEffect(() => {
     fetchArticle();
   }, [fetchArticle]);
+
+  // 2. Engagement Handler Function
 
   if (loading) {
     return (
@@ -128,26 +163,33 @@ export default function ArticleDetails({ params }: PageProps) {
         {/* LEFT STICKY SOCIALS */}
         <aside className="hidden md:flex flex-col gap-6 sticky top-24 h-fit">
           <button 
-            onClick={() => setLiked(!liked)} 
+            onClick={toggleLike} 
             className="group flex flex-col items-center gap-1"
           >
-            <div className={`p-3 rounded-full border border-gray-300 group-hover:bg-red-50 transition ${liked ? 'bg-red-100 border-red-200' : ''}`}>
-              {liked ? <FaHeart className="text-red-600" /> : <FaRegHeart />}
+            <div className={`p-3 rounded-full border border-gray-300 transition ${liked ? 'bg-red-600 border-red-600 text-white' : 'group-hover:bg-red-50'}`}>
+              {liked ? <FaHeart /> : <FaRegHeart />}
             </div>
-            <span className="text-[10px] font-bold">{(article.likes || 0) + (liked ? 1 : 0)}</span>
+            <span className="text-[10px] font-bold">
+              {(article?.likes || 0) + (liked ? 1 : 0)}
+            </span>
           </button>
 
           <button 
-            onClick={() => setDisliked(!disliked)} 
+            onClick={toggleDislike} 
             className="group flex flex-col items-center gap-1"
           >
-            <div className={`p-3 rounded-full border border-gray-300 group-hover:bg-gray-200 transition ${disliked ? 'bg-gray-800 border-gray-800 text-white' : ''}`}>
+            <div className={`p-3 rounded-full border border-gray-300 transition ${disliked ? 'bg-gray-900 border-gray-900 text-white' : 'group-hover:bg-gray-100'}`}>
               {disliked ? <FaThumbsDown /> : <FaRegThumbsDown />}
             </div>
-            <span className="text-[10px] font-bold">{article.dislikes || 0}</span>
+            <span className="text-[10px] font-bold">
+               {(article?.dislikes || 0) + (disliked ? 1 : 0)}
+            </span>
           </button>
 
-          <FaShareAlt className="text-gray-400 hover:text-black cursor-pointer ml-3 transition" />
+          <FaShareAlt 
+            className="text-gray-400 hover:text-black cursor-pointer ml-3 transition" 
+            onClick={() => navigator.clipboard.writeText(window.location.href)}
+          />
         </aside>
 
         <article className="prose prose-lg max-w-none prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tighter prose-p:leading-relaxed prose-p:text-gray-800">

@@ -84,7 +84,7 @@ const ArticleCard = ({ article, priority = false }: { article: Article, priority
         {/* Engagement Stats - Making the card look "Busy" and premium */}
         <div className="flex justify-between items-center pt-4 border-t border-gray-100">
           <div className="flex gap-4 text-gray-400 text-xs font-bold">
-            <span className="flex items-center gap-1"><FaEye className="text-[10px]" /> {article.views}</span>
+            <span className="flex items-center gap-1"><FaEye className="text-[10px]" /> {article.views /2}</span>
             <span className="flex items-center gap-1"><FaComment className="text-[10px]" /> {article.commentCount}</span>
           </div>
 
