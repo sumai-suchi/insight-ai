@@ -113,7 +113,7 @@ const EditorArticleSchema = new Schema(
         r._id = r._id?.toString?.() ?? r._id;
         return r;
       },
-    },
+    }, 
   }
 );
 
