@@ -98,6 +98,12 @@ const EditorArticleSchema = new Schema(
 
     wordCount: { type: Number, default: 0 },
     readingTime: { type: Number, default: 0 }, // minutes
+    // --- NEW ENGAGEMENT FIELDS ---
+    views: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    dislikes: { type: Number, default: 0 },
+    commentCount: { type: Number, default: 0 },
+    // ----------------------------
 
     submittedAt: { type: String, default: "" },
     publishedAt: { type: String, default: "" },
@@ -113,9 +119,11 @@ const EditorArticleSchema = new Schema(
         r._id = r._id?.toString?.() ?? r._id;
         return r;
       },
-    },
+    }, 
   }
 );
 
 export default mongoose.models.EditorArticle ||
   mongoose.model("EditorArticle", EditorArticleSchema);
+
+

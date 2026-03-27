@@ -57,9 +57,9 @@ const sidebarConfig = {
 
   editor: [
    { icon: <Home size={18} />, label: "Dashboard", href: "/Project-dashboard/editorDashboard" },
- { icon: <ClipboardCheck size={18} />, label: "Review Queue", href: "/Project-dashboard/editorDashboard/editorComponents/reviewArticle" },
+  { icon: <ClipboardCheck size={18} />, label: "Review Queue", href: "/Project-dashboard/editorDashboard/editorComponents/reviewArticle" },
   { icon: <Save size={18} />, label: "Draft Articles", href: "/Project-dashboard/editorDashboard/editorComponents/ArticleDraft " },
-  { icon: <CheckCircle size={18} />, label: "AI Content Review", href: "/Project-dashboard/editorDashboard/editorComponents/ai-genarated-content" },
+ 
   { icon: <Pencil size={18} />, label: "Edit Articles", href: "/Project-dashboard/editorDashboard/editorComponents/editeArticle" },
   { icon: <FileEdit size={18} />, label: "Published Articles", href: "/Project-dashboard/editorDashboard/editorComponents/publishedArticle" },
   { icon: <Calendar size={18} />, label: "Scheduled Articles", href: "/Project-dashboard/editorDashboard/editorComponents/schedule-article" },
