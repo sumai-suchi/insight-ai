@@ -136,6 +136,8 @@ const sidebarConfig = {
       href: "/Project-dashboard/userDashboard/useComponents/bookmarks",
     },
 
+<<<<<<< HEAD
+=======
     // 7. Reading History
     {
       icon: <History size={18} />,
@@ -143,6 +145,7 @@ const sidebarConfig = {
       href: "/Project-dashboard/userDashboard/useComponents/history",
     },
 
+>>>>>>> bc1047ba25e6ee12727aa8ef3da0b75adf8620b7
     // 8. Notifications
     {
       icon: <Bell size={18} />,
@@ -191,13 +194,6 @@ const sidebarConfig = {
       label: "Security",
       href: "/Project-dashboard/userDashboard/useComponents/security",
     },
-
-    // 15. Settings (optional combined)
-    {
-      icon: <Settings size={18} />,
-      label: "Settings",
-      href: "/Project-dashboard/userDashboard/useComponents/settings",
-    },
   ],
 } as const;
 
@@ -234,8 +230,9 @@ export default function Sidebar({ role }: SidebarProps) {
         {/* Logo */}
         <div className="flex items-center gap-2 mb-10">
           <span className="text-2xl">✨</span>
-          <Link href={'/'}><h1 className="text-xl font-bold">InSight-ai</h1></Link>
-          
+          <Link href={"/"}>
+            <h1 className="text-xl font-bold">InSight-ai</h1>
+          </Link>
         </div>
 
         {/* Menu */}

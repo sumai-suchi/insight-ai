@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
 interface TicketFormData {
   name: string;
@@ -35,7 +36,6 @@ export default function TicketForm() {
     setSuccess("");
 
     try {
-      console.log("i am in try");
       const res = await fetch("/api/ticket", {
         method: "POST",
         headers: {
@@ -45,7 +45,6 @@ export default function TicketForm() {
       });
 
       const data = await res.json();
-      console.log("i am after fetch", data);
 
       if (res.ok && data.success) {
         setSuccess("Ticket submitted successfully!");
@@ -68,72 +67,94 @@ export default function TicketForm() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-semibold mb-4">Submit a Ticket</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Your Name"
-          required
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="grid md:grid-cols-2 gap-10 bg-white rounded-2xl shadow-xl p-6 max-w-5xl w-full">
+        {/* 🔥 LEFT SIDE SVG */}
+        <div className="hidden md:flex items-center justify-center">
+          <Image
+            src="/images/contact.svg" // path ঠিক রাখবে
+            alt="Ticket Illustration"
+            width={400}
+            height={400}
+            className="w-full h-auto"
+          />
+        </div>
 
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Your Email"
-          required
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        {/* 🔥 RIGHT SIDE FORM */}
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            Submit a Ticket
+          </h2>
+          <p className="text-gray-500 mb-6">
+            Describe your issue and our team will help you 👇
+          </p>
 
-        <input
-          type="text"
-          name="subject"
-          value={form.subject}
-          onChange={handleChange}
-          placeholder="Subject"
-          required
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Your Name"
+              required
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
 
-        <textarea
-          name="message"
-          value={form.message}
-          onChange={handleChange}
-          placeholder="Describe your issue"
-          required
-          rows={5}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="Your Email"
+              required
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
 
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="general">General</option>
-          <option value="technical">Technical</option>
-          <option value="billing">Billing</option>
-        </select>
+            <input
+              type="text"
+              name="subject"
+              value={form.subject}
+              onChange={handleChange}
+              placeholder="Subject"
+              required
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50"
-        >
-          {loading ? "Submitting..." : "Submit Ticket"}
-        </button>
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              placeholder="Describe your issue"
+              required
+              rows={4}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
 
-        {success && (
-          <p className="text-green-600 font-medium mt-2">{success}</p>
-        )}
-      </form>
+            <select
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="general">General</option>
+              <option value="technical">Technical</option>
+              <option value="billing">Billing</option>
+            </select>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-lg font-semibold disabled:opacity-50"
+            >
+              {loading ? "Submitting..." : "Submit Ticket 🚀"}
+            </button>
+
+            {success && (
+              <p className="text-green-600 font-medium mt-2">{success}</p>
+            )}
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

@@ -16,10 +16,61 @@ export async function generateSlug(title: string): Promise<string> {
     .replace(/--+/g, "-");
   return slug;
 }
+<<<<<<< HEAD
+// export async function GET(req: Request) {
+//   try {
+//     await connectMongo();
+
+//     const session = await auth.api.getSession({ headers: req.headers });
+//     const userEmail = session?.user?.email;
+//     const { searchParams } = new URL(req.url);
+//     let articles;
+
+//     if (userEmail) {
+//       const userProfile = await User.findOne({ email: userEmail });
+//       const preferences = userProfile?.preferences?.categories || [];
+//       const readHistory = userProfile?.readingHistory || [];
+
+//       const page = Number(searchParams.get("page")) || 1;
+//       const limit = Number(searchParams.get("limit")) || 9;
+//       const skip = (page - 1) * limit;
+
+//       articles = await NewArticle.aggregate([
+//         {
+//           $addFields: {
+//             isPreferred: { $cond: [{ $in: ["$category", preferences] }, 1, 0] },
+//             isRead: { $cond: [{ $in: ["$_id", readHistory] }, 1, 0] },
+//           },
+//         },
+//         {
+//           $sort: {
+//             isPreferred: -1,
+//             isRead: 1,
+//             createdAt: -1,
+//           },
+//         },
+//         { $skip: skip },
+//         { $limit: limit },
+//       ]);
+//     }
+
+//     return NextResponse.json({ success: true, articles });
+//   } catch (error: any) {
+//     console.error("Fetch Articles Error:", error);
+//     return NextResponse.json(
+//       { success: false, error: error.message },
+//       { status: 500 },
+//     );
+//   }
+// }
+=======
+>>>>>>> bc1047ba25e6ee12727aa8ef3da0b75adf8620b7
 
 export async function GET(req: Request) {
   try {
     await connectMongo();
+<<<<<<< HEAD
+=======
 
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
@@ -28,8 +79,14 @@ export async function GET(req: Request) {
     const limit = parseInt(searchParams.get("limit") || "9");
     const skip = (page - 1) * limit;
 
+>>>>>>> bc1047ba25e6ee12727aa8ef3da0b75adf8620b7
     const session = await auth.api.getSession({ headers: req.headers });
     const userEmail = session?.user?.email;
+    const { searchParams } = new URL(req.url);
+
+    const page = Number(searchParams.get("page")) || 1;
+    const limit = Number(searchParams.get("limit")) || 9;
+    const skip = (page - 1) * limit;
 
     let matchQuery: any = {};
 
@@ -44,7 +101,11 @@ export async function GET(req: Request) {
     }
 
     let articles;
+<<<<<<< HEAD
+    let total = 0;
+=======
     let totalArticles;
+>>>>>>> bc1047ba25e6ee12727aa8ef3da0b75adf8620b7
 
     if (userEmail) {
       const userProfile = await User.findOne({ email: userEmail });
@@ -65,6 +126,22 @@ export async function GET(req: Request) {
         { $skip: skip },
         { $limit: limit },
       ]);
+<<<<<<< HEAD
+
+      total = await NewArticle.countDocuments();
+    } else {
+      // guest user
+      total = await NewArticle.countDocuments({ status: "published" });
+      articles = await NewArticle.find({ status: "published" })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+    }
+
+    const hasMore = page * limit < total;
+
+    return NextResponse.json({ success: true, articles, hasMore });
+=======
       totalArticles = await Article.countDocuments(matchQuery);
     } else {
       articles = await Article.find(matchQuery)
@@ -84,6 +161,7 @@ export async function GET(req: Request) {
         currentPage: page,
       },
     });
+>>>>>>> bc1047ba25e6ee12727aa8ef3da0b75adf8620b7
   } catch (error: any) {
     console.error("Fetch Articles Error:", error);
     return NextResponse.json(
@@ -92,7 +170,6 @@ export async function GET(req: Request) {
     );
   }
 }
-
 export async function POST(req: Request) {
   try {
     await connectMongo();
