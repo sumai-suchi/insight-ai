@@ -125,19 +125,16 @@ export const auth = betterAuth({
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
 
   // plugins: [
-  //   emailOTP({
-  //     async sendVerificationOTP({ email, otp, type }) {
-  //       if (type === "sign-in") {
-  //         // Send the OTP for sign in
-  //       } else if (type === "email-verification") {
-  //         // Send the OTP for email verification
-  //       } else {
-  //         // Send the OTP for password reset
-  //       }
-  //     },
-  //   }),
-  //   twoFactor({
-  //     issuer: "YourAppName",
-  //   }),
-  // ],
+  //       emailOTP({ 
+  //           async sendVerificationOTP({ email, otp, type }) { 
+  //               if (type === "sign-in") { 
+  //                   // Send the OTP for sign in
+  //               } else if (type === "email-verification") { 
+  //                   // Send the OTP for email verification
+  //               } else { 
+  //                   // Send the OTP for password reset
+  //               } 
+  //           }, 
+  //       }) 
+  //   ]
 });

@@ -63,13 +63,14 @@ const HeroContent = () => {
         className="mt-10 mb-10 flex flex-col sm:flex-row gap-4"
         variants={itemVariants}
       >
-        <motion.button
+        <a href="/ai-editor" ><motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
           className="px-8 py-3.5 rounded-lg bg-white text-black font-semibold hover:bg-blue-100 transition-colors shadow-lg shadow-white/20"
+          
         >
           Get Started →
-        </motion.button>
+        </motion.button></a>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
