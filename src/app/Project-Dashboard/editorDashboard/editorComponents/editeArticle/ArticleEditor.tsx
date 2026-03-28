@@ -20,7 +20,7 @@ import {
   ShieldCheck, Fingerprint, BrainCircuit, Loader2, ImageIcon, X,
   CheckCircle2, AlertCircle, RefreshCw,
 } from "lucide-react";
-import ResponsiveEditorNav from "./EditorNav";
+// import ResponsiveEditorNav from "./EditorNav";
 
 // ← CHANGED: import all API hooks from the hooks file
 
@@ -367,16 +367,16 @@ Create a clear structure with short sections/headings and plain text output (no 
     }
   };
 
-  const handleNavAction = (status: string) => {
-    // EditorNav uses "review", while API/schema expect "in_review".
-    if (status === "review") {
-      void handleSave("in_review");
-      return;
-    }
-    if (status === "draft" || status === "published") {
-      void handleSave(status);
-    }
-  };
+  // const handleNavAction = (status: string) => {
+  //   // EditorNav uses "review", while API/schema expect "in_review".
+  //   if (status === "review") {
+  //     void handleSave("in_review");
+  //     return;
+  //   }
+  //   if (status === "draft" || status === "published") {
+  //     void handleSave(status);
+  //   }
+  // };
 
   // ─────────────────────────────────────────────────────────────────────────
 
@@ -389,7 +389,7 @@ Create a clear structure with short sections/headings and plain text output (no 
       )}
 
       {/* Top nav — ← CHANGED: onAction now calls handleSave */}
-      <ResponsiveEditorNav onAction={handleNavAction} />
+      {/* <ResponsiveEditorNav onAction={handleNavAction} /> */}
 
       <main className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-0">
 

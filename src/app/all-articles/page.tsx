@@ -117,6 +117,7 @@ export default function AllArticlesPage() {
       const json = await res.json();
       if (json.success) {
         setArticles(json.data);
+        console.log("Articles fetched:", json.data);
       }
     } catch (err) {
       console.error("Failed to load articles", err);
