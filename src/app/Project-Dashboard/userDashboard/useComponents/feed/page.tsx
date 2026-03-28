@@ -173,7 +173,7 @@ export default function PersonalizedFeed() {
               {/* Action Bottom Bar */}
               <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
                 <Link
-                  href={article.url}
+                  href={article?.url || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-purple-600 text-sm font-bold flex items-center gap-1 hover:text-purple-700 transition-colors group/link"
