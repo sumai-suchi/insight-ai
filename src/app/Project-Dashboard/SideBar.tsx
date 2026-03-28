@@ -74,6 +74,55 @@ const sidebarConfig = {
     { icon: <Shield size={18} />, label: "Security", href: "/Project-dashboard/userDashboard/useComponents/security" },
     { icon: <PencilLine size={18} />, label: "apply for editor", href: "/Project-dashboard/userDashboard/useComponents/apply-for-editor" },
     { icon: <Settings size={18} />, label: "Settings", href: "/Project-dashboard/userDashboard/useComponents/settings" },
+    // 8. Notifications
+    {
+      icon: <Bell size={18} />,
+      label: "Notifications",
+      href: "/Project-dashboard/userDashboard/useComponents/notifications",
+    },
+
+    // 9. Comments
+    {
+      icon: <MessageCircle size={18} />,
+      label: "Comments",
+      href: "/Project-dashboard/userDashboard/useComponents/comments",
+    },
+
+    // 10. Profile
+    {
+      icon: <User size={18} />,
+      label: "Profile",
+      href: "/Project-dashboard/userDashboard/useComponents/profile",
+    },
+
+    // 11. Preferences
+    {
+      icon: <Sliders size={18} />,
+      label: "Preferences",
+      href: "/Project-dashboard/userDashboard/useComponents/preferences",
+    },
+
+    // 12. Subscription
+    {
+      icon: <CreditCard size={18} />,
+      label: "Subscription",
+      href: "/Project-dashboard/userDashboard/useComponents/subscription",
+    },
+
+    // 13. Support
+    {
+      icon: <HelpCircle size={18} />,
+      label: "Support",
+      href: "/Project-dashboard/userDashboard/useComponents/support",
+    },
+
+    // 14. Security
+    {
+      icon: <Shield size={18} />,
+      label: "Security",
+      href: "/Project-dashboard/userDashboard/useComponents/security",
+    },
+
   ],
 } as const;
 

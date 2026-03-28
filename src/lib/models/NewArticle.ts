@@ -1,4 +1,3 @@
-// src/lib/models/EditorArticle.ts
 import mongoose, { Schema } from "mongoose";
 
 const ARTICLE_STATUSES = [
@@ -23,7 +22,7 @@ const AuthorSchema = new Schema(
     avatar: { type: String, default: "" },
     role: { type: String, enum: AUTHOR_ROLES, required: true },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const CategorySchema = new Schema(
@@ -32,7 +31,7 @@ const CategorySchema = new Schema(
     name: { type: String, required: true },
     slug: { type: String, required: true },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const TagSchema = new Schema(
@@ -41,7 +40,7 @@ const TagSchema = new Schema(
     name: { type: String, required: true },
     slug: { type: String, required: true },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const SeoMetaSchema = new Schema(
@@ -51,18 +50,22 @@ const SeoMetaSchema = new Schema(
     focusKeyword: { type: String, default: "" },
     score: { type: Number, default: 0 },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const AIIssueSchema = new Schema(
   {
-    type: { type: String, enum: ["factual", "tone", "grammar", "plagiarism", "hallucination"], required: true },
+    type: {
+      type: String,
+      enum: ["factual", "tone", "grammar", "plagiarism", "hallucination"],
+      required: true,
+    },
     severity: { type: String, enum: ["low", "medium", "high"], required: true },
     description: { type: String, required: true },
     originalText: { type: String, required: true },
     suggestion: { type: String, required: true },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const AIReviewResultSchema = new Schema(
@@ -74,47 +77,51 @@ const AIReviewResultSchema = new Schema(
     issues: { type: [AIIssueSchema], default: [] },
     reviewedAt: { type: String, default: "" },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const EditorArticleSchema = new Schema(
   {
     title: { type: String, required: true, trim: true },
     slug: { type: String, required: true, unique: true, index: true },
-
     content: { type: String, default: "" }, // HTML
     excerpt: { type: String, default: "" },
     featuredImage: { type: String, default: "" },
-
     author: { type: AuthorSchema, required: true },
     category: { type: CategorySchema, required: true },
     tags: { type: [TagSchema], default: [] },
-
-    status: { type: String, enum: ARTICLE_STATUSES, required: true, default: "draft" },
-    contentType: { type: String, enum: CONTENT_TYPES, required: true, default: "manual" },
-
-    seo: { type: SeoMetaSchema, default: () => ({ metaTitle: "", metaDescription: "", focusKeyword: "", score: 0 }) },
+    status: {
+      type: String,
+      enum: ARTICLE_STATUSES,
+      required: true,
+      default: "draft",
+    },
+    contentType: {
+      type: String,
+      enum: CONTENT_TYPES,
+      required: true,
+      default: "manual",
+    },
+    seo: {
+      type: SeoMetaSchema,
+      default: () => ({
+        metaTitle: "",
+        metaDescription: "",
+        focusKeyword: "",
+        score: 0,
+      }),
+    },
     aiReview: { type: AIReviewResultSchema, required: false },
-
     wordCount: { type: Number, default: 0 },
     readingTime: { type: Number, default: 0 }, // minutes
-    // --- NEW ENGAGEMENT FIELDS ---
-    views: { type: Number, default: 0 },
-    likes: { type: Number, default: 0 },
-    dislikes: { type: Number, default: 0 },
-    commentCount: { type: Number, default: 0 },
-    // ----------------------------
-
     submittedAt: { type: String, default: "" },
     publishedAt: { type: String, default: "" },
     scheduledFor: { type: String, default: "" },
   },
   {
-    timestamps: true, // creates `createdAt` + `updatedAt` as Date
+    timestamps: true,
     toJSON: {
       transform(_doc, ret) {
-        // Mongoose typings sometimes treat `_id` as an ObjectId; for API responses we
-        // want it as a string to match your frontend types.
         const r = ret as any;
         r._id = r._id?.toString?.() ?? r._id;
         return r;
@@ -123,6 +130,7 @@ const EditorArticleSchema = new Schema(
   }
 );
 
+// Final Export: Use 'EditorArticle' uniformly
 export default mongoose.models.EditorArticle ||
   mongoose.model("EditorArticle", EditorArticleSchema);
 
