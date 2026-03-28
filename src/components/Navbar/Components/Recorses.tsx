@@ -3,7 +3,6 @@ import {
   NavigationMenuItem,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import React from "react";
 import { ListItem } from "./ListItem";
 
 function Recorses() {
@@ -30,11 +29,3 @@ function Recorses() {
     </NavigationMenuItem>
   );
 }
-
-export default Recorses;
-
-//Blog
-// Knowledge base
-// Enterprise API
-// Affiliate program
-// Ambassador program

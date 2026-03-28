@@ -96,3 +96,5 @@ export function getSeverityStyle(severity: "low" | "medium" | "high") {
   };
   return map[severity];
 }
+
+

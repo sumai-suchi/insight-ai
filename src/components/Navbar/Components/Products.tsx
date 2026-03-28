@@ -3,8 +3,6 @@ import {
   NavigationMenuItem,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import Link from "next/link";
-import React from "react";
 import { ListItem } from "./ListItem";
 export interface ProductLinks {
   title: string;

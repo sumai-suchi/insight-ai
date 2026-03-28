@@ -198,28 +198,7 @@ export default function SignUpPage() {
               className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500"
             />
 
-            {/* 🔥 Role Selection (Dropdown) */}
-            <div>
-              <label className="text-sm text-gray-500 mb-2 block">
-                Select Role
-              </label>
-
-              <div className="relative">
-                <select
-                  value={role}
-                  onChange={(e) => setRole(e.target.value as "user" | "editor")}
-                  className="w-full appearance-none border border-gray-300 rounded-lg px-3 py-2 pr-10 outline-none focus:border-blue-500"
-                >
-                  <option value="user">User</option>
-                  <option value="editor">Editor</option>
-                </select>
-
     
-        <span className="absolute right-3 top-2.5 text-gray-400 pointer-events-none">
-          ▼
-        </span>
-      </div>
-    </div> */}
 
             {/* Submit */}
             <motion.button
