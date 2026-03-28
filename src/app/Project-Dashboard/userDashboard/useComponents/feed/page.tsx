@@ -71,7 +71,7 @@ export default function PersonalizedFeed() {
     const delayDebounceFn = setTimeout(() => {
       setPage(1);
       fetchFeed(activeCategory, search, 1);
-    }, 300);
+    }, 500);
     return () => clearTimeout(delayDebounceFn);
   }, [activeCategory, search, fetchFeed]);
 
@@ -88,9 +88,15 @@ export default function PersonalizedFeed() {
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Your Feed</h1>
           <p className="text-gray-500 text-sm mt-1">
-            Discover articles based on your interests
+            Discover news based on your interests
           </p>
         </div>
+        <Link
+          href="/Project-Dashboard/userDashboard/useComponents/preferences"
+          className="text-sm text-purple-600 hover:underline font-medium"
+        >
+          ⚙️ Edit Preferences
+        </Link>
       </div>
 
       <input
@@ -105,13 +111,10 @@ export default function PersonalizedFeed() {
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
-            onClick={() => {
-              setArticles([]);
-              setActiveCategory(cat);
-            }}
+            onClick={() => setActiveCategory(cat)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
               activeCategory === cat
-                ? "bg-purple-600 text-white shadow-md"
+                ? "bg-purple-600 text-white"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
@@ -122,17 +125,12 @@ export default function PersonalizedFeed() {
 
       {/* Articles Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {articles.length === 0 && !loading && (
-          <div className="col-span-full text-center py-10 text-gray-400">
-            No articles found in {activeCategory} category.
-          </div>
-        )}
-
         {articles.map((article) => (
           <div
             key={article._id}
             className="group flex flex-col border border-gray-200 rounded-xl overflow-hidden hover:border-purple-300 hover:shadow-md transition-all bg-white"
           >
+            {/* Image Section */}
             {article.urlToImage && (
               <div className="relative w-full h-48 overflow-hidden">
                 <Image
@@ -144,6 +142,7 @@ export default function PersonalizedFeed() {
               </div>
             )}
 
+            {/* Content Section */}
             <div className="p-5 flex flex-col grow">
               <div className="flex items-center gap-2 text-[11px] text-gray-400 mb-2">
                 <span className="font-medium text-gray-500">
@@ -171,6 +170,7 @@ export default function PersonalizedFeed() {
                 </p>
               )}
 
+              {/* Action Bottom Bar */}
               <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
                 <Link
                   href={article?.url || "#"}
