@@ -201,9 +201,10 @@ import {
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
 import { Products } from "./Components/Products";
-import Solutions from "./Components/Solutions";
+
 import News from "./Components/News";
 import Recorses from "./Components/Recorses";
+import Solutions from  "./Components/Solutions";
 import { UserAvatar } from "./Components/Avatar";
 import { useAuth } from "@/Context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -282,7 +283,7 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             <NavigationMenu viewport={false}>
               <NavigationMenuList className="gap-0.5">
                 <Products />
-                <Solutions />
+                <Solutions></Solutions>
                 <Recorses />
                 <News />
                 {NAV_LINKS.map(({ href, label }) => (
