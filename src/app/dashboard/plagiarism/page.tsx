@@ -122,18 +122,32 @@ export default function Page() {
       return;
     }
 
-    const selectedPrompts = options
-      .filter((option) => selectedOptions.includes(option.value))
-      .map((option) => `- ${option.name}: ${option.prompt}`)
-      .join("\n");
+    //     const selectedPrompts = options
+    //       .filter((option) => selectedOptions.includes(option.value))
+    //       .map((option) => `- ${option.name}: ${option.prompt}`)
+    //       .join("\n");
 
-    const prompt = `Analyze the user text using ONLY these checks:
-${selectedPrompts}
+    //     const prompt = `Analyze the user text using ONLY these checks:
+    // ${selectedPrompts}
 
-Return only one numeric percentage from 0 to 100 (no explanation, no extra words).
+    // Return only one numeric percentage from 0 to 100 (no explanation, no extra words).
 
-User text:
-${plainText}`;
+    // User text:
+    // ${plainText}`;
+
+    const selectedPrompt = options.find((opt) =>
+      selectedOptions.includes(opt.value),
+    );
+
+    const prompt = `
+${selectedPrompt?.prompt}
+
+Return ONLY a number between 0 and 100.
+Do not explain.
+
+Text:
+${plainText}
+`;
 
     try {
       setIsChecking(true);
@@ -148,6 +162,7 @@ ${plainText}`;
       }
 
       const output = await readStreamedText(response);
+      console.log("gene output", output);
       const parsed = parsePercentage(output);
 
       if (parsed === null) {
@@ -207,7 +222,9 @@ ${plainText}`;
             {isChecking ? "Checking..." : "Check"}
           </button>
           {selectedOptionNames ? (
-            <p className="text-xs text-gray-500">Selected: {selectedOptionNames}</p>
+            <p className="text-xs text-gray-500">
+              Selected: {selectedOptionNames}
+            </p>
           ) : null}
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
         </div>

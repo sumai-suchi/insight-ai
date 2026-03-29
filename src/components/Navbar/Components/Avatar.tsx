@@ -15,6 +15,7 @@ import {
   CreditCardIcon,
   LayoutDashboard,
   LogOutIcon,
+  MessageSquareCode,
 } from "lucide-react";
 import { authClient } from "@/lib/auth/auth-client";
 import Link from "next/link";
@@ -26,7 +27,7 @@ export function UserAvatar() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {/* fallback to empty string if image is missing */}
-        <div className="flex items-center justify-end px-4 lg:justify-between text-white">
+        <div className="flex items-center justify-end px-4 lg:justify-between text-slate-900">
           <img
             src={session?.user?.image || "/avatar.jpg"} // "" or null or undefined → fallback
             alt="User Avatar"
@@ -54,22 +55,17 @@ export function UserAvatar() {
               Dashboard
             </DropdownMenuItem>
           </Link>
-          <Link href="/dashboard/account">
+          <Link href="/reviews">
             <DropdownMenuItem>
-              <BadgeCheckIcon />
-              Account
+              <MessageSquareCode />
+              Reviews
             </DropdownMenuItem>
           </Link>
+
           <Link href="/dashboard/billing">
             <DropdownMenuItem>
               <CreditCardIcon />
               Billing
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/dashboard/notifications">
-            <DropdownMenuItem>
-              <BellIcon />
-              Notifications
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MessageCircle,
   Trash2,
@@ -42,6 +42,16 @@ const commentsData = [
 
 export default function CommentsPage() {
   const [comments, setComments] = useState(commentsData);
+
+  const [commentData, setCommentData] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/comments")
+      .then((res) => res.json())
+      .then((data) => setCommentData(data));
+  }, []);
+
+  console.log("commentData is", commentData);
 
   const deleteComment = (id) => {
     setComments(comments.filter((c) => c.id !== id));
