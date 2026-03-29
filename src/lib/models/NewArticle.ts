@@ -126,10 +126,12 @@ const EditorArticleSchema = new Schema(
         r._id = r._id?.toString?.() ?? r._id;
         return r;
       },
-    },
-  },
+    }, 
+  }
 );
 
 // Final Export: Use 'EditorArticle' uniformly
 export default mongoose.models.EditorArticle ||
   mongoose.model("EditorArticle", EditorArticleSchema);
+
+

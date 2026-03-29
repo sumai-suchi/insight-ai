@@ -20,7 +20,7 @@ import {
   ShieldCheck, Fingerprint, BrainCircuit, Loader2, ImageIcon, X,
   CheckCircle2, AlertCircle, RefreshCw,
 } from "lucide-react";
-import ResponsiveEditorNav from "./EditorNav";
+// import ResponsiveEditorNav from "./EditorNav";
 
 // ← CHANGED: import all API hooks from the hooks file
 
@@ -33,7 +33,8 @@ import { useuploadToCloudinary } from "@/app/Project-dashboard/hooks/useuploadTo
 
 
 import { type AuditIssue,
-  type SeoCheck} from "@/types/editor";
+  type SeoCheck,
+  type ArticleStatus} from "@/types/editor";
 
 // ─── Inline sub-components (unchanged from your original) ─────────────────────
 
@@ -250,6 +251,7 @@ export default function EnterpriseArticleEditor() {
 
   // ── AI content generation state ─────────────────────────────────────────
   const [isGeneratingContent, setIsGeneratingContent] = useState(false);
+  const [activeSaveAction, setActiveSaveAction] = useState<ArticleStatus | null>(null);
 
   // ── Toast ─────────────────────────────────────────────────────────────────
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
@@ -342,20 +344,39 @@ Create a clear structure with short sections/headings and plain text output (no 
 
   // ── Save / publish ────────────────────────────────────────────────────────
   // ← CHANGED: calls article.save() from the hook
-  const handleSave = async (status: "draft" | "published") => {
-    const ok = await article.save(
-      { ...form, seoScore: seo.data?.score ?? 0 },
-      status
-    );
-    if (ok) {
-      showToast(
-        status === "published" ? "Article published! 🎉" : "Draft saved.",
-        "success"
+  const handleSave = async (status: ArticleStatus) => {
+    setActiveSaveAction(status);
+    try {
+      const ok = await article.save(
+        { ...form, seoScore: seo.data?.score ?? 0 },
+        status
       );
-    } else if (article.error) {
-      showToast(article.error, "error");
+      if (ok) {
+        const message =
+          status === "published"
+            ? "Article published! 🎉"
+            : status === "in_review"
+              ? "Article submitted for review."
+              : "Draft saved.";
+        showToast(message, "success");
+      } else if (article.error) {
+        showToast(article.error, "error");
+      }
+    } finally {
+      setActiveSaveAction(null);
     }
   };
+
+  // const handleNavAction = (status: string) => {
+  //   // EditorNav uses "review", while API/schema expect "in_review".
+  //   if (status === "review") {
+  //     void handleSave("in_review");
+  //     return;
+  //   }
+  //   if (status === "draft" || status === "published") {
+  //     void handleSave(status);
+  //   }
+  // };
 
   // ─────────────────────────────────────────────────────────────────────────
 
@@ -368,7 +389,7 @@ Create a clear structure with short sections/headings and plain text output (no 
       )}
 
       {/* Top nav — ← CHANGED: onAction now calls handleSave */}
-      <ResponsiveEditorNav onAction={(status) => handleSave(status as "draft" | "published")} />
+      {/* <ResponsiveEditorNav onAction={handleNavAction} /> */}
 
       <main className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-0">
 
@@ -526,7 +547,7 @@ Create a clear structure with short sections/headings and plain text output (no 
                 onClick={() => handleSave("draft")}
                 className="rounded-xl"
               >
-                {article.saving ? (
+                {article.saving && activeSaveAction === "draft" ? (
                   <Loader2 size={14} className="mr-2 animate-spin" />
                 ) : (
                   <Save size={14} className="mr-2" />
@@ -534,11 +555,24 @@ Create a clear structure with short sections/headings and plain text output (no 
                 Save Draft
               </Button>
               <Button
+                variant="outline"
+                disabled={article.saving}
+                onClick={() => handleSave("in_review")}
+                className="rounded-xl border-indigo-200 text-indigo-700 hover:bg-indigo-50"
+              >
+                {article.saving && activeSaveAction === "in_review" ? (
+                  <Loader2 size={14} className="mr-2 animate-spin" />
+                ) : (
+                  <Sparkles size={14} className="mr-2" />
+                )}
+                Send for Review
+              </Button>
+              <Button
                 disabled={article.saving}
                 onClick={() => handleSave("published")}
                 className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white"
               >
-                {article.saving ? (
+                {article.saving && activeSaveAction === "published" ? (
                   <Loader2 size={14} className="mr-2 animate-spin" />
                 ) : (
                   <Send size={14} className="mr-2" />
