@@ -213,7 +213,7 @@ const sidebarConfig = {
     {
       icon: <User size={18} />,
       label: "Profile",
-      href: "/Project-dashboard/userDashboard/useComponents/profile",
+      href: "/dashboard/profile",
     },
 
     // 11. Preferences
@@ -286,8 +286,9 @@ export default function Sidebar({ role }: SidebarProps) {
         {/* Logo */}
         <div className="flex items-center gap-2 mb-10">
           <span className="text-2xl">✨</span>
-          <Link href={'/'}><h1 className="text-xl font-bold">InSight-ai</h1></Link>
-          
+          <Link href={"/"}>
+            <h1 className="text-xl font-bold">InSight-ai</h1>
+          </Link>
         </div>
 
         {/* Menu */}

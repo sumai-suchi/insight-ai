@@ -13,17 +13,14 @@ import HeroSection from "@/components/hero/HeroSection";
 export default function Home() {
   return (
     <>
-      
       <main className="flex min-h-screen w-full flex-col items-center justify-center gap-10 bg-white dark:bg-black">
         {/* <Hero /> */}
         <HeroSection></HeroSection>
         <Features />
         <HowItWorks />
         {/* <TrendingNews /> */}
-
         <NewsData />
         {/* <OutputPreview /> */}
-
         <Testimonials />
       </main>
       {/* <Footer /> */}
