@@ -105,10 +105,18 @@ export interface DashboardStats {
   drafts: number;
  
   publishedToday: number;
+  urgentReview : number;
+  aiDrafts : number;
+  publishedYesterday : number;
+  nextScheduledIn : string;
 
   scheduled: number;
 
   flaggedComments: number;
+}
+
+export interface DashboardS {
+  inReview : number, drafts : number, publishedToday : number, scheduled : number, flaggedComments : number;
 }
 
 export interface ScheduledArticle {

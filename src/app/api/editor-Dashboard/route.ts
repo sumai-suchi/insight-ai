@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { NextResponse } from "next/server";
-import type { ApiResponse, DashboardStats } from "@/types/editor";
+import type { ApiResponse, DashboardS, DashboardStats } from "@/types/editor";
 
 // ── swap these with your real Mongoose / Prisma models ────────────────────────
 import connectMongo from "@/lib/mongoose-connect/connect-db";
@@ -46,8 +46,8 @@ export async function GET() {
         Comment.countDocuments({ flag: { $ne: "none" }, status: "pending" }),
       ]);
     
-    const stats: DashboardStats = {
-      inReview, drafts, publishedToday, scheduled, flaggedComments
+    const stats: DashboardS = {
+      inReview, drafts, publishedToday, scheduled, flaggedComments 
     };
     
     const [reviewQueue, scheduledArticles,  comments] =

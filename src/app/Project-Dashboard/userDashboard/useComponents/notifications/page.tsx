@@ -54,8 +54,8 @@ const notificationsData = [
   },
 ];
 
-const getIcon = (type) => {
-  switch (type) {
+const getIcon = (type : any) => {
+  switch (type ) {
     case "news":
       return <Bell className="w-5 h-5 text-blue-500" />;
     case "recommendation":
@@ -78,7 +78,7 @@ export default function NotificationPage() {
     setNotifications(notifications.map((n) => ({ ...n, read: true })));
   };
 
-  const deleteNotification = (e, id) => {
+  const deleteNotification = (e : any, id : any) => {
     e.stopPropagation();
     setNotifications(notifications.filter((n) => n.id !== id));
   };
@@ -87,7 +87,7 @@ export default function NotificationPage() {
     setNotifications([]);
   };
 
-  const toggleRead = (id) => {
+  const toggleRead = (id : any) => {
     setNotifications(
       notifications.map((n) => (n.id === id ? { ...n, read: true } : n)),
     );
