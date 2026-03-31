@@ -29,3 +29,5 @@ function Recorses() {
     </NavigationMenuItem>
   );
 }
+
+export default Recorses;

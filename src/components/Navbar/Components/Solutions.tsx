@@ -45,3 +45,6 @@ function Solutions() {
     </NavigationMenuItem>
   );
 }
+
+
+export default Solutions;
