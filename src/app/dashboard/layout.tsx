@@ -6,7 +6,6 @@ import DashboardNavbar from "./_components/DashboardNavbar";
 import ChatBox from "./_components/ChatBox";
 
 function layout({ children }: { children: React.ReactNode }) {
-  const [sideOpen, setSideOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
 
   const router = useRouter();
@@ -21,22 +20,14 @@ function layout({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const pathname = usePathname();
-
   return (
     <div className="min-h-screen flex bg-gray-50">
-      <SideNav onToggleSide={toggleSide} isOpen={sideOpen} />
       <div
-        className={`flex-1 transition-margin duration-300 ease-in-out ${
-          sideOpen ? "md:ml-50 lg:ml-100" : "md:ml-0 lg:ml-0"
-        }`}
+        className={`flex-1 transition-margin duration-300 ease-in-out md:ml-0 lg:ml-0`}
       >
         {/* <DashboardNavbar onToggleSide={toggleSide} isOpen={sideOpen} /> */}
         {children}
       </div>
-      {pathname !== "/dashboard/chat" && (
-        <ChatBox open={chatOpen} onToggle={toggleChat} />
-      )}
     </div>
   );
 }

@@ -180,35 +180,37 @@ ${plainText}
   };
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <div className="h-full w-full lg:w-3/5 text-center md:text-start border-r border-gray-200 pt-6 md:px-6">
-        <h2 className="text-2xl font-bold">Plagiarism Checker</h2>
-        <p className="text-sm text-gray-500 mb-4">
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      <div className="flex flex-col flex-grow lg:w-3/5 text-center md:text-start border-r border-gray-200 pt-6 md:px-6 bg-(--brand-primary)">
+        <h2 className="text-2xl font-bold text-gray-300">Plagiarism Checker</h2>
+        <p className="text-sm text-gray-300 mb-4">
           Check your text for plagiarism
         </p>
-        <Tiptap onChange={setEditorContent} />
+        <div className="flex-grow flex flex-col">
+          <Tiptap onChange={setEditorContent} />
+        </div>
       </div>
-      <div className="h-screen w-full lg:w-2/5 border p-6 bg-white">
+      <div className="flex flex-col flex-grow lg:w-2/5 border p-6 bg-(--brand-secondary)">
         <div className="grid grid-cols-2 gap-4 ">
           {options.map((option) => (
             <div
               key={option.value}
               className={`border flex gap-4 p-4 rounded-lg transition-colors ${
                 selectedOptions.includes(option.value)
-                  ? "border-black bg-gray-50"
-                  : "border-gray-300"
+                  ? "border-(--brand-primary) bg-(--brand-primary) text-gray-300"
+                  : "border-gray-300 bg-transparent text-gray-300"
               }`}
             >
               <div className="flex items-center gap-2 mb-2">{option.icon}</div>
               <div className="mr-10">
                 <h3 className="text-lg font-semibold">{option.name}</h3>
-                <p className="text-sm text-gray-500">{option.cost}</p>
+                <p className="text-sm text-gray-300">{option.cost}</p>
               </div>
               <input
                 type="checkbox"
                 checked={selectedOptions.includes(option.value)}
                 onChange={() => toggleOption(option.value)}
-                className="w-5 accent-black"
+                className="w-5 accent-(--brand-primary)"
               />
             </div>
           ))}
@@ -217,12 +219,12 @@ ${plainText}
           <button
             onClick={handleCheck}
             disabled={isChecking}
-            className="bg-blue-500 text-white text-2xl mt-6 p-2 rounded-lg disabled:opacity-60"
+            className="bg-(--brand-primary) text-gray-300 text-2xl mt-6 p-2 rounded-lg disabled:opacity-60"
           >
             {isChecking ? "Checking..." : "Check"}
           </button>
           {selectedOptionNames ? (
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-300">
               Selected: {selectedOptionNames}
             </p>
           ) : null}

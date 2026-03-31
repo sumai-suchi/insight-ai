@@ -10,8 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { authClient } from "@/lib/auth/auth-client";
+
 import { Bookmark, Sparkles, ArrowUpRight } from "lucide-react"; // আইকনগুলো ইমপোর্ট করা হয়েছে
+import authClient from "@/lib/auth/auth-client";
 
 export default function NewsCard({ news }: { news: INews }) {
   const [summary, setSummary] = useState("");
@@ -84,9 +85,9 @@ export default function NewsCard({ news }: { news: INews }) {
   };
 
   return (
-    <div className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
+    <div className="group bg-[#0F2854] rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-[#BDE8F5]/20 flex flex-col h-full">
       {/* Image Section */}
-      <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
+      <div className="relative h-48 w-full bg-[#0F2854] overflow-hidden">
         {news.urlToImage ? (
           <Image
             src={news.urlToImage}
@@ -100,15 +101,20 @@ export default function NewsCard({ news }: { news: INews }) {
             📰
           </div>
         )}
-        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-purple-700 text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-sm">
+        {/* Dark overlay for editorial readability */}
+        <div className="absolute inset-0 bg-linear-to-t from-[#0F2854]/95 via-[#0F2854]/35 to-transparent pointer-events-none" />
+
+        <span className="absolute top-3 left-3 z-10 bg-[#BDE8F5] text-[#0F2854] text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-sm">
           {news.category}
         </span>
       </div>
 
       {/* Content Section */}
-      <div className="p-5 flex flex-col flex-grow">
-        <div className="flex items-center gap-2 text-[11px] text-gray-400 mb-2">
-          <span className="font-medium text-gray-500">{news.sourceName}</span>
+      <div className="p-5 flex flex-col grow">
+        <div className="flex items-center gap-2 text-[11px] text-[#BDE8F5]/70 mb-2">
+          <span className="font-medium text-[#BDE8F5]/70">
+            {news.sourceName}
+          </span>
           <span>•</span>
           <span>
             {new Date(news.publishedAt).toLocaleDateString("en-US", {
@@ -119,24 +125,24 @@ export default function NewsCard({ news }: { news: INews }) {
           </span>
         </div>
 
-        <h3 className="font-bold text-gray-800 leading-snug line-clamp-2 group-hover:text-purple-600 transition-colors mb-2">
+        <h3 className="font-bold text-[#BDE8F5] leading-snug line-clamp-2 group-hover:text-white transition-colors mb-2">
           {news.title}
         </h3>
 
         {news.description && (
-          <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-4">
+          <p className="text-xs text-[#BDE8F5]/85 line-clamp-2 leading-relaxed mb-4">
             {news.description}
           </p>
         )}
 
         {/* Action Bottom Bar */}
-        <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+        <div className="mt-auto pt-4 border-t border-[#BDE8F5]/20 flex items-center justify-between">
           {/* Read More Link */}
           <Link
             href={news.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-purple-600 text-sm font-bold flex items-center gap-1 hover:text-purple-700 transition-colors group/link"
+            className="text-[#BDE8F5] text-sm font-bold flex items-center gap-1 hover:text-white transition-colors group/link"
             onClick={handleReadHistory}
           >
             Read Full News
@@ -151,7 +157,7 @@ export default function NewsCard({ news }: { news: INews }) {
             {/* Bookmark Icon */}
             <button
               onClick={handleBookmark}
-              className="p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-all"
+              className="p-2 text-[#BDE8F5]/70 hover:text-white hover:bg-[#BDE8F5]/10 rounded-full transition-all"
               title="Bookmark"
             >
               <Bookmark size={18} />
@@ -161,7 +167,7 @@ export default function NewsCard({ news }: { news: INews }) {
             <Dialog>
               <DialogTrigger asChild>
                 <button
-                  className="p-2 text-gray-400 hover:text-amber-500 hover:bg-amber-50 rounded-full transition-all"
+                  className="p-2 text-[#BDE8F5]/70 hover:text-white hover:bg-[#BDE8F5]/10 rounded-full transition-all"
                   onClick={handleSummarize}
                   title="Summarize AI"
                 >
@@ -171,18 +177,18 @@ export default function NewsCard({ news }: { news: INews }) {
               <DialogContent className="sm:max-w-md rounded-2xl">
                 <DialogHeader>
                   <DialogTitle className="flex items-center gap-2">
-                    <Sparkles size={18} className="text-amber-500" />
+                    <Sparkles size={18} className="text-[#BDE8F5]" />
                     AI News Summary
                   </DialogTitle>
                 </DialogHeader>
                 <div className="py-4">
                   {loading ? (
                     <div className="flex flex-col items-center gap-2 py-6">
-                      <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
-                      <p className="text-sm text-gray-500">Thinking...</p>
+                      <div className="w-6 h-6 border-2 border-[#BDE8F5] border-t-transparent rounded-full animate-spin"></div>
+                      <p className="text-sm text-[#BDE8F5]/70">Thinking...</p>
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-600 leading-relaxed italic">
+                    <p className="text-sm text-slate-700 leading-relaxed italic">
                       {summary || "No summary available."}
                     </p>
                   )}

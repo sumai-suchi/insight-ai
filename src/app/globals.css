@@ -53,7 +53,7 @@
 :root {
   --radius: 0.625rem;
   /* Brand palette (from color.md) */
---brand-primary: #0F2854;
+--brand-primary: #0c234b;
   --brand-secondary:#1C4D8D;
   --brand-text:#0F172A;
   --brand-bg-light: #ffffff;

@@ -101,14 +101,22 @@ export interface ReviewQueueItem {
 
 export interface DashboardStats {
   inReview: number;
-  urgentReview: number;
+  
   drafts: number;
-  aiDrafts: number;
+ 
   publishedToday: number;
-  publishedYesterday: number;
+  urgentReview : number;
+  aiDrafts : number;
+  publishedYesterday : number;
+  nextScheduledIn : string;
+
   scheduled: number;
-  nextScheduledIn: string;
+
   flaggedComments: number;
+}
+
+export interface DashboardS {
+  inReview : number, drafts : number, publishedToday : number, scheduled : number, flaggedComments : number;
 }
 
 export interface ScheduledArticle {
@@ -141,11 +149,7 @@ export interface Comment {
 }
 
 // API response wrappers
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
+
 
 export interface PaginatedResponse<T> {
   success: boolean;
@@ -202,3 +206,112 @@ export interface ArticlePayload {
   imageUrl: string;
   seoScore?: number;
 }
+
+// ─── Shared enums ────────────────────────────────────────────────────────────
+
+// export type ArticleStatus =
+//   | "draft"
+//   | "in_review"
+//   | "approved"
+//   | "scheduled"
+//   | "published"
+//   | "rejected";
+
+export type CommentFlag = "none" | "spam" | "offensive" | "misinformation" | "toxic";
+export type CommentStatus = "pending" | "approved" | "rejected";
+export type ActivityType =
+  | "submitted"
+  | "approved"
+  | "rejected"
+  | "published"
+  | "flagged"
+  | "approved"
+ 
+   | "scheduled";
+
+// ─── Stat Cards ──────────────────────────────────────────────────────────────
+
+export interface DashboardStats {
+  inReview: number;
+  drafts: number;
+  publishedToday: number;
+  scheduled: number;
+  flaggedComments: number;
+  /** optional week-over-week deltas (percentage points) */
+  deltas?: {
+    inReview: number;
+    drafts: number;
+    publishedToday: number;
+    scheduled: number;
+    flaggedComments: number;
+  };
+}
+
+// ─── Review Queue ─────────────────────────────────────────────────────────────
+
+export interface ReviewQueueItem {
+  id: string;
+  title: string;
+  author: Author;
+  authorAvatar?: string;
+  category: Category;
+  submittedAt: string; // ISO date string
+  status: ArticleStatus;
+  wordCount: number;
+  readingTime: number; // minutes
+  priority: "low" | "normal" | "high" | "urgent";
+}
+
+// ─── Scheduled Articles ───────────────────────────────────────────────────────
+
+export interface ScheduledArticle {
+  id: string;
+  title: string;
+  author: string;
+  scheduledAt: string; // ISO date string
+  category: Category;
+  status: "scheduled";
+  /** SEO fields used by SeoHealth component */
+  seo?: {
+    score: number; // 0-100
+    missingMeta: boolean;
+    missingAlt: boolean;
+    keywordDensity: number; // 0-100
+    readabilityScore: number; // 0-100
+    slug: string;
+  };
+}
+
+// ─── Activity Feed ────────────────────────────────────────────────────────────
+
+export interface ActivityItem {
+  id: string;
+  type:"approved" | "published" | "scheduled" | "rejected" | "submitted" | "flagged";
+  actorName: string;
+  actorAvatar?: string;
+  targetTitle?: string;
+  targetId?: string;
+  timestamp: string; // ISO date string
+  meta?: string; // extra context string
+}
+
+// ─── Comments Snapshot ────────────────────────────────────────────────────────
+
+export interface Comment {
+  id: string;
+  author: string;
+  authorAvatar?: string;
+  body: string;
+  articleTitle: string;
+  articleId: string;
+  createdAt: string; // ISO date string
+  flag: "none" | "spam" | "toxic" | "misinformation";
+  status: "approved" | "pending" | "removed" ;
+  likes: number;
+}
+
+// ─── API response wrapper ─────────────────────────────────────────────────────
+
+export type ApiResponse<T = unknown> =
+  | { success: true;  data: T;         message?: string }
+  | { success: false; data?: never;    message: string  };

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
-import { authClient } from "./auth-client";
+import authClient from "./auth-client";
 
 type SessionUser = {
   id: string;

@@ -175,21 +175,19 @@ export default function PersonalizedFeed() {
 
               {/* Action Bottom Bar */}
               <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-                {article.url && (
-                  <Link
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-purple-600 text-sm font-bold flex items-center gap-1 hover:text-purple-700 transition-colors group/link"
-                    onClick={() => trackHistory(article._id)}
-                  >
-                    Read Full News
-                    <ArrowUpRight
-                      size={16}
-                      className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
-                    />
-                  </Link>
-                )}
+                <Link
+                  href={article?.url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-purple-600 text-sm font-bold flex items-center gap-1 hover:text-purple-700 transition-colors group/link"
+                  onClick={() => trackHistory(article._id)}
+                >
+                  Read Full News
+                  <ArrowUpRight
+                    size={16}
+                    className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
+                  />
+                </Link>
 
                 <div className="flex items-center gap-2">
                   <button

@@ -76,15 +76,15 @@ export async function GET(req: Request) {
 
     let matchQuery: any = {};
 
-    if (category && category.toLowerCase() !== "all") {
-      matchQuery["category.name"] = {
-        $regex: new RegExp(`^${category}$`, "i"),
-      };
-    }
+    // if (category && category.toLowerCase() !== "all") {
+    //   matchQuery["category.name"] = {
+    //     $regex: new RegExp(`^${category}$`, "i"),
+    //   };
+    // }
 
-    if (search) {
-      matchQuery.title = { $regex: search, $options: "i" };
-    }
+    // if (search) {
+    //   matchQuery.title = { $regex: search, $options: "i" };
+    // }
 
     let articles;
     let total = 0;

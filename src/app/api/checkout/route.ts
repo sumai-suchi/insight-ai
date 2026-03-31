@@ -30,9 +30,12 @@
 //   }
 // }
 
+// sk vie code
+
 import { auth } from "@/lib/auth/auth";
 import { stripe } from "@/types/stripe";
 import { NextResponse } from "next/server";
+import { Payments } from "@/lib/models/Payment";
 
 export async function POST(req: Request) {
   try {
@@ -92,89 +95,117 @@ export async function POST(req: Request) {
   }
 }
 
-//Note: The above code is a Next.js API route that creates a Stripe checkout session for a subscription. It handles the POST request, creates a checkout session with the specified payment method, line items, and success/cancel URLs, and returns the session URL in the response. If there's an error during the process, it returns a JSON response with an error message and a 500 status code.
-// import Stripe from "stripe";
-// import { NextResponse } from "next/server";
-
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-//   apiVersion: "2024-04-10",
-// });
-
-// export async function POST(req: Request) {
-//   const { plan } = await req.json();
-
-//   let price = 0;
-
-//   if (plan === "Analyst") price = 2400; // $24
-//   if (plan === "Enterprise") price = 49900; // $499
-
-//   const session = await stripe.checkout.sessions.create({
-//     payment_method_types: ["card"],
-//     mode: "payment",
-//     line_items: [
-//       {
-//         price_data: {
-//           currency: "usd",
-//           product_data: {
-//             name: plan,
-//           },
-//           unit_amount: price,
-//         },
-//         quantity: 1,
-//       },
-//     ],
-//     success_url: `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/success`,
-//     cancel_url: `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/cancel`,
-//   });
-
-//   return NextResponse.json({ id: session.id });
-// }
+// demo code
+// import { auth } from "@/lib/auth/auth";
+// import Payment from "@/lib/models/Payment";
+// import connectMongo from "@/lib/mongoose-connect/connect-db";
 // import { stripe } from "@/types/stripe";
 // import { NextResponse } from "next/server";
 
-
 // export async function POST(req: Request) {
-//   console.log("api heat here");
+//   await connectMongo();
 //   try {
+//     // ✅ Get logged-in user
+//     const session = await auth.api.getSession({ headers: req.headers });
+//     const user = session?.user;
+
+//     if (!user?.id) {
+//       return NextResponse.json(
+//         { error: "Unauthorized", redirect: "/auth/sign-in" },
+//         { status: 401 },
+//       );
+//     }
+
+//     // ✅ Get plan from request
 //     const { plan } = await req.json();
-//     console.log("Hello Plan",plan)
 
-//     if (plan === "Explorer") {
-//       return NextResponse.json({ redirect: "/signup" });
+//     const planConfig: Record<string, { price: number; name: string }> = {
+//       Premium: { price: 2900, name: "Premium Plan" },
+//       Business: { price: 49900, name: "Business Plan" },
+//     };
+
+//     const selectedPlan = planConfig[plan];
+
+//     if (!selectedPlan) {
+//       return NextResponse.json(
+//         { error: "Invalid plan selected" },
+//         { status: 400 },
+//       );
 //     }
 
-//     if (plan === "Professional") {
-//       return NextResponse.json({ redirect: "/contact" });
-//     }
-
-//     const priceId = process.env.STRIPE_PREMIUM_PRICE_ID!;
-
-//     const session = await stripe.checkout.sessions.create({
-//       mode: "subscription",
-
+//     // ✅ Create Stripe Checkout Session
+//     const sessionStripe = await stripe.checkout.sessions.create({
 //       payment_method_types: ["card"],
-
+//       mode: "payment",
 //       line_items: [
 //         {
-//           price: priceId,
+//           price_data: {
+//             currency: "usd",
+//             product_data: { name: selectedPlan.name },
+//             unit_amount: selectedPlan.price, // cents
+//           },
 //           quantity: 1,
 //         },
 //       ],
-
-//       subscription_data: {
-//         trial_period_days: 7,
-//       },
-
 //       success_url: `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/success`,
 //       cancel_url: `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/pricing`,
+
+//       customer_email: user.email, // ✅ important
+//       client_reference_id: user.id,
+
+//       metadata: {
+//         plan,
+//         userId: user.id,
+//       },
 //     });
 
-//     return NextResponse.json({ id: session.id });
+//     // ✅ Save to DB (PENDING)
+//     await Payment.create({
+//       userId: user.id,
+//       email: user.email,
+//       plan,
+//       amount: selectedPlan.price,
+//       stripeSessionId: sessionStripe.id,
+//       status: "pending", // 🔥 key part
+//     });
+
+//     // ✅ Return checkout URL
+//     return NextResponse.json({ url: sessionStripe.url });
 //   } catch (error) {
-//     console.error("Stripe error:", error);
+//     console.error("Checkout error:", error);
 
 //     return NextResponse.json(
-//       { error: "Stripe session failed" },
+//       { error: "Something went wrong" },
+//       { status: 500 },
+//     );
+//   }
+// }
+
+// export async function GET(req: Request) {
+//   try {
+//     await connectMongo(); // ✅ DB connect
+
+//     const { searchParams } = new URL(req.url);
+//     const userId = searchParams.get("userId");
+
+//     if (!userId) {
+//       return NextResponse.json(
+//         { error: "userId is required" },
+//         { status: 400 },
+//       );
+//     }
+
+//     const payments = await Payment.find({ userId }).sort({ createdAt: -1 });
+
+//     return NextResponse.json({
+//       success: true,
+//       data: payments,
+//     });
+//   } catch (error) {
+//     console.error("GET payments error:", error);
+
+//     return NextResponse.json(
+//       { error: "Something went wrong" },
 //       { status: 500 },
 //     );
 //   }

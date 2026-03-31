@@ -43,6 +43,7 @@ const commentsData = [
 export default function CommentsPage() {
   const [comments, setComments] = useState(commentsData);
 
+<<<<<<< HEAD
   const [commentData, setCommentData] = useState([]);
 
   useEffect(() => {
@@ -54,10 +55,13 @@ export default function CommentsPage() {
   console.log("commentData is", commentData);
 
   const deleteComment = (id) => {
+=======
+  const deleteComment = (id : any) => {
+>>>>>>> development
     setComments(comments.filter((c) => c.id !== id));
   };
 
-  const toggleLike = (id) => {
+  const toggleLike = (id : any) => {
     setComments(
       comments.map((c) =>
         c.id === id

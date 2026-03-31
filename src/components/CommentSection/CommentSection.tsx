@@ -14,6 +14,8 @@ export default function CommentSection({ articleId, initialCount }: { articleId:
       const res = await fetch(`/api/comments?articleId=${articleId}`);
       const data = await res.json();
       if (data.success) setComments(data.data || []);
+   
+  console.log(comments);
     } catch (err) {
       console.error("Failed to fetch comments", err);
     }
@@ -45,7 +47,15 @@ export default function CommentSection({ articleId, initialCount }: { articleId:
       });
 
       const data = await res.json();
+      console.log(data)
       if (data.success) {
+              // If AI approved it immediately, refresh list
+  // if (comments?.status === "approved") {
+  //   await fetchComments();
+  // } else {
+  //   // If AI flagged it, tell the user!
+  //   alert("Your message is under review by our AI safety system and will appear shortly.");
+  // }
         setText("");
         setReplyText("");
         setReplyingTo(null);

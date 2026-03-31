@@ -1,152 +1,222 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { motion, Variants } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Quote, Star } from "lucide-react";
-
-// Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 
-// ইন্টারফেস আপডেট (এপিআই ডাটার সাথে মিল রেখে)
-export interface ReviewData {
-  _id?: string;
-  name: string;
-  email: string;
-  image: string;
-  rating: number;
-  comment: string;
-}
+const testimonials = [
+  {
+    id: 1,
+    quote:
+      "This platform has transformed our content workflow. We're now producing 3x more content in half the time. The AI suggestions are incredibly accurate!",
+    name: "Sarah Johnson",
+    role: "Content Marketing Manager",
+    company: "TechCorp",
+    image: "https://i.pravatar.cc/150?u=sarah",
+    rating: 5,
+  },
+  {
+    id: 2,
+    quote:
+      "As a freelancer, this tool is a game-changer. The plagiarism checker and SEO optimization features help me deliver premium quality work to my clients.",
+    name: "Michael Chen",
+    role: "Freelance Writer",
+    company: "Independent",
+    image: "https://i.pravatar.cc/150?u=michael",
+    rating: 5,
+  },
+  {
+    id: 3,
+    quote:
+      "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
+    name: "Emily Rodriguez",
+    role: "Digital Marketing Director",
+    company: "Growth Labs",
+    image: "https://i.pravatar.cc/150?u=emily",
+    rating: 5,
+  },
+  {
+    id: 4,
+    quote:
+      "I love the AI content suggestions! It saves me hours every week and helps me stay on top of trends. The insights are always relevant and actionable.",
+    name: "David Lee",
+    role: "Content Strategist",
+    company: "Creative Hub",
+    image: "https://i.pravatar.cc/150?u=david",
+    rating: 5,
+  },
+];
 
-const TestimonialSlider = () => {
-  const [reviewData, setReviewData] = useState<ReviewData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  console.log("reviewData", reviewData);
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
-  useEffect(() => {
-    fetch("/api/reviews")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setReviewData(data.data);
-        }
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Fetch error:", err);
-        setIsLoading(false);
-      });
-  }, []);
-
-  if (isLoading)
-    return (
-      <div className="py-20 text-center text-gray-500">Loading reviews...</div>
-    );
-
+export default function Testimonials() {
   return (
-    <div className="bg-white py-20 px-4 w-full font-sans">
-      {/* Header Section */}
-      <div className="max-w-3xl mx-auto text-center mb-16">
-        <h2 className="text-gray-900 text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">
-          Loved by Content Creators{" "}
-          <span className="text-purple-600">Worldwide</span>
-        </h2>
-        <p className="text-gray-600 text-lg md:text-xl">
-          Don't just take our word for it—hear from the experts using our
-          platform.
-        </p>
-      </div>
+    <section className="w-full py-24 overflow-hidden relative">
+      {/* Background glow */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse, rgba(28,77,141,0.25) 0%, transparent 70%)",
+          filter: "blur(80px)",
+        }}
+      />
 
-      {/* Swiper Container */}
-      <div className="max-w-7xl mx-auto">
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          spaceBetween={30}
-          slidesPerView={1}
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
-          pagination={{ clickable: true, dynamicBullets: true }}
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-          className="pb-16"
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          className="text-center mb-16"
         >
-          {reviewData.map((item, index) => (
-            <SwiperSlide key={item._id || index} className="h-full">
-              <div className="h-full bg-gray-50 border border-gray-100 p-8 rounded-3xl flex flex-col justify-between hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-500 group">
-                <div>
-                  <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-600 transition-colors duration-300">
-                    <Quote className="w-6 h-6 text-purple-600 group-hover:text-white transition-colors duration-300" />
-                  </div>
-                  {/* API থেকে আসা comment এখানে বসবে */}
-                  <p className="text-gray-700 text-lg leading-relaxed mb-8 line-clamp-3 font-medium">
-                    &ldquo;{item.comment}&rdquo;
-                  </p>
-                </div>
+          <span
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-5"
+            style={{
+              background: "rgba(28,77,141,0.15)",
+              border: "1px solid rgba(28,77,141,0.35)",
+              color: "rgba(147,197,253,0.9)",
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            Testimonials
+          </span>
 
-                <div className="pt-6 border-t border-gray-200">
-                  <div className="flex items-center gap-4 mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4">
+            Loved by Content Creators{" "}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage: "linear-gradient(90deg, #60a5fa, #a78bfa)",
+              }}
+            >
+              Worldwide
+            </span>
+          </h2>
+          <p className="text-white/45 text-base sm:text-lg max-w-xl mx-auto">
+            Don&apos;t just take our word for it — hear from the experts using
+            our platform.
+          </p>
+        </motion.div>
+
+        {/* Swiper */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            spaceBetween={24}
+            slidesPerView={1}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            breakpoints={{
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+            className="pb-14"
+          >
+            {testimonials.map((t) => (
+              <SwiperSlide key={t.id} className="h-auto">
+                <div
+                  className="h-full flex flex-col justify-between p-7 rounded-3xl group transition-all duration-300"
+                  style={{
+                    background:
+                      "linear-gradient(145deg, rgba(10,18,40,0.95) 0%, rgba(15,40,84,0.85) 100%)",
+                    border: "1px solid rgba(28,77,141,0.3)",
+                    boxShadow:
+                      "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
+                  }}
+                >
+                  {/* Quote icon */}
+                  <div>
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300"
+                      style={{
+                        background: "rgba(28,77,141,0.25)",
+                        border: "1px solid rgba(28,77,141,0.4)",
+                      }}
+                    >
+                      <Quote className="w-5 h-5 text-blue-300" />
+                    </div>
+
+                    {/* Stars */}
+                    <div className="flex gap-1 mb-4">
+                      {Array.from({ length: t.rating }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-4 h-4 text-amber-400 fill-amber-400"
+                        />
+                      ))}
+                    </div>
+
+                    <p className="text-white/65 text-sm leading-relaxed mb-6">
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                  </div>
+
+                  {/* Author */}
+                  <div
+                    className="flex items-center gap-3 pt-5"
+                    style={{ borderTop: "1px solid rgba(28,77,141,0.25)" }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={item.image || "https://i.pravatar.cc/150"}
-                      alt={item.name}
-                      className="w-14 h-14 rounded-full object-cover ring-4 ring-white shadow-sm"
+                      src={t.image}
+                      alt={t.name}
+                      className="w-11 h-11 rounded-full object-cover"
+                      style={{ border: "2px solid rgba(28,77,141,0.5)" }}
                     />
                     <div>
-                      {/* API থেকে আসা name */}
-                      <h4 className="font-bold text-gray-900 text-lg leading-tight">
-                        {item.name}
-                      </h4>
-                      {/* Static Role */}
-                      <p className="text-sm text-purple-600 font-semibold">
-                        Content Strategist
+                      <p className="text-white font-semibold text-sm leading-tight">
+                        {t.name}
                       </p>
-                      {/* Static Company */}
-                      <p className="text-xs text-gray-400 uppercase tracking-wider mt-0.5">
-                        Creative Hub
+                      <p className="text-blue-300/70 text-xs mt-0.5">
+                        {t.role}
+                      </p>
+                      <p
+                        className="text-xs mt-0.5 uppercase tracking-wider"
+                        style={{ color: "rgba(255,255,255,0.25)" }}
+                      >
+                        {t.company}
                       </p>
                     </div>
                   </div>
-
-                  {/* API থেকে আসা rating অনুযায়ী স্টার ম্যাপ */}
-                  <div className="flex gap-1 text-amber-400">
-                    {[...Array(item.rating)].map((_, i) => (
-                      <Star key={i} size={16} fill="currentColor" />
-                    ))}
-                    {/* যদি রেটিং ৫ এর কম হয় তবে বাকিগুলো খালি স্টার দেখাতে পারেন (অপশনাল) */}
-                    {[...Array(5 - item.rating)].map((_, i) => (
-                      <Star
-                        key={i + 10}
-                        size={16}
-                        fill="none"
-                        className="text-gray-300"
-                      />
-                    ))}
-                  </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </motion.div>
       </div>
 
       <style jsx global>{`
         .swiper-pagination-bullet {
-          background: #9333ea !important;
-          width: 10px;
-          height: 10px;
-          opacity: 0.3;
+          background: rgba(96, 165, 250, 0.5) !important;
+          width: 8px;
+          height: 8px;
+          opacity: 1;
         }
         .swiper-pagination-bullet-active {
-          opacity: 1;
-          width: 30px;
-          border-radius: 5px;
+          background: #60a5fa !important;
+          width: 28px;
+          border-radius: 4px;
           transition: all 0.3s ease;
         }
       `}</style>
-    </div>
+    </section>
   );
-};
-
-export default TestimonialSlider;
+}
