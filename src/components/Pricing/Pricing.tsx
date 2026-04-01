@@ -80,49 +80,80 @@ export default function PricingPage() {
       return;
     }
 
-    try {
-      setLoadingPlan(planName);
+  //     setCheckoutUrl(data.url);
+  //   } catch (error) {
+  //     console.error("Checkout error:", error);
+  //     setLoadingPlan(null);
+  //   }
+  // };
+// const handleCheckout = async (planName: string) => {
+//   if (planName === "Explorer") {
+//     router.push("/signup");
+//     return;
+//   }
 
-      console.log("🚀 Checkout start:", planName);
+//   if (planName === "Enterprise") {
+//     router.push("/contact");
+//     return;
+//   }
 
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // 🔥 REQUIRED
-        body: JSON.stringify({
-          plan: planName,
-          interval: isAnnual ? "yearly" : "monthly", // 🔥 IMPORTANT
-        }),
-      });
+//   try {
+//     setLoadingPlan(planName);
 
-      const data = await res.json();
+//     const res = await fetch("/api/checkout", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ plan: planName }),
+//       credentials: "include", // important for Better Auth
+//     });
 
-      console.log("📦 Response:", data);
+//     const data = await res.json();
 
-      // 🔥 Redirect if not logged in
-      if (res.status === 401 && data.redirect) {
-        console.log("❌ Not logged in → redirect");
-        router.push(data.redirect);
-        return;
-      }
+//     // ❌ Handle unauthorized / redirect to login
+//     if (res.status === 401 && data.redirect) {
+//       router.push(data.redirect);
+//       return;
+//     }
 
-      if (!res.ok) {
-        console.error("❌ Error:", data.error);
-        return;
-      }
+//     // ✅ Stripe Checkout
+//     if (data.url) {
+//       const stripe = await stripePromise;
+//       if (!stripe) {
+//         console.error("Stripe failed to initialize");
+//         setLoadingPlan(null);
+//         return;
+//       }
+//       window.location.href = data.url;
+//     } else {
+//       console.error("Checkout error:", data.error);
+//     }
+//   } catch (error) {
+//     console.error("Checkout error:", error);
+//   } finally {
+//     setLoadingPlan(null);
+//   }
+// };
 
-      if (data.url) {
-        console.log("➡️ Redirecting to Stripe");
-        window.location.href = data.url;
-      }
-    } catch (error) {
-      console.error("❌ Checkout error:", error);
-    } finally {
-      setLoadingPlan(null);
-    }
-  };
+
+
+// Example React button
+const handleCheckout = async () => {
+  const res = await fetch("/api/checkout", {
+    method: "POST",
+  });
+  const data = await res.json();
+  console.log(data);
+  if (data.url) {
+    window.location.href = data.url; 
+     console.log(data);// Redirect to Stripe Checkout
+  }
+};
+
+
+
+
+
+
 
   return (
     <div className="min-h-screen bg-slate-50 py-20 px-4">
@@ -165,10 +196,10 @@ export default function PricingPage() {
           const isBusiness = plan.name === "Business";
           const isExplorer = plan.name === "Explorer";
 
-          return (
-            <div
-              key={plan.name}
-              className={`p-8 bg-white border rounded-2xl transition-all duration-300 ${
+            <button
+              onClick={() => handleCheckout()}
+              disabled={loadingPlan === plan.name}
+              className={`w-full py-3 rounded-xl font-bold ${
                 plan.highlighted
                   ? "border-blue-500 ring-4 ring-blue-500/10 scale-105 shadow-xl"
                   : "border-slate-200"

@@ -1,124 +1,101 @@
-import Payment from "@/lib/models/Payment";
-import connectMongo from "@/lib/mongoose-connect/connect-db";
-import { stripe } from "@/types/stripe";
-import { headers } from "next/headers";
-import Stripe from "stripe";
+// import Payment from "@/lib/models/Payment";
+// import connectMongo from "@/lib/mongoose-connect/connect-db";
+// import { stripe } from "@/types/stripe";
+// import { headers } from "next/headers";
+// import Stripe from "stripe";
 
-// ✅ Required for Stripe
-export const runtime = "nodejs";
+// export async function POST(req: Request) {
+//   const body = await req.text();
+//   const sig = (await headers()).get("stripe-signature");
+//   if (!sig) {
+//     return new Response("Missing signature", { status: 400 });
+//   }
 
-export async function POST(req: Request) {
-  console.log("🔥 Webhook route HIT");
+//   let event: Stripe.Event;
 
-  // ✅ Raw body
-  const body = await req.text();
+//   try {
+//     event = stripe.webhooks.constructEvent(
+//       body,
+//       sig,
+//       process.env.STRIPE_WEBHOOK_SECRET!,
+//       10000 // timeout in milliseconds to prevent hanging
+      
+//     );
+//     console.log("Webhook received:", event.type)
+//   } catch (err) {
+//     console.error("❌ Webhook signature error:", err);
+//     return new Response("Webhook Error", { status: 400 });
+//   }
 
-  // ✅ Correct headers usage
-  const headerList = await headers();
-  const sig = headerList.get("stripe-signature");
+//   await connectMongo();
+//   console.log("Mongo Conneted SK")
 
-  if (!sig) {
-    console.log("❌ Missing Stripe signature");
-    return new Response("Missing signature", { status: 400 });
-  }
+//   try {
+//     // ✅ 1. Checkout completed
+//     if (event.type === "checkout.session.completed") {
+//       const session = event.data.object as Stripe.Checkout.Session;
 
-  let event: Stripe.Event;
+//       const userId = session.metadata?.userId;
+//       const plan = session.metadata?.plan;
 
-  try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET!,
-    );
+//       // 🔥 Validate required fields
+//       if (!userId || !plan) {
+//         console.error("❌ Missing metadata");
+//         return new Response("Missing metadata", { status: 400 });
+//       }
 
-    console.log("📩 Event received:", event.type);
-  } catch (err) {
-    console.error("❌ Signature verification failed:", err);
-    return new Response("Webhook Error", { status: 400 });
-  }
+//       // 🔥 Prevent duplicate insert
+//       const existing = await Payment.findOne({
+//         stripeSessionId: session.id,
+//       });
 
-  await connectMongo();
-  console.log("✅ MongoDB connected");
+//       if (!existing) {
+//         await Payment.create({
+//           userId,
+//           plan,
+//           stripeSessionId: session.id,
+//           stripePaymentIntentId:
+//             typeof session.payment_intent === "string"
+//               ? session.payment_intent
+//               : undefined,
+//           amount: session.amount_total ?? 0,
+//           currency: session.currency ?? "usd",
+//           status: "paid",
+//         });
 
-  try {
-    /**
-     * 🔥 1. CHECKOUT COMPLETED
-     */
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object as Stripe.Checkout.Session;
+//         console.log("✅ Payment saved");
+//       } else {
+//         console.log("⚠️ Payment already exists");
+//       }
+//     }
 
-      console.log("🧾 Metadata:", session.metadata);
+//     // ✅ 2. Payment success
+//     if (event.type === "payment_intent.succeeded") {
+//       const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-      const userId = session.metadata?.userId;
-      const plan = session.metadata?.plan;
-      const interval =
-        session.metadata?.interval === "yearly" ? "yearly" : "monthly";
+//       await Payment.findOneAndUpdate(
+//         { stripePaymentIntentId: paymentIntent.id },
+//         { status: "paid" },
+//       );
 
-      // ❗ Validation
-      if (!userId || !plan) {
-        console.log("❌ Missing metadata");
-        return new Response("Missing metadata", { status: 400 });
-      }
+//       console.log("✅ Payment confirmed");
+//     }
 
-      // ❗ Prevent duplicate
-      const exists = await Payment.findOne({
-        stripeSessionId: session.id,
-      });
+//     // ❌ 3. Payment failed
+//     if (event.type === "payment_intent.payment_failed") {
+//       const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-      if (exists) {
-        console.log("⚠️ Already saved:", session.id);
-        return new Response("Already exists", { status: 200 });
-      }
+//       await Payment.findOneAndUpdate(
+//         { stripePaymentIntentId: paymentIntent.id },
+//         { status: "failed" },
+//       );
 
-      // ✅ Save to DB
-      await Payment.create({
-        userId,
-        plan,
-        interval,
-        stripeSessionId: session.id,
-        stripePaymentIntentId:
-          typeof session.payment_intent === "string"
-            ? session.payment_intent
-            : undefined,
-        amount: session.amount_total ?? 0,
-        currency: session.currency ?? "usd",
-        status: "paid",
-      });
+//       console.log("❌ Payment failed");
+//     }
 
-      console.log("✅ Payment saved");
-    }
-
-    /**
-     * 🔥 2. PAYMENT SUCCESS (backup)
-     */
-    if (event.type === "payment_intent.succeeded") {
-      const paymentIntent = event.data.object as Stripe.PaymentIntent;
-
-      console.log("💰 Payment success:", paymentIntent.id);
-
-      await Payment.findOneAndUpdate(
-        { stripePaymentIntentId: paymentIntent.id },
-        { status: "paid" },
-      );
-    }
-
-    /**
-     * 🔥 3. PAYMENT FAILED
-     */
-    if (event.type === "payment_intent.payment_failed") {
-      const paymentIntent = event.data.object as Stripe.PaymentIntent;
-
-      console.log("❌ Payment failed:", paymentIntent.id);
-
-      await Payment.findOneAndUpdate(
-        { stripePaymentIntentId: paymentIntent.id },
-        { status: "failed" },
-      );
-    }
-
-    return new Response("OK", { status: 200 });
-  } catch (error) {
-    console.error("❌ Webhook error:", error);
-    return new Response("Webhook failed", { status: 500 });
-  }
-}
+//     return new Response("OK", { status: 200 });
+//   } catch (error) {
+//     console.error("❌ Webhook handler error:", error);
+//     return new Response("Webhook handler failed", { status: 500 });
+//   }
+// }
