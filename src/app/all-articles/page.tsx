@@ -12,9 +12,12 @@ import { Article } from "@/types/editor";
 import { useAuth } from "@/Context/AuthContext";
 
 // ---- Color Utility for Categories ----
-const COLOR_PALETTE: string[] = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1'];
+const COLOR_PALETTE: string[] = ["#FFD700", "#FF6B6B", "#4ECDC4", "#45B7D1"];
 function pickAccent(cat: string, i = 0) {
-  return COLOR_PALETTE[cat.length % COLOR_PALETTE.length] || COLOR_PALETTE[i % COLOR_PALETTE.length];
+  return (
+    COLOR_PALETTE[cat.length % COLOR_PALETTE.length] ||
+    COLOR_PALETTE[i % COLOR_PALETTE.length]
+  );
 }
 
 // ---- Animation Variants ----
@@ -22,7 +25,7 @@ const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.12 }
+    transition: { staggerChildren: 0.12 },
   },
 };
 
@@ -32,13 +35,13 @@ const itemVariants: Variants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.7, ease: "easeOut" }
+    transition: { duration: 0.7, ease: "easeOut" },
   },
   hover: {
     y: -12,
     boxShadow: "0 20px 40px rgba(189, 232, 245, 0.3)",
-    transition: { duration: 0.4 }
-  }
+    transition: { duration: 0.4 },
+  },
 };
 
 const trendingVariants: Variants = {
@@ -49,12 +52,18 @@ const trendingVariants: Variants = {
 const trendingItemVariants: Variants = {
   initial: { opacity: 50, x: -10 },
   animate: { opacity: 1, x: 0 },
-  hover: { x: 8, transition: { duration: 0.3 } }
+  hover: { x: 8, transition: { duration: 0.3 } },
 };
 
 
 // ---- Article Card ----
-const ArticleCard = ({ article, priority = false }: { article: Article; priority?: boolean }) => {
+const ArticleCard = ({
+  article,
+  priority = false,
+}: {
+  article: Article;
+  priority?: boolean;
+}) => {
   const [liked, setLiked] = useState(false);
 
   // Inside your component...
@@ -128,9 +137,15 @@ const handleBookmark = async () => {
       `}
     >
       {/* Image Container */}
-      <Link href={`/article/${article.slug}`} className="block h-56 relative overflow-hidden group/image rounded-t-2xl">
+      <Link
+        href={`/article/${article.slug}`}
+        className="block h-56 relative overflow-hidden group/image rounded-t-2xl"
+      >
         <img
-          src={article.featuredImage || "https://via.placeholder.com/800x600?text=Daily+Insight"}
+          src={
+            article.featuredImage ||
+            "https://via.placeholder.com/800x600?text=Daily+Insight"
+          }
           className="w-full h-full object-cover group-hover/image:scale-110 transition duration-700"
           alt={article.title}
         />
@@ -159,19 +174,21 @@ const handleBookmark = async () => {
       <div className="flex flex-col flex-1 justify-between px-6 py-5 relative z-10">
         <div>
           <span className="text-xs font-bold text-[#BDE8F5]/80 uppercase tracking-widest">
-            {new Date(article.createdAt).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric'
+            {new Date(article.createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
             })}
           </span>
 
           <Link href={`/article/${article.slug}`}>
-            <h2 className={`
+            <h2
+              className={`
               mt-3 mb-3 font-bold leading-snug cursor-pointer transition text-[#BDE8F5]
               group-hover:text-white group-hover:underline group-hover:underline-offset-4
               ${priority ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"}
-            `}>
+            `}
+            >
               {article.title}
             </h2>
           </Link>
@@ -196,7 +213,7 @@ const handleBookmark = async () => {
 
           <div className="flex items-center gap-2 text-[#BDE8F5]">
             <button
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 setLiked(!liked);
               }}
@@ -255,7 +272,7 @@ function TrendingCard({ article, i }: { article: Article; i: number }) {
       <Link href={`/article/${article.slug}`}>
         <div className="flex items-start gap-4 py-4 border-b border-[#0F2854]/20 last:border-0 hover:bg-[#0F2854]/30 transition cursor-pointer rounded-lg px-2">
           <span className="text-4xl font-black text-[#BDE8F5]/40 group-hover:text-[#BDE8F5]/60 transition">
-            {String(i + 1).padStart(2, '0')}
+            {String(i + 1).padStart(2, "0")}
           </span>
           <div className="flex-1">
             <h4 className="font-bold text-sm group-hover:text-white text-[#BDE8F5] leading-tight transition">
@@ -286,9 +303,10 @@ export default function AllArticlesPage() {
   const fetchArticles = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/articles/published');
+      const res = await fetch("/api/articles/published");
       const json = await res.json();
       if (json.success) setArticles(json.data);
+      console.log(json.data)
     } catch (err) {
       console.error("Failed to load articles", err);
     } finally {
@@ -297,12 +315,14 @@ export default function AllArticlesPage() {
   }, []);
 
   useEffect(() => {
-    setCurrentDate(new Date().toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }));
+    setCurrentDate(
+      new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+    );
     fetchArticles();
   }, [fetchArticles]);
 
@@ -316,7 +336,6 @@ export default function AllArticlesPage() {
 
   return (
     <div className="min-h-screen bg-[#4988C4] text-[#BDE8F5] font-serif">
-
       {/* Top Bar */}
       <div className="border-b-2 border-[#0F2854]/30 bg-[#4988C4]/80 backdrop-blur-sm py-4 px-4 md:px-8 flex justify-between items-center text-xs font-bold uppercase tracking-widest text-[#0F2854]">
         <span>Edition No. 442</span>
@@ -346,7 +365,9 @@ export default function AllArticlesPage() {
 
       {/* Breaking News Bar */}
       <div className="bg-[#0F2854] text-[#4988C4] py-3 font-black tracking-wide border-y-2 border-[#BDE8F5]/30 flex items-center">
-        <span className="px-4 uppercase animate-pulse bg-red-600 text-white text-xs font-black">Breaking</span>
+        <span className="px-4 uppercase animate-pulse bg-red-600 text-white text-xs font-black">
+          Breaking
+        </span>
         <div className="overflow-hidden flex-1 relative h-8 flex items-center">
           <div className="animate-marquee whitespace-nowrap absolute flex items-center">
             {articles.map((a) => (
@@ -362,12 +383,15 @@ export default function AllArticlesPage() {
 
       {/* Main Editorial Grid */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16 space-y-20">
-
         {/* FRONT PAGE: Grid of articles */}
         <section>
           <div className="flex items-end justify-between border-b-4 border-[#0F2854] pb-4 mb-12">
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0F2854]">Front Page</h2>
-            <p className="text-sm font-bold text-[#0F2854]/80">Latest Stories &darr;</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#0F2854]">
+              Front Page
+            </h2>
+            <p className="text-sm font-bold text-[#0F2854]/80">
+              Latest Stories &darr;
+            </p>
           </div>
 
           <motion.div
@@ -377,22 +401,32 @@ export default function AllArticlesPage() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {articles.slice(0, 8).map((article, idx) => (
-              <ArticleCard key={article._id} article={article} priority={idx === 0} />
+              <ArticleCard
+                key={article._id}
+                article={article}
+                priority={idx === 0}
+              />
             ))}
           </motion.div>
         </section>
 
         {/* Divider */}
         <div className="h-16 border-y-2 border-[#0F2854]/30 bg-gradient-to-r from-[#4988C4] via-[#4988C4]/80 to-[#4988C4] flex items-center justify-center">
-          <span className="text-xs font-black text-[#0F2854] uppercase tracking-[0.5em]">More Stories Below</span>
+          <span className="text-xs font-black text-[#0F2854] uppercase tracking-[0.5em]">
+            More Stories Below
+          </span>
         </div>
 
         {/* Editor's Picks + Trending */}
         <section className="grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-8 space-y-8">
             <div className="flex items-end justify-between border-b-4 border-[#0F2854] pb-3 mb-8">
-              <h2 className="text-4xl font-black uppercase text-[#0F2854] tracking-tighter">Editor's Picks</h2>
-              <span className="text-xs font-bold text-[#0F2854]/80">Curated Selection</span>
+              <h2 className="text-4xl font-black uppercase text-[#0F2854] tracking-tighter">
+                Editor's Picks
+              </h2>
+              <span className="text-xs font-bold text-[#0F2854]/80">
+                Curated Selection
+              </span>
             </div>
 
             <motion.div
@@ -401,9 +435,12 @@ export default function AllArticlesPage() {
               animate="show"
               className="grid md:grid-cols-2 gap-8"
             >
-              {articles.filter(a => a.author.role === "editor").slice(0, 4).map(article => (
-                <ArticleCard key={article._id} article={article} />
-              ))}
+              {articles
+                .filter((a) => a.author.role === "editor")
+                .slice(0, 4)
+                .map((article) => (
+                  <ArticleCard key={article._id} article={article} />
+                ))}
             </motion.div>
           </div>
 
@@ -443,8 +480,12 @@ export default function AllArticlesPage() {
         {articles.length > 8 && (
           <section>
             <div className="flex items-end justify-between border-b-4 border-[#0F2854] pb-3 mb-8">
-              <h2 className="text-4xl font-black uppercase text-[#0F2854] tracking-tighter">All Articles</h2>
-              <span className="text-xs font-bold text-[#0F2854]/80">{articles.length - 8} more stories</span>
+              <h2 className="text-4xl font-black uppercase text-[#0F2854] tracking-tighter">
+                All Articles
+              </h2>
+              <span className="text-xs font-bold text-[#0F2854]/80">
+                {articles.length - 8} more stories
+              </span>
             </div>
 
             <motion.div

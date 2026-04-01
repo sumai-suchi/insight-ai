@@ -182,7 +182,7 @@ export default function HowItWorks() {
         >
           <Link href="/auth/sign-up">
             <motion.button
-              whileHover={{ scale: 1.04, boxShadow: "0 0 36px rgba(28,77,141,0.6)" }}
+             whileHover={{ scale: 1.04, boxShadow: "0 0 36px rgba(28,77,141,0.6)" }}
               whileTap={{ scale: 0.97 }}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-semibold text-white transition-all group"
               style={{
@@ -194,7 +194,7 @@ export default function HowItWorks() {
               Start Creating Now
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </motion.button>
-          </Link>
+          </Link> 
         </motion.div>
       </div>
     </section>

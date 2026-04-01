@@ -1,8 +1,41 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import connectMongo from "@/lib/mongoose-connect/connect-db";
 // import NewArticle from "@/lib/models/NewArticle";
 import EditorArticle from "@/lib/models/NewArticle"
 import mongoose from "mongoose";
+
+// === ADDED FOR DELETE START ===
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  try {
+    await connectMongo();
+    const { slug } = await params; 
+
+
+    const deletedArticle = await NewArticle.findByIdAndDelete(slug);
+
+    if (!deletedArticle) {
+      return NextResponse.json(
+        { success: false, message: "Article not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ 
+      success: true, 
+      message: "Article deleted successfully" 
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message }, 
+      { status: 500 }
+    );
+  }
+}
+// === ADDED FOR DELETE END ===
 
 export async function PATCH(
   request: NextRequest,

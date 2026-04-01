@@ -37,14 +37,37 @@ interface SidebarProps {
 
 const sidebarConfig = {
   admin: [
-    { icon: <Home size={18} />, label: "Home", href: "/" },
-    { icon: <LayoutDashboard size={18} />, label: "Overview", href: "/Project-dashboard/adminDashboard/adminComponents/overview" },
+    {
+      icon: <LayoutDashboard size={18} />,
+      label: "Overview",
+      href: "/Project-Dashboard/adminDashboard/adminComponents/overview",
+    },
     { icon: <User size={18} />, label: "Manage Users", href: "/user" },
-    { icon: <ShieldCheck size={18} />, label: "Roles & Permissions", href: "/Project-dashboard/adminDashboard/adminComponents/role-and-permision" },
-    { icon: <Newspaper size={18} />, label: "All Articles", href: "/Project-dashboard/adminDashboard/adminComponents/allArticles" },
-    { icon: <FileText size={18} />, label: "Reports", href: "/Project-dashboard/adminDashboard/adminComponents/reports" },
-    { icon: <Bell size={18} />, label: "Notifications", href: "/Project-dashboard/adminDashboard/adminComponents/notifications" },
-    { icon: <Settings size={18} />, label: "System Settings", href: "/Project-dashboard/adminDashboard/adminComponents/system-settings" },
+    {
+      icon: <ShieldCheck size={18} />,
+      label: "Roles & Permissions",
+      href: "/Project-Dashboard/adminDashboard/adminComponents/role-and-permision",
+    },
+    {
+      icon: <Newspaper size={18} />,
+      label: "All Articles",
+      href: "/Project-Dashboard/adminDashboard/adminComponents/allArticles",
+    },
+    {
+      icon: <FileText size={18} />,
+      label: "Reports",
+      href: "/Project-Dashboard/adminDashboard/adminComponents/reports",
+    },
+    {
+      icon: <Bell size={18} />,
+      label: "Notifications",
+      href: "/Project-Dashboard/adminDashboard/adminComponents/notifications",
+    },
+    {
+      icon: <Settings size={18} />,
+      label: "System Settings",
+      href: "/Project-Dashboard/adminDashboard/adminComponents/system-settings",
+    },
   ],
   editor: [
     { icon: <Home size={18} />, label: "Dashboard", href: "/Project-dashboard/editorDashboard" },
@@ -61,20 +84,81 @@ const sidebarConfig = {
     { icon: <User size={18} />, label: "Profile", href: "/Project-dashboard/editorDashboard/editorComponents/editor-profile" },
   ],
   user: [
-    { icon: <LayoutDashboard size={18} />, label: "Dashboard", href: "/Project-dashboard/userDashboard/useComponents/dashboard" },
-    { icon: <Lightbulb size={18} />, label: "Personalized Feed", href: "/Project-dashboard/userDashboard/useComponents/feed" },
-    { icon: <Newspaper size={18} />, label: "Explore News", href: "/Project-dashboard/userDashboard/useComponents/explore" },
-    { icon: <FileText size={18} />, label: "AI Writer", href: "/Project-dashboard/userDashboard/useComponents/ai-writer" },
-    { icon: <Bookmark size={18} />, label: "Bookmarks", href: "/Project-dashboard/userDashboard/useComponents/bookmarks" },
-    { icon: <History size={18} />, label: "Reading History", href: "/Project-dashboard/userDashboard/useComponents/history" },
-    { icon: <Bell size={18} />, label: "Notifications", href: "/Project-dashboard/userDashboard/useComponents/notifications" },
-    { icon: <MessageCircle size={18} />, label: "Comments", href: "/Project-dashboard/userDashboard/useComponents/comments" },
-    { icon: <User size={18} />, label: "Profile", href: "/Project-dashboard/userDashboard/useComponents/profile" },
-    { icon: <CreditCard size={18} />, label: "Subscription", href: "/Project-dashboard/userDashboard/useComponents/subscription" },
-    { icon: <Shield size={18} />, label: "Security", href: "/Project-dashboard/userDashboard/useComponents/security" },
-    { icon: <PencilLine size={18} />, label: "apply for editor", href: "/Project-dashboard/userDashboard/useComponents/apply-for-editor" },
-    { icon: <Settings size={18} />, label: "Settings", href: "/Project-dashboard/userDashboard/useComponents/settings" },
-    
+    {
+      icon: <LayoutDashboard size={18} />,
+      label: "Dashboard",
+      href: "/Project-dashboard/userDashboard/useComponents/dashboard",
+    },
+    {
+      icon: <Lightbulb size={18} />,
+      label: "Personalized Feed",
+      href: "/Project-dashboard/userDashboard/useComponents/feed",
+    },
+    {
+      icon: <Newspaper size={18} />,
+      label: "Explore News",
+      href: "/Project-dashboard/userDashboard/useComponents/explore",
+    },
+    {
+      icon: <FileText size={18} />,
+      label: "AI Writer",
+      href: "/Project-dashboard/userDashboard/useComponents/ai-writer",
+    },
+    {
+      icon: <Bookmark size={18} />,
+      label: "Bookmarks",
+      href: "/Project-dashboard/userDashboard/useComponents/bookmarks",
+    },
+    {
+      icon: <History size={18} />,
+      label: "Reading History",
+      href: "/Project-dashboard/userDashboard/useComponents/history",
+    },
+    {
+      icon: <Bell size={18} />,
+      label: "Notifications",
+      href: "/Project-dashboard/userDashboard/useComponents/notifications",
+    },
+    {
+      icon: <MessageCircle size={18} />,
+      label: "Comments",
+      href: "/Project-dashboard/userDashboard/useComponents/comments",
+    },
+    {
+      icon: <User size={18} />,
+      label: "Profile",
+      href: "/Project-dashboard/userDashboard/useComponents/profile",
+    },
+    {
+      icon: <CreditCard size={18} />,
+      label: "Subscription",
+      href: "/Project-dashboard/userDashboard/useComponents/subscription",
+    },
+    {
+      icon: <Shield size={18} />,
+      label: "Security",
+      href: "/Project-dashboard/userDashboard/useComponents/security",
+    },
+    {
+      icon: <PencilLine size={18} />,
+      label: "apply for editor",
+      href: "/Project-dashboard/userDashboard/useComponents/apply-for-editor",
+    },
+    {
+      icon: <Settings size={18} />,
+      label: "Settings",
+      href: "/Project-dashboard/userDashboard/useComponents/settings",
+    },
+    {
+      icon: <Sliders size={18} />,
+      label: "Preferences",
+      href: "/Project-dashboard/userDashboard/useComponents/preferences",
+    },
+    {
+      icon: <HelpCircle size={18} />,
+      label: "Support",
+      href: "/Project-dashboard/userDashboard/useComponents/support",
+    },
   ],
 } as const;
 
@@ -91,7 +175,7 @@ export default function Sidebar({ role }: SidebarProps) {
           <div className="bg-[#4988C4] p-1.5 rounded-lg shadow-inner">
             <ShieldCheck size={24} className="text-[#0F2854]" />
           </div>
-          <Link href={'/'}>
+          <Link href={"/"}>
             <h1 className="text-xl font-black uppercase tracking-tighter text-white">
               InSight<span className="text-[#4988C4]">-ai</span>
             </h1>
@@ -100,9 +184,9 @@ export default function Sidebar({ role }: SidebarProps) {
 
         {/* Role Badge */}
         <div className="mb-6 pl-2">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4988C4] bg-[#1C4D8D]/30 px-2 py-1 rounded">
-                System::{role}
-            </span>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4988C4] bg-[#1C4D8D]/30 px-2 py-1 rounded">
+            System::{role}
+          </span>
         </div>
 
         {/* Menu */}
@@ -122,10 +206,12 @@ export default function Sidebar({ role }: SidebarProps) {
 
       {/* Footer Branding */}
       <div className="mt-8 pt-6 border-t border-[#1C4D8D]">
-         <div className="flex items-center gap-3 px-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <p className="text-[10px] font-mono text-[#4988C4] uppercase tracking-widest">Core Engine Active</p>
-         </div>
+        <div className="flex items-center gap-3 px-2">
+          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+          <p className="text-[10px] font-mono text-[#4988C4] uppercase tracking-widest">
+            Core Engine Active
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -156,7 +242,9 @@ function SidebarItem({
               : "hover:bg-[#1C4D8D] text-[#BDE8F5]/70 hover:text-white"
           }`}
       >
-        <span className={`${active ? "text-[#0F2854]" : "text-[#4988C4] group-hover:scale-110 transition-transform"}`}>
+        <span
+          className={`${active ? "text-[#0F2854]" : "text-[#4988C4] group-hover:scale-110 transition-transform"}`}
+        >
           {icon}
         </span>
         <span className="text-sm tracking-tight">{label}</span>
