@@ -77,7 +77,7 @@ export default function AuthLayout({children,}: { children: React.ReactNode;}) {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-6 bg-gray-100 min-h-screen overflow-auto">
+      <main className="flex-1 bg-gray-100 min-h-screen overflow-auto">
         {/* Mobile hamburger */}
         <div className="md:hidden mb-4">
           <button

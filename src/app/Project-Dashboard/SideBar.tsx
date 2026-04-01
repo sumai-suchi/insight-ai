@@ -37,7 +37,6 @@ interface SidebarProps {
 
 const sidebarConfig = {
   admin: [
-    { icon: <Home size={18} />, label: "Home", href: "/" },
     {
       icon: <LayoutDashboard size={18} />,
       label: "Overview",
@@ -74,126 +73,139 @@ const sidebarConfig = {
     {
       icon: <Home size={18} />,
       label: "Dashboard",
-      href: "/Project-Dashboard/editorDashboard",
+      href: "/Project-dashboard/editorDashboard",
     },
     {
       icon: <ClipboardCheck size={18} />,
       label: "Review Queue",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/reviewArticle",
+      href: "/Project-dashboard/editorDashboard/editorComponents/reviewArticle",
     },
     {
       icon: <Save size={18} />,
       label: "Draft Articles",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/ArticleDraft ",
+      href: "/Project-dashboard/editorDashboard/editorComponents/ArticleDraft ",
     },
     {
       icon: <Pencil size={18} />,
       label: "Edit Articles",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/editeArticle",
+      href: "/Project-dashboard/editorDashboard/editorComponents/editeArticle",
     },
     {
       icon: <FileEdit size={18} />,
       label: "Published Articles",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/publishedArticle",
+      href: "/Project-dashboard/editorDashboard/editorComponents/publishedArticle",
     },
     {
       icon: <Calendar size={18} />,
       label: "Scheduled Articles",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/schedule-article",
+      href: "/Project-dashboard/editorDashboard/editorComponents/schedule-article",
     },
     {
       icon: <Tag size={18} />,
       label: "Categories & Tags",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/category-tags",
+      href: "/Project-dashboard/editorDashboard/editorComponents/category-tags",
     },
     {
       icon: <AlertCircle size={18} />,
       label: "Content Reports",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/reports",
+      href: "/Project-dashboard/editorDashboard/editorComponents/reports",
     },
     {
       icon: <MessageCircle size={18} />,
       label: "Comments Moderation",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/comment-modaration",
+      href: "/Project-dashboard/editorDashboard/editorComponents/comment-modaration",
     },
     {
       icon: <Bell size={18} />,
       label: "Notifications",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/notifications",
+      href: "/Project-dashboard/editorDashboard/editorComponents/notifications",
     },
     {
       icon: <BarChart2 size={18} />,
       label: "SEO Tools",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/seo-tools",
+      href: "/Project-dashboard/editorDashboard/editorComponents/seo-tools",
     },
     {
       icon: <User size={18} />,
       label: "Profile",
-      href: "/Project-Dashboard/editorDashboard/editorComponents/editor-profile",
+      href: "/Project-dashboard/editorDashboard/editorComponents/editor-profile",
     },
   ],
   user: [
     {
       icon: <LayoutDashboard size={18} />,
       label: "Dashboard",
-      href: "/Project-Dashboard/userDashboard/useComponents/dashboard",
+      href: "/Project-dashboard/userDashboard/useComponents/dashboard",
     },
-    // {
-    //   icon: <Lightbulb size={18} />,
-    //   label: "Personalized Feed",
-    //   href: "/Project-Dashboard/userDashboard/useComponents/feed",
-    // },
+    {
+      icon: <Lightbulb size={18} />,
+      label: "Personalized Feed",
+      href: "/Project-dashboard/userDashboard/useComponents/feed",
+    },
     {
       icon: <Newspaper size={18} />,
       label: "Explore News",
-      href: "/Project-Dashboard/userDashboard/useComponents/explore",
+      href: "/Project-dashboard/userDashboard/useComponents/explore",
     },
     {
       icon: <FileText size={18} />,
       label: "AI Writer",
-      href: "/Project-Dashboard/userDashboard/useComponents/ai-writer",
+      href: "/Project-dashboard/userDashboard/useComponents/ai-writer",
     },
     {
       icon: <Bookmark size={18} />,
       label: "Bookmarks",
-      href: "/Project-Dashboard/userDashboard/useComponents/bookmarks",
+      href: "/Project-dashboard/userDashboard/useComponents/bookmarks",
     },
-    // {
-    //   icon: <History size={18} />,
-    //   label: "Reading History",
-    //   href: "/Project-Dashboard/userDashboard/useComponents/history",
-    // },
+    {
+      icon: <History size={18} />,
+      label: "Reading History",
+      href: "/Project-dashboard/userDashboard/useComponents/history",
+    },
     {
       icon: <Bell size={18} />,
       label: "Notifications",
-      href: "/Project-Dashboard/userDashboard/useComponents/notifications",
+      href: "/Project-dashboard/userDashboard/useComponents/notifications",
     },
-    // { icon: <MessageCircle size={18} />, label: "Comments", href: "/Project-Dashboard/userDashboard/useComponents/comments" },
+    {
+      icon: <MessageCircle size={18} />,
+      label: "Comments",
+      href: "/Project-dashboard/userDashboard/useComponents/comments",
+    },
     {
       icon: <User size={18} />,
       label: "Profile",
-      href: "/Project-Dashboard/userDashboard/useComponents/profile",
+      href: "/Project-dashboard/userDashboard/useComponents/profile",
     },
     {
       icon: <CreditCard size={18} />,
       label: "Subscription",
-      href: "/Project-Dashboard/userDashboard/useComponents/subscription",
+      href: "/Project-dashboard/userDashboard/useComponents/subscription",
     },
-    // {
-    //   icon: <Shield size={18} />,
-    //   label: "Security",
-    //   href: "/Project-Dashboard/userDashboard/useComponents/security",
-    // },
+    {
+      icon: <Shield size={18} />,
+      label: "Security",
+      href: "/Project-dashboard/userDashboard/useComponents/security",
+    },
     {
       icon: <PencilLine size={18} />,
       label: "apply for editor",
-      href: "/Project-Dashboard/userDashboard/useComponents/apply-for-editor",
+      href: "/Project-dashboard/userDashboard/useComponents/apply-for-editor",
     },
-    // { icon: <Settings size={18} />, label: "Settings", href: "/Project-Dashboard/userDashboard/useComponents/settings" },
+    {
+      icon: <Settings size={18} />,
+      label: "Settings",
+      href: "/Project-dashboard/userDashboard/useComponents/settings",
+    },
+    {
+      icon: <Sliders size={18} />,
+      label: "Preferences",
+      href: "/Project-dashboard/userDashboard/useComponents/preferences",
+    },
     {
       icon: <HelpCircle size={18} />,
-      label: "Help & Support",
-      href: "/Project-Dashboard/userDashboard/useComponents/support",
+      label: "Support",
+      href: "/Project-dashboard/userDashboard/useComponents/support",
     },
   ],
 } as const;

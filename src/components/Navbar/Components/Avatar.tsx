@@ -64,7 +64,7 @@ export function UserAvatar() {
         <DropdownMenuGroup>
           {[
             {
-              href: "/Project-Dashboard",
+              href: "/Project-Dashboard/adminDashboard/adminComponents/overview",
               icon: LayoutDashboard,
               label: "Dashboard",
             },
