@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
         .populate("author", "name avatar"),
       NewArticle.countDocuments(query),
     ]);
+    console.log(articles)
 
     // 4. Return Response
     return NextResponse.json({
