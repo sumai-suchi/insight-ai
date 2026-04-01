@@ -5,8 +5,9 @@ const bookbarkSchema = new Schema(
     userId: { type: String, required: true },
     articleId: { type: String, required: true },
     title: { type: String, required: true },
-    url: { type: String, required: true },
+    url: { type: String },
     createdAt: { type: Date, default: Date.now },
+    description: { type: String },
   },
   { timestamps: true },
 );
