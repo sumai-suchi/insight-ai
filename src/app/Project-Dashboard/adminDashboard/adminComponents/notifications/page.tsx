@@ -117,14 +117,14 @@ const Notification = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-[#0A1228] text-white p-6 md:p-10 font-sans">
+    <div className="relative min-h-screen w-full bg-[#0A1228] text-white p-6 md:p-10">
       {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div>
@@ -132,7 +132,7 @@ const Notification = () => {
               <div className="p-2.5 bg-blue-500/10 rounded-xl border border-blue-500/20">
                 <Bell className="text-blue-400" size={24} />
               </div>
-              <h1 className="text-3xl font-black uppercase tracking-tighter">
+              <h1 className="text-4xl font-black uppercase tracking-tighter mb-2 bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent">
                 Notifications
               </h1>
             </div>

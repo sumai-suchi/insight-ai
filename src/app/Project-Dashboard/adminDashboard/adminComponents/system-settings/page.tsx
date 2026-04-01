@@ -124,7 +124,7 @@ export default function SystemSettings() {
         )}
       </AnimatePresence>
 
-      <div className="w-full max-w-6xl mx-auto px-6 md:px-12 py-10 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 py-10 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -135,11 +135,8 @@ export default function SystemSettings() {
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             Core Engine Control
           </span>
-          <h1 className="text-3xl font-black uppercase">
-            System{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-              Settings
-            </span>
+          <h1 className="text-4xl font-black uppercase tracking-tighter mb-2 bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent">
+            System Settings
           </h1>
         </motion.div>
 

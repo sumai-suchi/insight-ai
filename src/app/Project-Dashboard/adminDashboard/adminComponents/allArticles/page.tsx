@@ -76,7 +76,7 @@ const AllArticles = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-2xl font-black uppercase tracking-tight">
+            <h1 className="text-4xl font-black uppercase tracking-tighter mb-2 bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent">
               Manage Articles
             </h1>
             <p className="text-blue-400/50 text-[10px] font-bold tracking-[0.2em]">
@@ -84,7 +84,7 @@ const AllArticles = () => {
             </p>
           </div>
 
-          <div className="relative">
+          {/* <div className="relative">
             <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
             <input
               type="text"
@@ -96,7 +96,7 @@ const AllArticles = () => {
                 setCurrentPage(1);
               }}
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden relative">
@@ -128,7 +128,7 @@ const AllArticles = () => {
                           <span className="font-bold text-white group-hover:text-blue-400 truncate max-w-xs">
                             {article.title}
                           </span>
-                          <span className="text-[10px] text-white/20 font-mono italic">
+                          <span className="text-[10px] text-white/50 font-mono italic">
                             ID: {article._id.slice(-8).toUpperCase()}
                           </span>
                         </div>
