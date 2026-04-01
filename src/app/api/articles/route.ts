@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import connectMongo from "@/lib/mongoose-connect/connect-db";
-import Article from "@/lib/models/NewArticle";
+import NewArticle from "@/lib/models/NewArticle";
 import cloudinary from "@/lib/cloudinary";
 import { auth } from "@/lib/auth/auth";
 import User from "@/lib/models/User";
-import { Notification } from "@/lib/models/Notification";
 
 // Helper function to generate slug
 export async function generateSlug(title: string): Promise<string> {
@@ -17,45 +16,85 @@ export async function generateSlug(title: string): Promise<string> {
     .replace(/--+/g, "-");
   return slug;
 }
+// export async function GET(req: Request) {
+//   try {
+//     await connectMongo();
+
+//     const session = await auth.api.getSession({ headers: req.headers });
+//     const userEmail = session?.user?.email;
+//     const { searchParams } = new URL(req.url);
+//     let articles;
+
+//     if (userEmail) {
+//       const userProfile = await User.findOne({ email: userEmail });
+//       const preferences = userProfile?.preferences?.categories || [];
+//       const readHistory = userProfile?.readingHistory || [];
+
+//       const page = Number(searchParams.get("page")) || 1;
+//       const limit = Number(searchParams.get("limit")) || 9;
+//       const skip = (page - 1) * limit;
+
+//       articles = await NewArticle.aggregate([
+//         {
+//           $addFields: {
+//             isPreferred: { $cond: [{ $in: ["$category", preferences] }, 1, 0] },
+//             isRead: { $cond: [{ $in: ["$_id", readHistory] }, 1, 0] },
+//           },
+//         },
+//         {
+//           $sort: {
+//             isPreferred: -1,
+//             isRead: 1,
+//             createdAt: -1,
+//           },
+//         },
+//         { $skip: skip },
+//         { $limit: limit },
+//       ]);
+//     }
+
+//     return NextResponse.json({ success: true, articles });
+//   } catch (error: any) {
+//     console.error("Fetch Articles Error:", error);
+//     return NextResponse.json(
+//       { success: false, error: error.message },
+//       { status: 500 },
+//     );
+//   }
+// }
 
 export async function GET(req: Request) {
   try {
     await connectMongo();
-
-    const { searchParams } = new URL(req.url);
-    const category = searchParams.get("category");
-    const search = searchParams.get("search");
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "9");
-    const skip = (page - 1) * limit;
-
     const session = await auth.api.getSession({ headers: req.headers });
     const userEmail = session?.user?.email;
+    const { searchParams } = new URL(req.url);
+
+    const page = Number(searchParams.get("page")) || 1;
+    const limit = Number(searchParams.get("limit")) || 9;
+    const skip = (page - 1) * limit;
 
     let matchQuery: any = {};
 
-    // Category filtering
-    if (category && category.toLowerCase() !== "all") {
-      matchQuery["category.name"] = {
-        $regex: new RegExp(`^${category}$`, "i"),
-      };
-    }
+    // if (category && category.toLowerCase() !== "all") {
+    //   matchQuery["category.name"] = {
+    //     $regex: new RegExp(`^${category}$`, "i"),
+    //   };
+    // }
 
-    // Search filtering
-    if (search) {
-      matchQuery.title = { $regex: search, $options: "i" };
-    }
+    // if (search) {
+    //   matchQuery.title = { $regex: search, $options: "i" };
+    // }
 
     let articles;
-    let totalArticles = 0;
+    let total = 0;
 
     if (userEmail) {
-      // Logic for logged in users
       const userProfile = await User.findOne({ email: userEmail });
       const preferences = userProfile?.preferences?.categories || [];
       const readHistory = userProfile?.readingHistory || [];
 
-      articles = await Article.aggregate([
+      articles = await NewArticle.aggregate([
         { $match: matchQuery },
         {
           $addFields: {
@@ -69,26 +108,20 @@ export async function GET(req: Request) {
         { $skip: skip },
         { $limit: limit },
       ]);
-      totalArticles = await Article.countDocuments(matchQuery);
+
+      total = await NewArticle.countDocuments();
     } else {
-      // Logic for guest users
-      articles = await Article.find(matchQuery)
+      // guest user
+      total = await NewArticle.countDocuments({ status: "published" });
+      articles = await NewArticle.find({ status: "published" })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
-      totalArticles = await Article.countDocuments(matchQuery);
     }
 
-    return NextResponse.json({
-      success: true,
-      articles,
-      hasMore: totalArticles > skip + articles.length,
-      pagination: {
-        total: totalArticles,
-        totalPages: Math.ceil(totalArticles / limit),
-        currentPage: page,
-      },
-    });
+    const hasMore = page * limit < total;
+
+    return NextResponse.json({ success: true, articles, hasMore });
   } catch (error: any) {
     console.error("Fetch Articles Error:", error);
     return NextResponse.json(
@@ -97,7 +130,6 @@ export async function GET(req: Request) {
     );
   }
 }
-
 export async function POST(req: Request) {
   try {
     await connectMongo();
@@ -181,12 +213,12 @@ export async function POST(req: Request) {
 
     // Slug generation with uniqueness check
     let slug = await generateSlug(title);
-    let exists = await Article.findOne({ slug });
+    let exists = await NewArticle.findOne({ slug });
     let counter = 1;
     while (exists) {
       slug = `${await generateSlug(title)}-${counter}`;
       counter++;
-      exists = await Article.findOne({ slug });
+      exists = await NewArticle.findOne({ slug });
     }
 
     // Analytics and Metadata calculation
@@ -234,7 +266,7 @@ export async function POST(req: Request) {
       })),
     );
 
-    const newArticle = await Article.create({
+    const newArticle = await NewArticle.create({
       title,
       slug,
       content,
@@ -249,23 +281,6 @@ export async function POST(req: Request) {
       wordCount,
       readingTime,
     });
-
-    //  START Notification Logic
-    try {
-      if (newArticle && status === "published") {
-        await Notification.create({
-          title: "New Content Published",
-          message: `${author.name} published a new article: "${title}"`,
-          type: "article",
-          recipientRole: "ALL",
-          isRead: false,
-          createdAt: new Date(),
-        });
-      }
-    } catch (notifError) {
-      console.error("Notification trigger failed:", notifError);
-    }
-    // --- END
 
     return NextResponse.json({
       success: true,
