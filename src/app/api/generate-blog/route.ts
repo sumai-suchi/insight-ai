@@ -17,9 +17,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         contents: [
           {
-            parts: [
-              { text: prompt },
-            ],
+            parts: [{ text: prompt }],
           },
         ],
       }),
@@ -30,6 +28,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ text });
   } catch (err) {
-    return NextResponse.json({ error: "Failed to generate content" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to generate content" },
+      { status: 500 },
+    );
   }
 }

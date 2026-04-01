@@ -10,6 +10,7 @@ import FeaturedArticle from "./ui/FeaturedArticle";
 import NewsArticleCart from "./ui/NewsArticleCard";
 import { TrendingUp, UsersRound, RefreshCw } from "lucide-react";
 import Newsletter from "./ui/NewsLetter";
+import { useSearchParams } from "next/navigation";
 
 // অ্যানিমেশন ভ্যারিয়েন্ট
 const fadeInUp = {
@@ -37,6 +38,7 @@ export default function NewsFeed() {
   const [trendingNews, setTrendingNes] = useState<INews[]>();
   const featuredArticleData = news[0];
   console.log(trendingNews);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const trendingArticles = news.slice(2, 5);
@@ -81,6 +83,14 @@ export default function NewsFeed() {
     }, 500);
     return () => clearTimeout(timer);
   }, [searchInput]);
+
+  useEffect(() => {
+    const catFromParam = searchParams.get("category") as NewsCategory;
+    if (catFromParam) {
+      setCategory(catFromParam);
+      setPage(1);
+    }
+  }, [searchParams]);
 
   const handleSync = async () => {
     setSyncing(true);

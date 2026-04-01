@@ -1,9 +1,12 @@
-import React from 'react'
+import PricingPage from "@/components/Pricing/Pricing";
+import React from "react";
 
 const Subscription = () => {
   return (
-    <div>Subscription</div>
-  )
-}
+    <div>
+      <PricingPage></PricingPage>
+    </div>
+  );
+};
 
-export default Subscription
+export default Subscription;
