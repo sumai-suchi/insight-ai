@@ -53,7 +53,8 @@ export function UserAvatar() {
         align="end"
         className="w-52 p-1.5"
         style={{
-          background: "linear-gradient(145deg, rgba(10,18,40,0.97) 0%, rgba(15,40,84,0.95) 100%)",
+          background:
+            "linear-gradient(145deg, rgba(10,18,40,0.97) 0%, rgba(15,40,84,0.95) 100%)",
           border: "1px solid rgba(28,77,141,0.35)",
           borderRadius: "12px",
           backdropFilter: "blur(20px)",
@@ -62,10 +63,26 @@ export function UserAvatar() {
       >
         <DropdownMenuGroup>
           {[
-            { href: "/Project-dashboard", icon: LayoutDashboard, label: "Dashboard"     },
-            { href: "/dashboard/account", icon: BadgeCheckIcon,  label: "Account"       },
-            { href: "/dashboard/billing", icon: CreditCardIcon,  label: "Billing"       },
-            { href: "/dashboard/notifications", icon: BellIcon,  label: "Notifications" },
+            {
+              href: "/Project-Dashboard/adminDashboard/adminComponents/overview",
+              icon: LayoutDashboard,
+              label: "Dashboard",
+            },
+            {
+              href: "/dashboard/account",
+              icon: BadgeCheckIcon,
+              label: "Account",
+            },
+            {
+              href: "/dashboard/billing",
+              icon: CreditCardIcon,
+              label: "Billing",
+            },
+            {
+              href: "/dashboard/notifications",
+              icon: BellIcon,
+              label: "Notifications",
+            },
           ].map(({ href, icon: Icon, label }) => (
             <Link href={href} key={label}>
               <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/6 cursor-pointer transition-colors text-sm">
