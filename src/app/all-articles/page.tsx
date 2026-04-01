@@ -5,9 +5,11 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   FaEye, FaHeart, FaRegHeart, FaComment,
-  FaShareAlt, FaRegBookmark
+  FaShareAlt, FaRegBookmark,
+  FaBookmark
 } from "react-icons/fa";
 import { Article } from "@/types/editor";
+import { useAuth } from "@/Context/AuthContext";
 
 // ---- Color Utility for Categories ----
 const COLOR_PALETTE: string[] = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1'];
@@ -45,14 +47,72 @@ const trendingVariants: Variants = {
 };
 
 const trendingItemVariants: Variants = {
-  initial: { opacity: 0, x: -10 },
+  initial: { opacity: 50, x: -10 },
   animate: { opacity: 1, x: 0 },
   hover: { x: 8, transition: { duration: 0.3 } }
 };
 
+
 // ---- Article Card ----
 const ArticleCard = ({ article, priority = false }: { article: Article; priority?: boolean }) => {
   const [liked, setLiked] = useState(false);
+
+  // Inside your component...
+const [isBookmarking, setIsBookmarking] = useState(false);
+const [isSaved, setIsSaved] = useState(false);
+
+const {session}= useAuth()
+
+const handleBookmark = async () => {
+  if (!article) return;
+  
+  setIsBookmarking(true);
+  try {
+    const res = await fetch("/api/bookmark", { // Ensure this matches your route path
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: session?.user?.id, // Replace with your actual Auth User ID
+        articleId: article._id,
+        title: article.title,
+        url: window.location.href,
+      }),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      setIsSaved(true);
+      alert("Bookmark saved successfully!");
+    }
+  } catch (error) {
+    console.error("Bookmark error:", error);
+  } finally {
+    setIsBookmarking(false);
+  }
+};
+
+
+  const handleShare = async () => {
+  const shareData = {
+    title: article.title,
+    text: article.excerpt || "Check out this article!",
+    url: window.location.href, // Current page URL
+  };
+
+  try {
+    // Check if the browser supports the Web Share API (Mobile/Safari)
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      // Fallback: Copy to clipboard for desktop browsers
+      await navigator.clipboard.writeText(shareData.url);
+      alert("Link copied to clipboard!"); 
+      // Pro tip: Use a toast notification here instead of an alert
+    }
+  } catch (err) {
+    console.error("Error sharing:", err);
+  }
+};
 
   return (
     <motion.div
@@ -88,11 +148,11 @@ const ArticleCard = ({ article, priority = false }: { article: Article; priority
         </span>
 
         {/* Editor Pick Badge */}
-        {article.author.role === "editor" && (
+        {/* {article.author.role === "editor" && (
           <span className="absolute top-4 right-4 bg-[#BDE8F5] text-[#0F2854] px-3 py-1 rounded-lg font-extrabold uppercase text-xs shadow-lg">
             Editor's Pick
           </span>
-        )}
+        )} */} 
       </Link>
 
       {/* Content */}
@@ -134,7 +194,7 @@ const ArticleCard = ({ article, priority = false }: { article: Article; priority
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-[#BDE8F5]">
+          <div className="flex items-center gap-2 text-[#BDE8F5]">
             <button
               onClick={e => {
                 e.preventDefault();
@@ -144,9 +204,38 @@ const ArticleCard = ({ article, priority = false }: { article: Article; priority
               aria-label="Like"
             >
               {liked ? <FaHeart className="text-[#BDE8F5]" /> : <FaRegHeart />}
+              
+              
             </button>
-            <FaShareAlt className="cursor-pointer hover:text-white hover:scale-110 transition" />
-            <FaRegBookmark className="cursor-pointer hover:text-white hover:scale-110 transition" />
+            {article.likes}
+           <button
+              onClick={handleShare}
+                    className="hover:scale-125 hover:text-white transition active:scale-90 p-1"
+                     aria-label="Share"
+                  >
+                <FaShareAlt />
+             </button>
+
+
+        <div className="flex items-center gap-2 text-[#BDE8F5]">
+  {/* ... other buttons (like, share) ... */}
+
+  <button 
+    onClick={handleBookmark}
+    disabled={isBookmarking || isSaved}
+    className={`transition transform active:scale-90 ${
+      isBookmarking ? "animate-pulse opacity-50" : "hover:scale-125 hover:text-white"
+    }`}
+    aria-label="Bookmark article"
+  >
+    {isSaved ? (
+      <FaBookmark className="text-[#BDE8F5]" /> // You'll need to import FaBookmark from 'react-icons/fa'
+    ) : (
+      <FaRegBookmark />
+    )}
+  </button>
+</div>
+
           </div>
         </div>
       </div>
@@ -161,7 +250,7 @@ function TrendingCard({ article, i }: { article: Article; i: number }) {
       variants={trendingItemVariants}
       initial="initial"
       whileHover="hover"
-      className="group"
+      className="flex items-start gap-4 py-3 border-b border-[#BDE8F5]/20 last:border-0 hover:bg-[#BDE8F5]/10 transition cursor-pointer rounded-lg px-2"
     >
       <Link href={`/article/${article.slug}`}>
         <div className="flex items-start gap-4 py-4 border-b border-[#0F2854]/20 last:border-0 hover:bg-[#0F2854]/30 transition cursor-pointer rounded-lg px-2">
@@ -324,18 +413,19 @@ export default function AllArticlesPage() {
               variants={trendingVariants}
               initial="initial"
               animate="animate"
-              className="bg-[#0F2854] rounded-2xl p-7 shadow-lg border-2 border-[#BDE8F5]/20 sticky top-24"
+              className="bg-[#0F2854] rounded-2xl text-[#24afda] p-7 shadow-lg border-2 border-[#BDE8F5]/20 sticky top-24"
             >
-              <h3 className="text-xl font-black uppercase text-[#BDE8F5] mb-2 pb-3 border-b-2 border-[#BDE8F5]/30">
+              <h3 className="text-xl font-black uppercase text-[#24afda] mb-2 pb-3 border-b-2 border-[#BDE8F5]/30">
                 🔥 Trending Now
               </h3>
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate="show"
-                className="space-y-1"
+                className="space-y-1 "
               >
-                {articles
+               <div className="">
+                 {articles
                   .slice()
                   .sort((a, b) => (b.views || 0) - (a.views || 0))
                   .slice(0, 6)
@@ -343,6 +433,7 @@ export default function AllArticlesPage() {
                     <TrendingCard article={a} key={a._id} i={i} />
                   ))
                 }
+               </div>
               </motion.div>
             </motion.div>
           </div>
@@ -370,42 +461,7 @@ export default function AllArticlesPage() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-[#0F2854] text-[#BDE8F5] py-16 px-4 mt-20 border-t-4 border-[#4988C4]">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12 border-b border-[#BDE8F5]/20 pb-12 mb-8">
-          <div className="space-y-4">
-            <h2 className="text-4xl font-black uppercase tracking-tighter text-[#4988C4]">Daily Insight</h2>
-            <p className="text-[#BDE8F5]/70 text-sm leading-relaxed">
-              Premium news coverage. Global perspectives. Trusted by informed citizens worldwide.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-3 uppercase text-xs font-bold tracking-widest">
-            <p className="text-[#4988C4] mb-2">Categories</p>
-            {["Politics", "Technology", "Sports", "Health", "Entertainment"].map(s => (
-              <span key={s} className="hover:text-[#4988C4] cursor-pointer transition text-[#BDE8F5]">{s}</span>
-            ))}
-          </div>
-
-          <div className="space-y-3">
-            <p className="text-xs font-bold uppercase text-[#4988C4] tracking-widest">Newsletter</p>
-            <div className="flex border-2 border-[#BDE8F5]/30 rounded-xl overflow-hidden focus-within:border-[#4988C4] transition">
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="bg-[#0F2854] border-none p-3 text-xs w-full focus:ring-0 text-[#BDE8F5] placeholder-[#BDE8F5]/40"
-              />
-              <button className="bg-[#4988C4] text-[#0F2854] font-black px-6 text-xs uppercase hover:bg-[#BDE8F5] transition">
-                Join
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center pt-8 text-xs text-[#BDE8F5]/60 uppercase tracking-widest">
-          © 2026 Daily Insight • All Rights Reserved
-        </div>
-      </footer>
+    
 
       {/* Marquee animation */}
       <style jsx>{`

@@ -7,8 +7,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     await connectMongo();
-
+   console.log("Mongo Connected SK")
     const body = await req.json();
+    console.log("Received bookmark data:", body);
     const userId = body.userId;
 
     const newBookmark = new Bookmark({

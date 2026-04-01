@@ -12,7 +12,7 @@ interface TopbarProps {
 export function Topbar({
   editorName,
   avatarUrl,
-  unreadCount = 3,
+  
 }: TopbarProps) {
   const [searchFocused, setSearchFocused] = useState(false);
 
@@ -51,7 +51,7 @@ export function Topbar({
       {/* right: search + actions + avatar */}
       <div className="flex items-center gap-3">
         {/* search */}
-        <div
+        {/* <div
           className={`flex items-center gap-2 bg-zinc-100 rounded-xl px-3 py-2 transition-all duration-200 ${
             searchFocused ? "ring-2 ring-blue-500 bg-white" : ""
           }`}
@@ -64,25 +64,25 @@ export function Topbar({
             onBlur={() => setSearchFocused(false)}
             className="bg-transparent text-sm text-zinc-700 placeholder:text-zinc-400 outline-none w-48"
           />
-        </div>
+        </div> */}
 
         {/* notifications */}
-        <button className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-zinc-100 hover:bg-zinc-200 transition-colors">
+        {/* <button className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-zinc-100 hover:bg-zinc-200 transition-colors">
           <Bell className="w-4 h-4 text-zinc-600" />
           {unreadCount > 0 && (
             <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1">
               {unreadCount}
             </span>
           )}
-        </button>
+        </button> */}
 
         {/* settings */}
-        <button className="w-9 h-9 flex items-center justify-center rounded-xl bg-zinc-100 hover:bg-zinc-200 transition-colors">
+        {/* <button className="w-9 h-9 flex items-center justify-center rounded-xl bg-zinc-100 hover:bg-zinc-200 transition-colors">
           <Settings className="w-4 h-4 text-zinc-600" />
-        </button>
+        </button> */}
 
         {/* avatar */}
-        <button className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-xl hover:bg-zinc-100 transition-colors">
+        {/* <button className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-xl hover:bg-zinc-100 transition-colors">
           {avatarUrl ? (
             <img
               src={avatarUrl}
@@ -98,7 +98,7 @@ export function Topbar({
             {editorName.split(" ")[0]}
           </span>
           <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
-        </button>
+        </button> */}
       </div>
     </div>
   );
