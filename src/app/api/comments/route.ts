@@ -2,23 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import connectMongo from "@/lib/mongoose-connect/connect-db";
 import Comment from "@/lib/models/Comments";
-import NewArticle from "@/lib/models/NewArticle";
-import {
-  GoogleGenerativeAI,
-  SchemaType,
-  ResponseSchema,
-} from "@google/generative-ai";
+// import NewArticle from "@/lib/models/NewArticle";
+import EditorArticle from "@/lib/models/NewArticle";
+import { GoogleGenerativeAI, SchemaType, ResponseSchema } from "@google/generative-ai";
+import { checkContent } from "@/lib/moderation";
 
 // 1. Initialize Gemini
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY!);
+const genAI = new GoogleGenerativeAI(process.env. NEXT_PUBLIC_GEMINI_API_KEY!);
 
-async function moderateWithGemini(
-  content: string,
-): Promise<{ status: string; flag: string }> {
+async function moderateWithGemini(content: string): Promise<{ status: string; flag: string }> {
   try {
     // UPDATED: Using Gemini 3 Flash (current 2026 standard)
     const model = genAI.getGenerativeModel({
-      model: "gemini-3-flash-preview",
+      model: "gemini-3-flash-preview", 
     });
 
     const schema: ResponseSchema = {
@@ -64,13 +60,11 @@ export async function GET(request: NextRequest) {
     const articleId = searchParams.get("articleId");
 
     if (!articleId || !mongoose.Types.ObjectId.isValid(articleId)) {
-      return NextResponse.json(
-        { success: false, message: "Valid ID required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ success: false, message: "Valid ID required" }, { status: 400 });
     }
-    const comments = await Comment.find({
-      articleId: new mongoose.Types.ObjectId(articleId),
+    const comments = await Comment.find({ 
+      articleId : new mongoose.Types.ObjectId(articleId)
+  
     }).sort({ createdAt: -1 });
 
     // const comments = await Comment.find({ articleId: new mongoose.Types.ObjectId(articleId) ,  status: "approved" // <--- CRITICAL FILTER})
@@ -91,6 +85,19 @@ export async function POST(request: NextRequest) {
     await connectMongo();
     const body = await request.json();
     const { articleId, content, user, parentId } = body;
+    const moderation = checkContent(content);
+    console.log("Moderation Result:", moderation.flagged, moderation.reason);
+
+    if (moderation.flagged) {
+  return NextResponse.json(
+    {
+      success: false,
+      message: "Your comment violates our community guidelines.",
+      reason: moderation.reason
+    },
+    { status: 400 }
+  );
+}
 
     if (!articleId || !content || !user) {
       return NextResponse.json(
@@ -100,8 +107,9 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Moderate with AI
-    const { status, flag } = await moderateWithGemini(content);
-    console.log("Moderation Result:", { status, flag });
+    // const { status, flag } = await moderateWithGemini(content);
+    // console.log("Moderation Result:", { status, flag });    
+    console.log("Comment Content:", content);          
 
     // 2. Prepare Data
     const commentData = {
@@ -109,25 +117,32 @@ export async function POST(request: NextRequest) {
       content,
       user,
       parentId: parentId ? new mongoose.Types.ObjectId(parentId) : null,
-      status,
-      flag,
+      status: moderation.flagged ? "rejected" : "approved",
+      moderationNote: moderation.reason,
+      createdAt: new Date(),
+        
     };
 
     // 3. Save Comment
     const newComment = await Comment.create(commentData);
 
     // 4. Update Article Count if Approved
-    if (status === "approved") {
-      await NewArticle.findByIdAndUpdate(articleId, {
-        $inc: { commentCount: 1 },
+    if(!moderation.flagged) {
+      await EditorArticle.findByIdAndUpdate(articleId, {
+        $inc: { commentCount: 1 }
       });
+      
     }
+  
+      
+    
 
-    return NextResponse.json({
-      success: true,
+    return NextResponse.json({ 
+      success: true, 
       data: newComment,
-      moderated: { status, flag },
+        message: "Comment submitted successfully!"
     });
+
   } catch (error: any) {
     console.error("POST Error:", error);
     return NextResponse.json(

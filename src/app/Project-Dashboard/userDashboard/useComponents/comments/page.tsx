@@ -44,6 +44,7 @@ export default function CommentsPage() {
   const [comments, setComments] = useState(commentsData);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [commentData, setCommentData] = useState([]);
 
   useEffect(() => {
@@ -55,6 +56,9 @@ export default function CommentsPage() {
   console.log("commentData is", commentData);
 
   const deleteComment = (id) => {
+=======
+  const deleteComment = (id : any) => {
+>>>>>>> development
 =======
   const deleteComment = (id : any) => {
 >>>>>>> development

@@ -37,20 +37,17 @@ interface SidebarProps {
 
 const sidebarConfig = {
   admin: [
-    { icon: <Home size={18} />, label: "Home", href: "/" },
     {
       icon: <LayoutDashboard size={18} />,
       label: "Overview",
       href: "/Project-Dashboard/adminDashboard/adminComponents/overview",
     },
-
     { icon: <User size={18} />, label: "Manage Users", href: "/user" },
     {
       icon: <ShieldCheck size={18} />,
       label: "Roles & Permissions",
       href: "/Project-Dashboard/adminDashboard/adminComponents/role-and-permision",
     },
-
     {
       icon: <Newspaper size={18} />,
       label: "All Articles",
@@ -61,7 +58,6 @@ const sidebarConfig = {
       label: "Reports",
       href: "/Project-Dashboard/adminDashboard/adminComponents/reports",
     },
-
     {
       icon: <Bell size={18} />,
       label: "Notifications",
@@ -144,12 +140,12 @@ const sidebarConfig = {
     {
       icon: <Lightbulb size={18} />,
       label: "Personalized Feed",
-      href: "/Project-Dashboard/userDashboard/useComponents/feed",
+      href: "/Project-dashboard/userDashboard/useComponents/feed",
     },
     {
       icon: <Newspaper size={18} />,
       label: "Explore News",
-      href: "/Project-Dashboard/userDashboard/useComponents/explore",
+      href: "/Project-dashboard/userDashboard/useComponents/explore",
     },
     {
       icon: <FileText size={18} />,
@@ -166,7 +162,6 @@ const sidebarConfig = {
       label: "Reading History",
       href: "/Project-Dashboard/userDashboard/useComponents/history",
     },
-
     {
       icon: <User size={18} />,
       label: "Profile",
@@ -186,6 +181,26 @@ const sidebarConfig = {
       icon: <PencilLine size={18} />,
       label: "apply for editor",
       href: "/Project-Dashboard/userDashboard/useComponents/apply-for-editor",
+    },
+    {
+      icon: <PencilLine size={18} />,
+      label: "apply for editor",
+      href: "/Project-dashboard/userDashboard/useComponents/apply-for-editor",
+    },
+    {
+      icon: <Settings size={18} />,
+      label: "Settings",
+      href: "/Project-dashboard/userDashboard/useComponents/settings",
+    },
+    {
+      icon: <Sliders size={18} />,
+      label: "Preferences",
+      href: "/Project-dashboard/userDashboard/useComponents/preferences",
+    },
+    {
+      icon: <HelpCircle size={18} />,
+      label: "Support",
+      href: "/Project-dashboard/userDashboard/useComponents/support",
     },
   ],
 } as const;

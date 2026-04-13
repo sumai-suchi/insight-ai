@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/Context/AuthContext";
 import { useState, useEffect } from "react";
 import { FaReply, FaUserCircle, FaPaperPlane } from "react-icons/fa";
 
@@ -25,6 +26,8 @@ export default function CommentSection({ articleId, initialCount }: { articleId:
     if (articleId) fetchComments(); 
   }, [articleId]);
 
+   const { session } = useAuth();
+
   const submitComment = async (parentId: string | null = null) => {
     const contentToSend = parentId ? replyText : text;
     if (!contentToSend.trim() || loading) return;
@@ -33,15 +36,15 @@ export default function CommentSection({ articleId, initialCount }: { articleId:
     try {
       const res = await fetch("/api/comments", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },  
         body: JSON.stringify({
           articleId,
           content: contentToSend,
           parentId: parentId || null,
           user: { 
-            name: "Reader", 
-            email: "reader@insight.com",
-            avatar: "" 
+            name: session?.user?.name || "Anonymous", 
+            email: session?.user?.email || "",
+            avatar: session?.user?.image || "" 
           }
         })
       });
@@ -112,7 +115,7 @@ export default function CommentSection({ articleId, initialCount }: { articleId:
                     {new Date(comment.createdAt).toLocaleDateString()}
                   </span>
                 </div>
-                <p className="text-gray-700 leading-relaxed text-lg">{comment.content}</p>
+                <p className="text-blue-400 leading-relaxed text-lg">{comment.content}</p>
                 
                 <button 
                   onClick={() => {
@@ -131,7 +134,7 @@ export default function CommentSection({ articleId, initialCount }: { articleId:
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-black uppercase text-xs">{reply.user.name}</span>
                       </div>
-                      <p className="text-gray-600 text-base">{reply.content}</p>
+                      <p className="text-blue-400 text-base">{reply.content}</p>
                     </div>
                   ))}
                   
@@ -140,7 +143,7 @@ export default function CommentSection({ articleId, initialCount }: { articleId:
                       <input 
                         autoFocus
                         value={replyText}
-                        className="flex-1 bg-white border border-gray-300 p-2 text-sm outline-none focus:border-black"
+                        className="flex-1 bg-white border border-gray-300 text-blue-400 p-2 text-sm outline-none focus:border-black"
                         placeholder="Write a reply..."
                         onChange={(e) => setReplyText(e.target.value)}
                       />

@@ -199,6 +199,8 @@ export default function SignUpPage() {
               className="w-full border-b border-gray-300 pb-2 outline-none focus:border-blue-500"
             />
 
+    
+
             {/* Submit */}
             <motion.button
               type="submit"

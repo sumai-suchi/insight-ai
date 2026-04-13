@@ -66,11 +66,15 @@ export function UserAvatar() {
         <DropdownMenuGroup>
           {[
             {
-              href: "/Project-Dashboard",
+              href: "/Project-Dashboard/adminDashboard/adminComponents/overview",
               icon: LayoutDashboard,
               label: "Dashboard",
             },
-
+            {
+              href: "/dashboard/account",
+              icon: BadgeCheckIcon,
+              label: "Account",
+            },
             {
               href: "/dashboard/billing",
               icon: CreditCardIcon,
