@@ -14,10 +14,12 @@ import {
   CreditCardIcon,
   LayoutDashboard,
   LogOutIcon,
+  MessageSquareCode,
 } from "lucide-react";
-import { authClient } from "@/lib/auth/auth-client";
+
 import Link from "next/link";
 import { useAuth } from "@/Context/AuthContext";
+import authClient from "@/lib/auth/auth-client";
 
 export function UserAvatar() {
   const { session } = useAuth();

@@ -30,9 +30,9 @@ import {
   PencilLine,
 } from "lucide-react";
 import { useState } from "react";
-
+type Role = "user" | "admin" | "editor";
 interface SidebarProps {
-  role: "admin" | "editor" | "user";
+  role?: Role;
 }
 
 const sidebarConfig = {
@@ -70,24 +70,72 @@ const sidebarConfig = {
     },
   ],
   editor: [
-    { icon: <Home size={18} />, label: "Dashboard", href: "/Project-dashboard/editorDashboard" },
-    { icon: <ClipboardCheck size={18} />, label: "Review Queue", href: "/Project-dashboard/editorDashboard/editorComponents/reviewArticle" },
-    { icon: <Save size={18} />, label: "Draft Articles", href: "/Project-dashboard/editorDashboard/editorComponents/ArticleDraft " },
-    { icon: <Pencil size={18} />, label: "Edit Articles", href: "/Project-dashboard/editorDashboard/editorComponents/editeArticle" },
-    { icon: <FileEdit size={18} />, label: "Published Articles", href: "/Project-dashboard/editorDashboard/editorComponents/publishedArticle" },
-    
-   
-   
-    { icon: <MessageCircle size={18} />, label: "Comments Moderation", href: "/Project-dashboard/editorDashboard/editorComponents/comment-modaration" },
-    { icon: <Bell size={18} />, label: "Notifications", href: "/Project-dashboard/editorDashboard/editorComponents/notifications" },
-    { icon: <BarChart2 size={18} />, label: "SEO Tools", href: "/Project-dashboard/editorDashboard/editorComponents/seo-tools" },
-    { icon: <User size={18} />, label: "Profile", href: "/Project-dashboard/editorDashboard/editorComponents/editor-profile" },
+    {
+      icon: <Home size={18} />,
+      label: "Dashboard",
+      href: "/Project-Dashboard/editorDashboard",
+    },
+    {
+      icon: <ClipboardCheck size={18} />,
+      label: "Review Queue",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/reviewArticle",
+    },
+    {
+      icon: <Save size={18} />,
+      label: "Draft Articles",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/ArticleDraft ",
+    },
+    {
+      icon: <Pencil size={18} />,
+      label: "Edit Articles",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/editeArticle",
+    },
+    {
+      icon: <FileEdit size={18} />,
+      label: "Published Articles",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/publishedArticle",
+    },
+    {
+      icon: <Calendar size={18} />,
+      label: "Scheduled Articles",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/schedule-article",
+    },
+    {
+      icon: <Tag size={18} />,
+      label: "Categories & Tags",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/category-tags",
+    },
+    {
+      icon: <AlertCircle size={18} />,
+      label: "Content Reports",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/reports",
+    },
+    {
+      icon: <MessageCircle size={18} />,
+      label: "Comments Moderation",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/comment-modaration",
+    },
+    {
+      icon: <Bell size={18} />,
+      label: "Notifications",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/notifications",
+    },
+    {
+      icon: <BarChart2 size={18} />,
+      label: "SEO Tools",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/seo-tools",
+    },
+    {
+      icon: <User size={18} />,
+      label: "Profile",
+      href: "/Project-Dashboard/editorDashboard/editorComponents/editor-profile",
+    },
   ],
   user: [
     {
       icon: <LayoutDashboard size={18} />,
       label: "Dashboard",
-      href: "/Project-dashboard/userDashboard/useComponents/dashboard",
+      href: "/Project-Dashboard/userDashboard/useComponents/dashboard",
     },
     {
       icon: <Lightbulb size={18} />,
@@ -102,42 +150,37 @@ const sidebarConfig = {
     {
       icon: <FileText size={18} />,
       label: "AI Writer",
-      href: "/Project-dashboard/userDashboard/useComponents/ai-writer",
+      href: "/Project-Dashboard/userDashboard/useComponents/ai-writer",
     },
     {
       icon: <Bookmark size={18} />,
       label: "Bookmarks",
-      href: "/Project-dashboard/userDashboard/useComponents/bookmarks",
+      href: "/Project-Dashboard/userDashboard/useComponents/bookmarks",
     },
     {
       icon: <History size={18} />,
       label: "Reading History",
-      href: "/Project-dashboard/userDashboard/useComponents/history",
-    },
-    {
-      icon: <Bell size={18} />,
-      label: "Notifications",
-      href: "/Project-dashboard/userDashboard/useComponents/notifications",
-    },
-    {
-      icon: <MessageCircle size={18} />,
-      label: "Comments",
-      href: "/Project-dashboard/userDashboard/useComponents/comments",
+      href: "/Project-Dashboard/userDashboard/useComponents/history",
     },
     {
       icon: <User size={18} />,
       label: "Profile",
-      href: "/Project-dashboard/userDashboard/useComponents/profile",
+      href: "/Project-Dashboard/userDashboard/useComponents/profile",
     },
     {
       icon: <CreditCard size={18} />,
       label: "Subscription",
-      href: "/Project-dashboard/userDashboard/useComponents/subscription",
+      href: "/Project-Dashboard/userDashboard/useComponents/subscription",
     },
     {
       icon: <Shield size={18} />,
       label: "Security",
-      href: "/Project-dashboard/userDashboard/useComponents/security",
+      href: "/Project-Dashboard/userDashboard/useComponents/security",
+    },
+    {
+      icon: <PencilLine size={18} />,
+      label: "apply for editor",
+      href: "/Project-Dashboard/userDashboard/useComponents/apply-for-editor",
     },
     {
       icon: <PencilLine size={18} />,
@@ -163,7 +206,7 @@ const sidebarConfig = {
 } as const;
 
 export default function Sidebar({ role }: SidebarProps) {
-  const items = sidebarConfig[role];
+  const items = role ? sidebarConfig[role] : [];
   const [activeItem, setActiveItem] = useState("Dashboard");
 
   return (
@@ -185,7 +228,7 @@ export default function Sidebar({ role }: SidebarProps) {
         {/* Role Badge */}
         <div className="mb-6 pl-2">
           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4988C4] bg-[#1C4D8D]/30 px-2 py-1 rounded">
-            System::{role}
+            {role ? `System::${role}` : "Loading..."}
           </span>
         </div>
 

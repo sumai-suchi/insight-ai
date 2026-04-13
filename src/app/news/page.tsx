@@ -5,7 +5,7 @@ export const metadata = { title: "News Feed" };
 
 export default function NewsPage() {
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen">
       {/* Wrapping NewsFeed in Suspense allows Next.js to 
           render the rest of the page statically while 
           waiting for client-side search params.

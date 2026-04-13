@@ -72,7 +72,7 @@ const NewsArticleCart = ({ article }: { article: INews }) => {
 
   return (
     // 'group' ক্লাসটি এখানে যোগ করা হয়েছে যাতে পুরো কার্ডে হোভার করলে ইমেজ জুম হয়
-    <div className="group bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 flex flex-col sm:flex-row h-full hover:shadow-md transition-all duration-300">
+    <div className="group bg-[#0F2854] rounded-3xl overflow-hidden shadow-sm border border-[#BDE8F5]/20 flex flex-col sm:flex-row h-full hover:shadow-md transition-all duration-300">
       {/* Image Section */}
       <div className="relative w-full sm:w-2/5 h-48 sm:h-auto overflow-hidden">
         <Image
@@ -84,8 +84,10 @@ const NewsArticleCart = ({ article }: { article: INews }) => {
           className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
         />
 
+        <div className="absolute inset-0 bg-linear-to-t from-[#0F2854]/95 via-[#0F2854]/35 to-transparent pointer-events-none" />
+
         {/* Hot Badge */}
-        <div className="absolute top-3 left-3 bg-orange-500 text-white text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 uppercase z-10 shadow-sm">
+        <div className="absolute top-3 left-3 z-10 bg-[#BDE8F5] text-[#0F2854] text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 uppercase shadow-sm">
           <TrendingUp size={12} />
           Hot
         </div>
@@ -94,19 +96,19 @@ const NewsArticleCart = ({ article }: { article: INews }) => {
       {/* Content Section */}
       <div className="w-full sm:w-3/5 p-5 flex flex-col justify-between">
         <div>
-          <span className="text-purple-600 bg-purple-50 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+          <span className="text-[#0F2854] bg-[#BDE8F5] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-[#BDE8F5]/20">
             {article.category}
           </span>
-          <h3 className="text-lg font-bold text-slate-900 mt-3 leading-snug line-clamp-2 group-hover:text-purple-600 transition-colors">
+          <h3 className="text-lg font-bold text-[#BDE8F5] mt-3 leading-snug line-clamp-2 group-hover:text-white transition-colors">
             {article.title}
           </h3>
-          <p className="text-gray-500 text-xs mt-2 line-clamp-2">
+          <p className="text-[#BDE8F5]/85 text-xs mt-2 line-clamp-2">
             {article.description}
           </p>
         </div>
 
         {/* Footer Meta */}
-        <div className="flex items-center gap-4 mt-4 text-gray-400 text-[11px]">
+        <div className="flex items-center gap-4 mt-4 text-[#BDE8F5]/65 text-[11px]">
           <div className="flex items-center gap-1">
             <Clock size={14} />
             <span>{publishedDate}</span>

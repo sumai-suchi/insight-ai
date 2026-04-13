@@ -14,32 +14,32 @@ import { Products } from "./Components/Products";
 
 import News from "./Components/News";
 import Recorses from "./Components/Recorses";
-import Solutions from  "./Components/Solutions";
+import Solutions from "./Components/Solutions";
 import { UserAvatar } from "./Components/Avatar";
 import { useAuth } from "@/Context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Menu, LayoutDashboard, FileText, Tag } from "lucide-react";
 
 const NAV_LINKS = [
-  { href: "/pricing",      label: "Pricing",     icon: Tag           },
-  { href: "/dashboard",    label: "Dashboard",   icon: LayoutDashboard },
-  { href: "/all-articles", label: "All Articles",icon: FileText      },
+  { href: "/pricing", label: "Pricing", icon: Tag },
+  { href: "/Project-Dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/all-articles", label: "All Articles", icon: FileText },
 ];
 
 const MOBILE_LINKS = [
-  { href: "/products",     label: "Products"     },
-  { href: "/solutions",    label: "Solutions"    },
-  { href: "/resources",    label: "Resources"    },
-  { href: "/news",         label: "News"         },
-  { href: "/pricing",      label: "Pricing"      },
-  { href: "/dashboard",    label: "Dashboard"    },
+  { href: "/products", label: "Products" },
+  { href: "/solutions", label: "Solutions" },
+  { href: "/resources", label: "Resources" },
+  { href: "/news", label: "News" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/Project-Dashboard", label: "Dashboard" },
   { href: "/all-articles", label: "All Articles" },
 ];
 
 export default function Navbar({ isHome = false }: { isHome?: boolean }) {
   const { session } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled]     = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const isAuthed = !!session?.user;
 
   const toggleMenu = useCallback(() => setMobileOpen((p) => !p), []);
@@ -52,12 +52,15 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
 
   /* ── Solid brand style for non-home pages ── */
   const solidStyle = {
-    background: "linear-gradient(135deg, #020c1f 0%, #0F2854 60%, #0a1628 100%)",
+    background:
+      "linear-gradient(135deg, #020c1f 0%, #0F2854 60%, #0a1628 100%)",
     backdropFilter: "none",
     WebkitBackdropFilter: "none",
     borderBottom: "1px solid rgba(28,77,141,0.35)",
@@ -69,7 +72,9 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
     background: scrolled ? "rgba(8,15,35,0.82)" : "transparent",
     backdropFilter: scrolled ? "blur(24px)" : "blur(0px)",
     WebkitBackdropFilter: scrolled ? "blur(24px)" : "blur(0px)",
-    borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
+    borderBottom: scrolled
+      ? "1px solid rgba(255,255,255,0.08)"
+      : "1px solid transparent",
     boxShadow: scrolled ? "0 4px 40px rgba(0,0,0,0.4)" : "none",
   };
 
@@ -82,10 +87,15 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
         style={navStyle}
       >
         <div className="mx-auto flex items-center justify-between h-[68px] px-4 lg:px-8 max-w-[1400px]">
-
           {/* ── Logo ── */}
           <Link href="/" className="flex items-center shrink-0">
-            <Image src={NavLogo} alt="Insight AI" width={110} height={44} priority />
+            <Image
+              src={NavLogo}
+              alt="Insight AI"
+              width={110}
+              height={44}
+              priority
+            />
           </Link>
 
           {/* ── Desktop nav ── */}
@@ -129,11 +139,15 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
                 </Link>
                 <Link href="/auth/sign-up">
                   <motion.button
-                    whileHover={{ scale: 1.04, boxShadow: "0 0 24px rgba(28,77,141,0.6)" }}
+                    whileHover={{
+                      scale: 1.04,
+                      boxShadow: "0 0 24px rgba(28,77,141,0.6)",
+                    }}
                     whileTap={{ scale: 0.97 }}
                     className="px-5 py-2 rounded-full text-sm font-semibold text-white transition-all"
                     style={{
-                      background: "linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%)",
+                      background:
+                        "linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%)",
                       border: "1px solid rgba(28,77,141,0.6)",
                       boxShadow: "0 2px 16px rgba(28,77,141,0.35)",
                     }}
@@ -151,7 +165,11 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
             aria-label="Toggle menu"
             className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg text-white/80 hover:text-white hover:bg-white/8 transition-colors"
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
       </nav>
@@ -209,10 +227,14 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
                       className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/6 transition-all text-sm font-medium"
                       style={{ border: "1px solid transparent" }}
                       onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(28,77,141,0.3)";
+                        (
+                          e.currentTarget as HTMLAnchorElement
+                        ).style.borderColor = "rgba(28,77,141,0.3)";
                       }}
                       onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLAnchorElement).style.borderColor = "transparent";
+                        (
+                          e.currentTarget as HTMLAnchorElement
+                        ).style.borderColor = "transparent";
                       }}
                     >
                       {label}
@@ -238,11 +260,15 @@ export default function Navbar({ isHome = false }: { isHome?: boolean }) {
                     >
                       Log In
                     </Link>
-                    <Link href="/auth/sign-up" onClick={() => setMobileOpen(false)}>
+                    <Link
+                      href="/auth/sign-up"
+                      onClick={() => setMobileOpen(false)}
+                    >
                       <button
                         className="w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-all"
                         style={{
-                          background: "linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%)",
+                          background:
+                            "linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%)",
                           border: "1px solid rgba(28,77,141,0.6)",
                           boxShadow: "0 4px 20px rgba(28,77,141,0.4)",
                         }}

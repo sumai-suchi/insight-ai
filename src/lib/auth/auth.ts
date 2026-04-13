@@ -80,7 +80,7 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 // import { admin } from "better-auth/plugins";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { emailOTP, twoFactor } from "better-auth/plugins";
+
 import { sendEmail } from "../email/email";
 
 export const client = new MongoClient(
@@ -130,18 +130,18 @@ export const auth = betterAuth({
         to: user.email,
         subject: "Verify your InsightAI account",
         html: `
-          <div style="font-family: Arial; max-width: 500px; margin: auto;">
-            <h2>Welcome to InsightAI! 🤖</h2>
-            <p>নিচের button-এ click করে তোমার email verify করো:</p>
-            <a href="${url}" 
-               style="background: #3B82F6; color: white; padding: 12px 24px; 
-                      border-radius: 999px; text-decoration: none; display: inline-block;">
-              Verify Email
-            </a>
-            <p style="color: #999; font-size: 12px; margin-top: 20px;">
-              যদি তুমি signup না করে থাকো, এই email ignore করো।
-            </p>
-          </div>
+         <div style="font-family: Arial; max-width: 500px; margin: auto;">
+  <h2>Welcome to InsightAI! 🤖</h2>
+  <p>Click the button below to verify your email:</p>
+  <a href="${url}" 
+     style="background: #3B82F6; color: white; padding: 12px 24px; 
+            border-radius: 999px; text-decoration: none; display: inline-block;">
+    Verify Email
+  </a>
+  <p style="color: #999; font-size: 12px; margin-top: 20px;">
+    If you did not sign up, you can ignore this email.
+  </p>
+</div>
         `,
       });
     },
@@ -208,16 +208,16 @@ export const auth = betterAuth({
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL!,
 
   // plugins: [
-  //       emailOTP({ 
-  //           async sendVerificationOTP({ email, otp, type }) { 
-  //               if (type === "sign-in") { 
+  //       emailOTP({
+  //           async sendVerificationOTP({ email, otp, type }) {
+  //               if (type === "sign-in") {
   //                   // Send the OTP for sign in
-  //               } else if (type === "email-verification") { 
+  //               } else if (type === "email-verification") {
   //                   // Send the OTP for email verification
-  //               } else { 
+  //               } else {
   //                   // Send the OTP for password reset
-  //               } 
-  //           }, 
-  //       }) 
+  //               }
+  //           },
+  //       })
   //   ]
 });

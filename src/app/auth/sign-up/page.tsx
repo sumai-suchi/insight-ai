@@ -2,7 +2,8 @@
 
 import GithubBtn from "@/components/GithubBtn";
 import GoogleBtn from "@/components/GoogleBtn";
-import { authClient } from "@/lib/auth/auth-client";
+import authClient from "@/lib/auth/auth-client";
+
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -26,7 +27,7 @@ export default function SignUpPage() {
   const hasNumber = /[0-9]/.test(password);
   const hasUpper = /[A-Z]/.test(password);
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
 
@@ -47,7 +48,7 @@ export default function SignUpPage() {
         callbackURL: "/", // A URL to redirect to after the user verifies their email
       },
       {
-        onRequest: (ctx) => {
+        onRequest: (ctx:any) => {
           console.log("Sign up request started", ctx);
         },
         onSuccess: (ctx) => {
