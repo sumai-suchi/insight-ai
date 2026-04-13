@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaCheckCircle, FaTimesCircle, FaClock, FaNewspaper, FaShieldAlt } from "react-icons/fa";
 import { Article } from "@/types/editor";
+import { router } from "better-auth/api";
+import Link from "next/link";
 
 export default function ArticleReviewQueue() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -15,6 +17,11 @@ export default function ArticleReviewQueue() {
         setLoading(false);
       });
   }, []);
+
+
+  // const handlePreview = (slug: string) => {
+  //  router.push(`/Project-dashboard/editorDashboard/preview/${slug}`);
+  // }
 
   const handleStatusChange = async (articleId: string, action: string) => {
     const res = await fetch("/api/articles/review", {
@@ -121,13 +128,20 @@ export default function ArticleReviewQueue() {
 
                       {/* Professional Glass Actions */}
                       <div className="flex gap-2">
-                        <button 
-                          onClick={() => window.open(`/preview/${article.slug}`, '_blank')}
+                        <Link 
+                      href={`/Project-dashboard/editorDashboard/preview/${article.slug}`}
+                    className="px-4 py-2 bg-blue-600 rounded-lg"
+                       >
+                       <button 
+                          
                           className="p-3 bg-[#0F2854] border border-[#4988C4]/30 rounded-xl text-[#4988C4] hover:bg-[#4988C4] hover:text-[#0F2854] transition-all"
                           title="View Preview"
                         >
+                          
                           <FaEye />
                         </button>
+                      </Link>
+                        
                         <button 
                           onClick={() => handleStatusChange(article._id, "published")}
                           className="p-3 bg-[#0F2854] border border-green-500/30 rounded-xl text-green-400 hover:bg-green-500 hover:text-[#0F2854] transition-all"

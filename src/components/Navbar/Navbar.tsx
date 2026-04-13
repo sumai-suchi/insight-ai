@@ -22,7 +22,7 @@ import { X, Menu, LayoutDashboard, FileText, Tag } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "/pricing", label: "Pricing", icon: Tag },
-  { href: "/dashboard", label: "AI", icon: LayoutDashboard },
+  { href: "/Project-Dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/all-articles", label: "All Articles", icon: FileText },
 ];
 
@@ -32,7 +32,7 @@ const MOBILE_LINKS = [
   { href: "/resources", label: "Resources" },
   { href: "/news", label: "News" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/Project-Dashboard", label: "Dashboard" },
   { href: "/all-articles", label: "All Articles" },
 ];
 

@@ -113,6 +113,12 @@ const EditorArticleSchema = new Schema(
     },
     aiReview: { type: AIReviewResultSchema, required: false },
     wordCount: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    dislikes: { type: Number, default: 0 },
+    commentCount: { type: Number, default: 0 },
+
+    
     readingTime: { type: Number, default: 0 }, // minutes
     submittedAt: { type: String, default: "" },
     publishedAt: { type: String, default: "" },
@@ -131,7 +137,9 @@ const EditorArticleSchema = new Schema(
 );
 
 // Final Export: Use 'EditorArticle' uniformly
-export default mongoose.models.EditorArticle ||
+const  EditorArticle = mongoose.models.EditorArticle ||
   mongoose.model("EditorArticle", EditorArticleSchema);
+
+  export default EditorArticle;
 
 

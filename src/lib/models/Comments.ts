@@ -25,7 +25,7 @@ const CommentSchema = new Schema(
     // --- NEW MODERATION FIELDS ---
     status: {
       type: String,
-      enum: ["approved", "pending", "removed"],
+     enum: ["approved", "pending", "removed", "rejected"],
       default: "pending",
       index: true, // Crucial for the Moderation Dashboard performance
     },

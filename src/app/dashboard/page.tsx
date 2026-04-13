@@ -42,7 +42,7 @@ import Link from "next/link";
 //           body: JSON.stringify({ id: session.user.id }),
 //         });
 
-//         if (!res.ok) throw new Error("Failed to fetch user");
+        // if (!res.ok) throw new Error("Failed to fetch user");
 
 //         const data = await res.json();
 //         setUser(data);

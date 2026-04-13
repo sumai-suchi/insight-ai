@@ -10,8 +10,7 @@ import "swiper/css/pagination";
 const testimonials = [
   {
     id: 1,
-    quote:
-      "This platform has transformed our content workflow. We're now producing 3x more content in half the time. The AI suggestions are incredibly accurate!",
+    quote: "This platform has transformed our content workflow. We're now producing 3x more content in half the time. The AI suggestions are incredibly accurate!",
     name: "Sarah Johnson",
     role: "Content Marketing Manager",
     company: "TechCorp",
@@ -20,8 +19,7 @@ const testimonials = [
   },
   {
     id: 2,
-    quote:
-      "As a freelancer, this tool is a game-changer. The plagiarism checker and SEO optimization features help me deliver premium quality work to my clients.",
+    quote: "As a freelancer, this tool is a game-changer. The plagiarism checker and SEO optimization features help me deliver premium quality work to my clients.",
     name: "Michael Chen",
     role: "Freelance Writer",
     company: "Independent",
@@ -30,8 +28,7 @@ const testimonials = [
   },
   {
     id: 3,
-    quote:
-      "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
+    quote: "The personalized news feed keeps me updated on industry trends while I create content. It's like having a research assistant and writer in one platform!",
     name: "Emily Rodriguez",
     role: "Digital Marketing Director",
     company: "Growth Labs",
@@ -40,8 +37,7 @@ const testimonials = [
   },
   {
     id: 4,
-    quote:
-      "I love the AI content suggestions! It saves me hours every week and helps me stay on top of trends. The insights are always relevant and actionable.",
+    quote: "I love the AI content suggestions! It saves me hours every week and helps me stay on top of trends. The insights are always relevant and actionable.",
     name: "David Lee",
     role: "Content Strategist",
     company: "Creative Hub",
@@ -52,11 +48,7 @@ const testimonials = [
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } },
 };
 
 export default function Testimonials() {
@@ -66,8 +58,7 @@ export default function Testimonials() {
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse, rgba(28,77,141,0.25) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(28,77,141,0.25) 0%, transparent 70%)",
           filter: "blur(80px)",
         }}
       />
@@ -97,16 +88,13 @@ export default function Testimonials() {
             Loved by Content Creators{" "}
             <span
               className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: "linear-gradient(90deg, #60a5fa, #a78bfa)",
-              }}
+              style={{ backgroundImage: "linear-gradient(90deg, #60a5fa, #a78bfa)" }}
             >
               Worldwide
             </span>
           </h2>
           <p className="text-white/45 text-base sm:text-lg max-w-xl mx-auto">
-            Don&apos;t just take our word for it — hear from the experts using
-            our platform.
+            Don&apos;t just take our word for it — hear from the experts using our platform.
           </p>
         </motion.div>
 
@@ -124,8 +112,8 @@ export default function Testimonials() {
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             pagination={{ clickable: true, dynamicBullets: true }}
             breakpoints={{
-              640: { slidesPerView: 1 },
-              768: { slidesPerView: 2 },
+              640:  { slidesPerView: 1 },
+              768:  { slidesPerView: 2 },
               1024: { slidesPerView: 3 },
             }}
             className="pb-14"
@@ -135,11 +123,9 @@ export default function Testimonials() {
                 <div
                   className="h-full flex flex-col justify-between p-7 rounded-3xl group transition-all duration-300"
                   style={{
-                    background:
-                      "linear-gradient(145deg, rgba(10,18,40,0.95) 0%, rgba(15,40,84,0.85) 100%)",
+                    background: "linear-gradient(145deg, rgba(10,18,40,0.95) 0%, rgba(15,40,84,0.85) 100%)",
                     border: "1px solid rgba(28,77,141,0.3)",
-                    boxShadow:
-                      "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
+                    boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)",
                   }}
                 >
                   {/* Quote icon */}
@@ -157,10 +143,7 @@ export default function Testimonials() {
                     {/* Stars */}
                     <div className="flex gap-1 mb-4">
                       {Array.from({ length: t.rating }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-4 h-4 text-amber-400 fill-amber-400"
-                        />
+                        <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
                       ))}
                     </div>
 
@@ -182,12 +165,8 @@ export default function Testimonials() {
                       style={{ border: "2px solid rgba(28,77,141,0.5)" }}
                     />
                     <div>
-                      <p className="text-white font-semibold text-sm leading-tight">
-                        {t.name}
-                      </p>
-                      <p className="text-blue-300/70 text-xs mt-0.5">
-                        {t.role}
-                      </p>
+                      <p className="text-white font-semibold text-sm leading-tight">{t.name}</p>
+                      <p className="text-blue-300/70 text-xs mt-0.5">{t.role}</p>
                       <p
                         className="text-xs mt-0.5 uppercase tracking-wider"
                         style={{ color: "rgba(255,255,255,0.25)" }}
@@ -205,7 +184,7 @@ export default function Testimonials() {
 
       <style jsx global>{`
         .swiper-pagination-bullet {
-          background: rgba(96, 165, 250, 0.5) !important;
+          background: rgba(96,165,250,0.5) !important;
           width: 8px;
           height: 8px;
           opacity: 1;

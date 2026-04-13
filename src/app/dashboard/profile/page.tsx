@@ -12,9 +12,10 @@ import {
   ChevronDown,
   Edit3,
 } from "lucide-react";
-import { authClient } from "@/lib/auth/auth-client";
+
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/Context/AuthContext";
+import authClient from "@/lib/auth/auth-client";
 
 const ProfileManagement = () => {
   const router = useRouter();
@@ -32,11 +33,12 @@ const ProfileManagement = () => {
   const [passwordMsg, setPasswordMsg] = useState("");
   const [imageUploading, setImageUploading] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
   const [language, setLanguage] = useState("English (US)");
   const [nationality, setNationality] = useState("Bangladeshi");
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
-  const [authorRequestSent, setAuthorRequestSent] = useState(false);
   const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
+  const [authorRequestSent, setAuthorRequestSent] = useState(false);
 
   const languages = [
     "English (US)",
@@ -67,14 +69,24 @@ const ProfileManagement = () => {
     "Chinese",
   ];
 
-  const cardStyle = "bg-white rounded-2xl shadow-sm border border-gray-100 p-6";
+  // Your requested elegant card style
+  const cardStyle = {
+    background:
+      "linear-gradient(135deg, rgba(15,40,84,0.95) 0%, rgba(28,77,141,0.85) 100%)",
+    border: "1px solid rgba(28,77,141,0.5)",
+    boxShadow:
+      "0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)",
+    borderRadius: "24px",
+  };
 
-  // Google image URL fix
+  const inputStyle =
+    "w-full bg-white/10 border border-white/20 rounded-2xl px-5 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-white/40 focus:ring-1 focus:ring-white/30 transition-all duration-300 backdrop-blur-md";
+
   const getFixedImageUrl = (imageUrl: string | null, userName: string) => {
     if (imageUrl) {
       return imageUrl.replace("=s96-c", "=s400-c").replace("=s96", "=s400");
     }
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(userName || "User")}&background=6366f1&color=fff&size=200`;
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(userName || "User")}&background=1E3A8A&color=fff&size=200`;
   };
 
   useEffect(() => {
@@ -92,7 +104,7 @@ const ProfileManagement = () => {
       setLoading(false);
     };
     fetchSession();
-  }, []);
+  }, [router]);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -100,7 +112,6 @@ const ProfileManagement = () => {
 
     const previewUrl = URL.createObjectURL(file);
     setImgSrc(previewUrl);
-    setUser((prev: any) => ({ ...prev, image: previewUrl }));
 
     setImageUploading(true);
     try {
@@ -115,7 +126,6 @@ const ProfileManagement = () => {
 
       if (data.imageUrl) {
         await authClient.updateUser({ image: data.imageUrl });
-        setUser((prev: any) => ({ ...prev, image: data.imageUrl }));
         setImgSrc(getFixedImageUrl(data.imageUrl, user?.name || "User"));
       }
     } catch (err) {
@@ -175,14 +185,13 @@ const ProfileManagement = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8F9FB] flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#0A1428] flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-blue-400 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
-  const fallbackSrc = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=6366f1&color=fff&size=200`;
-
+  const fallbackSrc = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=1E3A8A&color=fff&size=200`;
   const joinedDate = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString("en-US", {
         month: "long",
@@ -191,13 +200,18 @@ const ProfileManagement = () => {
     : "";
 
   return (
-    <div className="min-h-screen bg-[#F8F9FB] py-12 px-4 md:px-8">
+    <div className="min-h-screen bg-[#0A1428] py-12 px-4 md:px-6 text-white">
       <div className="max-w-6xl mx-auto">
-        {/* TOP SECTION */}
+        {/* Top Profile Header */}
         <div
-          className={`${cardStyle} mb-6 flex flex-col md:flex-row justify-between items-center gap-6`}
+          className="mb-8 p-8 relative overflow-hidden"
+          style={{
+            ...cardStyle,
+            background:
+              "linear-gradient(135deg, rgba(15,40,84,0.98) 0%, rgba(28,77,141,0.9) 100%)",
+          }}
         >
-          <div className="flex flex-col md:flex-row items-center gap-6">
+          <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="relative group">
               <input
                 type="file"
@@ -206,66 +220,72 @@ const ProfileManagement = () => {
                 onChange={handleImageChange}
                 className="hidden"
               />
-              
-              <img
-                src={imgSrc || fallbackSrc}
-                alt="Profile"
-                referrerPolicy="no-referrer"
-                crossOrigin="anonymous"
-                className="w-28 h-28 rounded-full border-4 border-white shadow-lg object-cover"
-                onError={() => setImgSrc(fallbackSrc)}
-              />
+              <div className="w-32 h-32 rounded-3xl p-1.5 bg-gradient-to-br from-blue-400 to-cyan-400">
+                <img
+                  src={imgSrc || fallbackSrc}
+                  alt="Profile"
+                  className="w-full h-full rounded-3xl object-cover border-4 border-[#0A1428]"
+                  onError={() => setImgSrc(fallbackSrc)}
+                />
+              </div>
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={imageUploading}
-                className="absolute cursor-pointer bottom-1 right-1 bg-white p-2 rounded-full shadow-md border border-gray-100 hover:text-blue-600 transition disabled:opacity-50"
+                className="absolute -bottom-1 -right-1 bg-[#0A1428] p-3 rounded-2xl border border-white/20 hover:border-blue-400 transition-all"
               >
                 {imageUploading ? (
-                  <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <Camera size={18} />
+                  <Camera size={20} className="text-white" />
                 )}
               </button>
             </div>
-            <div className="text-center md:text-left">
+
+            <div className="flex-1 text-center md:text-left">
               <div className="flex items-center gap-3 justify-center md:justify-start">
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-4xl font-semibold tracking-tight">
                   {user.name || "No Name"}
                 </h1>
-                <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full uppercase">
-                  {(user as any).role || "user"}
+                <span className="px-4 py-1 text-xs font-medium bg-white/10 border border-white/20 rounded-full">
+                  {(user as any).role || "User"}
                 </span>
               </div>
-              <p className="text-gray-500 mt-1 flex items-center justify-center md:justify-start gap-1">
-                <Mail size={14} /> {user.email}
+              <p className="text-blue-200 mt-2 flex items-center justify-center md:justify-start gap-2 text-lg">
+                <Mail size={18} /> {user.email}
               </p>
               {joinedDate && (
-                <p className="text-sm text-gray-600 mt-1 italic">
-                  Joined {joinedDate}
+                <p className="text-blue-300/70 mt-1">
+                  Member since {joinedDate}
                 </p>
               )}
             </div>
+
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="flex items-center gap-3 px-10 py-4 bg-white text-[#1C4D8D] font-semibold rounded-2xl hover:bg-blue-100 active:scale-95 transition-all shadow-lg"
+            >
+              <Edit3 size={20} />
+              {saving
+                ? "Saving..."
+                : isEditing
+                  ? "Save Changes"
+                  : "Edit Profile"}
+            </button>
           </div>
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="flex cursor-pointer items-center gap-2 px-6 py-2.5 bg-[#6366F1] text-white rounded-xl font-semibold hover:bg-[#4F46E5] transition shadow-md disabled:opacity-60"
-          >
-            <Edit3 size={18} />
-            {saving ? "Saving..." : isEditing ? "Save Profile" : "Edit Profile"}
-          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
-            {/* Basic Info */}
-            <div className={cardStyle}>
-              <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
-                <User className="text-blue-500" /> Basic Information
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Basic Information */}
+            <div style={cardStyle} className="p-8">
+              <h2 className="text-2xl font-semibold mb-8 flex items-center gap-3">
+                <User size={26} className="text-blue-300" /> Basic Information
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-600 mb-2">
+                  <label className="block text-sm text-blue-200 mb-2">
                     Full Name
                   </label>
                   <input
@@ -273,40 +293,40 @@ const ProfileManagement = () => {
                     value={isEditing ? name : user.name || ""}
                     onChange={(e) => setName(e.target.value)}
                     disabled={!isEditing}
-                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-70"
+                    className={inputStyle}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-600 mb-2">
+                  <label className="block text-sm text-blue-200 mb-2">
                     Email Address
                   </label>
                   <input
                     type="email"
                     value={user.email}
                     disabled
-                    className="w-full p-3 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed text-gray-500"
+                    className={`${inputStyle} opacity-70 cursor-not-allowed`}
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-600 mb-2">
+                  <label className="block text-sm text-blue-200 mb-2">
                     Bio
                   </label>
                   <textarea
-                    rows={3}
+                    rows={4}
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     disabled={!isEditing}
                     placeholder="Tell us about yourself..."
-                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition disabled:opacity-70"
+                    className={`${inputStyle} resize-y min-h-[110px]`}
                   />
                 </div>
               </div>
             </div>
 
-            {/* Password */}
-            <div className={cardStyle}>
-              <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
-                <Lock className="text-red-500" /> Security & Password
+            {/* Security */}
+            <div style={cardStyle} className="p-8">
+              <h2 className="text-2xl font-semibold mb-8 flex items-center gap-3">
+                <Lock size={26} className="text-rose-300" /> Security & Password
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input
@@ -314,64 +334,62 @@ const ProfileManagement = () => {
                   placeholder="Current Password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-400 outline-none"
+                  className={inputStyle}
                 />
                 <input
                   type="password"
                   placeholder="New Password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-400 outline-none"
+                  className={inputStyle}
                 />
               </div>
               {passwordMsg && (
                 <p
-                  className={`mt-3 text-sm font-medium ${passwordMsg.includes("success") ? "text-green-600" : "text-red-500"}`}
+                  className={`mt-5 text-sm ${passwordMsg.includes("success") ? "text-green-400" : "text-rose-400"}`}
                 >
                   {passwordMsg}
                 </p>
               )}
               <button
                 onClick={handlePasswordUpdate}
-                className="mt-4 cursor-pointer text-sm font-bold text-red-600 hover:underline"
+                className="mt-6 text-blue-300 hover:text-white font-medium transition"
               >
-                Update Password
+                Update Password →
               </button>
             </div>
 
             {/* Posts & Saved */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className={cardStyle}>
-                <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <FileText size={18} className="text-orange-500" /> My Posts
+              <div style={cardStyle} className="p-8">
+                <h3 className="flex items-center gap-3 text-xl font-medium mb-6">
+                  <FileText size={24} className="text-orange-300" /> My Posts
                 </h3>
-                <div className="text-center py-6 border-2 border-dashed border-gray-100 rounded-xl">
-                  <p className="text-gray-400 text-sm">
-                    You haven't posted any articles yet.
-                  </p>
+                <div className="text-center py-14 border border-white/10 rounded-2xl bg-white/5">
+                  <p className="text-blue-200/70">No articles published yet.</p>
                 </div>
               </div>
-              <div className={cardStyle}>
-                <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <Bookmark size={18} className="text-green-500" /> Saved News
+
+              <div style={cardStyle} className="p-8">
+                <h3 className="flex items-center gap-3 text-xl font-medium mb-6">
+                  <Bookmark size={24} className="text-emerald-300" /> Saved News
                 </h3>
-                <div className="text-center py-6 border-2 border-dashed border-gray-100 rounded-xl">
-                  <p className="text-gray-400 text-sm">No saved blogs found.</p>
+                <div className="text-center py-14 border border-white/10 rounded-2xl bg-white/5">
+                  <p className="text-blue-200/70">No saved items found.</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* RIGHT: Account Options */}
-          <div className="space-y-6">
-            <div className={cardStyle}>
-              <h2 className="text-lg font-bold text-gray-800 mb-6">
-                Account Options
-              </h2>
-              <div className="space-y-4">
-                {/* Language */}
+          {/* Sidebar */}
+          <div className="space-y-8">
+            {/* Preferences */}
+            <div style={cardStyle} className="p-8">
+              <h2 className="text-2xl font-semibold mb-8">Preferences</h2>
+              <div className="space-y-6">
+                {/* Language Dropdown */}
                 <div className="relative">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                  <label className="block text-sm text-blue-200 mb-2">
                     Language
                   </label>
                   <div
@@ -379,18 +397,15 @@ const ProfileManagement = () => {
                       setShowLanguageDropdown(!showLanguageDropdown);
                       setShowNationalityDropdown(false);
                     }}
-                    className="mt-1 flex items-center justify-between p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition"
+                    className="flex items-center justify-between bg-white/10 border border-white/20 rounded-2xl px-5 py-4 cursor-pointer hover:bg-white/15 transition"
                   >
-                    <span className="font-medium text-gray-700">
-                      {language}
-                    </span>
+                    <span>{language}</span>
                     <ChevronDown
-                      size={16}
                       className={`transition-transform ${showLanguageDropdown ? "rotate-180" : ""}`}
                     />
                   </div>
                   {showLanguageDropdown && (
-                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                    <div className="absolute z-20 w-full mt-2 bg-[#1C4D8D] border border-white/20 rounded-2xl overflow-hidden shadow-2xl">
                       {languages.map((lang) => (
                         <div
                           key={lang}
@@ -398,7 +413,7 @@ const ProfileManagement = () => {
                             setLanguage(lang);
                             setShowLanguageDropdown(false);
                           }}
-                          className={`px-4 py-2.5 cursor-pointer text-sm hover:bg-indigo-50 hover:text-indigo-700 transition ${language === lang ? "bg-indigo-50 text-indigo-700 font-semibold" : "text-gray-700"}`}
+                          className={`px-5 py-3.5 hover:bg-white/10 cursor-pointer transition ${language === lang ? "bg-white/15" : ""}`}
                         >
                           {lang}
                         </div>
@@ -407,9 +422,9 @@ const ProfileManagement = () => {
                   )}
                 </div>
 
-                {/* Nationality */}
+                {/* Nationality Dropdown */}
                 <div className="relative">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                  <label className="block text-sm text-blue-200 mb-2">
                     Nationality
                   </label>
                   <div
@@ -417,18 +432,15 @@ const ProfileManagement = () => {
                       setShowNationalityDropdown(!showNationalityDropdown);
                       setShowLanguageDropdown(false);
                     }}
-                    className="mt-1 flex items-center justify-between p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition"
+                    className="flex items-center justify-between bg-white/10 border border-white/20 rounded-2xl px-5 py-4 cursor-pointer hover:bg-white/15 transition"
                   >
-                    <span className="font-medium text-gray-700">
-                      {nationality}
-                    </span>
+                    <span>{nationality}</span>
                     <ChevronDown
-                      size={16}
                       className={`transition-transform ${showNationalityDropdown ? "rotate-180" : ""}`}
                     />
                   </div>
                   {showNationalityDropdown && (
-                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden max-h-48 overflow-y-auto">
+                    <div className="absolute z-20 w-full mt-2 bg-[#1C4D8D] border border-white/20 rounded-2xl overflow-hidden shadow-2xl max-h-60 overflow-y-auto">
                       {nationalities.map((nat) => (
                         <div
                           key={nat}
@@ -436,7 +448,7 @@ const ProfileManagement = () => {
                             setNationality(nat);
                             setShowNationalityDropdown(false);
                           }}
-                          className={`px-4 py-2.5 cursor-pointer text-sm hover:bg-indigo-50 hover:text-indigo-700 transition ${nationality === nat ? "bg-indigo-50 text-indigo-700 font-semibold" : "text-gray-700"}`}
+                          className={`px-5 py-3.5 hover:bg-white/10 cursor-pointer transition ${nationality === nat ? "bg-white/15" : ""}`}
                         >
                           {nat}
                         </div>
@@ -446,33 +458,42 @@ const ProfileManagement = () => {
                 </div>
               </div>
 
-              <hr className="my-6 border-gray-100" />
-
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center justify-center cursor-pointer gap-2 py-3 text-red-600 font-bold bg-red-50 hover:bg-red-100 rounded-xl transition"
-              >
-                <LogOut size={18} /> Logout Account
-              </button>
+              <div className="mt-10 pt-6 border-t border-white/10">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-3 py-4 text-red-300 font-medium bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded-2xl transition"
+                >
+                  <LogOut size={20} /> Logout
+                </button>
+              </div>
             </div>
 
+            {/* Writer Program */}
             {((user as any).role === "user" || !(user as any).role) && (
-              <div className="bg-linear-to-br from-blue-600 to-purple-700 rounded-2xl p-6 text-white shadow-lg">
-                <h3 className="font-bold text-lg mb-2">Want to write?</h3>
-                <p className="text-sm opacity-90 mb-4">
-                  Apply for an Author role to start publishing your own AI news
-                  and blogs.
+              <div
+                className="p-8 rounded-3xl relative overflow-hidden"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(15,40,84,0.9) 0%, rgba(28,77,141,0.8) 100%)",
+                  border: "1px solid rgba(59, 130, 246, 0.4)",
+                  boxShadow: "0 8px 40px rgba(0,0,0,0.4)",
+                }}
+              >
+                <h3 className="text-2xl font-semibold mb-4">Writer Program</h3>
+                <p className="text-blue-200/80 mb-8 leading-relaxed">
+                  Apply to become an author and start publishing your own
+                  content.
                 </p>
                 {authorRequestSent ? (
-                  <div className="w-full py-3 bg-green-100 text-green-700 font-bold rounded-lg flex items-center justify-center gap-2 text-sm">
-                     Request Submitted!
+                  <div className="py-4 text-center bg-green-500/20 text-green-300 rounded-2xl border border-green-500/30 font-medium">
+                    Request Sent Successfully
                   </div>
                 ) : (
                   <button
                     onClick={() => setAuthorRequestSent(true)}
-                    className="w-full cursor-pointer py-2 bg-white text-blue-700 font-bold rounded-lg hover:bg-opacity-90 transition"
+                    className="w-full py-4 bg-white text-[#1C4D8D] font-semibold rounded-2xl hover:bg-blue-100 transition active:scale-95"
                   >
-                    Request Author Access
+                    Apply for Access
                   </button>
                 )}
               </div>

@@ -22,6 +22,7 @@ import { ScheduledToday } from "@/components/editor-dashboard-Components/Schedul
 // import { ActivityFeed } from "@/components/editor-dashboard-Components/Activityfeed";
 import { CommentsSnapshot } from "@/components/editor-dashboard-Components/Componentsnapshot";
 import { SeoHealth } from "@/components/editor-dashboard-Components/Seohealth";
+import { useAuth } from "@/Context/AuthContext";
 
 // Typed shape of what the API returns inside "data"
 interface DashboardPayload {
@@ -36,6 +37,7 @@ export default function EditorDashboardPage() {
   const [payload, setPayload] = useState<DashboardPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState<string | null>(null);
+  const {session}=useAuth()
 
   useEffect(() => {
     async function load() {
@@ -110,7 +112,7 @@ export default function EditorDashboardPage() {
   return (
     <div className="max-w-[2000px] mx-auto px-6 bg-zinc-50 min-h-screen">
       {/* topbar */}
-      <Topbar editorName="Rafiul Ahmed" />
+      <Topbar editorName={session?.user?.name || ""} />
 
       {/* stat cards row */}
       <StatCards stats={payload!.stats} />

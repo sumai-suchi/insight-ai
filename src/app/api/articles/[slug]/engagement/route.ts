@@ -1,7 +1,41 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import connectMongo from "@/lib/mongoose-connect/connect-db";
-import NewArticle from "@/lib/models/NewArticle";
+// import NewArticle from "@/lib/models/NewArticle";
+import EditorArticle from "@/lib/models/NewArticle"
 import mongoose from "mongoose";
+
+// === ADDED FOR DELETE START ===
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  try {
+    await connectMongo();
+    const { slug } = await params; 
+
+
+    const deletedArticle = await NewArticle.findByIdAndDelete(slug);
+
+    if (!deletedArticle) {
+      return NextResponse.json(
+        { success: false, message: "Article not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ 
+      success: true, 
+      message: "Article deleted successfully" 
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message }, 
+      { status: 500 }
+    );
+  }
+}
+// === ADDED FOR DELETE END ===
 
 export async function PATCH(
   request: NextRequest,
@@ -10,11 +44,12 @@ export async function PATCH(
   try {
     await connectMongo();
     const { slug } = await params;
-    console.log("Slug:", slug);
-    const { action } = await request.json(); // actions: 'view', 'like', 'unlike', 'dislike', 'undislike'
+    const body = await request.json();
+    const { action } = body;
 
     let update = {};
 
+    // 1. Ensure fields exist or initialize them to 0 if they don't exist
     switch (action) {
       case "view":
         update = { $inc: { views: 1 } };
@@ -23,7 +58,8 @@ export async function PATCH(
         update = { $inc: { likes: 1 } };
         break;
       case "unlike":
-        update = { $inc: { likes: -1 } };
+        // Prevent likes from going below 0 (optional but recommended)
+        update = { $inc: { likes: -1 } }; 
         break;
       case "dislike":
         update = { $inc: { dislikes: 1 } };
@@ -35,12 +71,17 @@ export async function PATCH(
         return NextResponse.json({ success: false, message: "Invalid action" }, { status: 400 });
     }
 
-    const updatedArticle = await NewArticle.findOneAndUpdate(
-      { slug },
+    // 2. Use findOneAndUpdate with runValidators and setDefaultsOnInsert
+    const updatedArticle = await EditorArticle.findOneAndUpdate(
+      { slug: slug },
       update,
-      { new: true }
-    );
-
+      { 
+        new: true, 
+        runValidators: true // Ensures schema logic is followed
+      }
+    ).exec(); // .exec() ensures the promise is handled correctly
+    console.log(updatedArticle);
+   
     if (!updatedArticle) {
       return NextResponse.json({ success: false, message: "Article not found" }, { status: 404 });
     }
@@ -48,12 +89,13 @@ export async function PATCH(
     return NextResponse.json({ 
       success: true, 
       data: {
-        views: updatedArticle.views,
-        likes: updatedArticle.likes,
-        dislikes: updatedArticle.dislikes
+        views: updatedArticle.views || 0,
+        likes: updatedArticle.likes || 0,
+        dislikes: updatedArticle.dislikes || 0
       } 
     });
   } catch (error: any) {
+    console.error("Update Error:", error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

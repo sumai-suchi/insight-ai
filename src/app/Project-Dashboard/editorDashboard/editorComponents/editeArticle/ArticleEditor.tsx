@@ -7,7 +7,7 @@
 
 "use client";
 
-import { useState, useCallback } from "react";                     // ← CHANGED: added useCallback
+import { useState, useCallback, useRef } from "react";                     // ← CHANGED: added useCallback
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -242,6 +242,31 @@ export default function EnterpriseArticleEditor() {
     category:        "design",
     imageUrl:        "",
   });
+  
+//   const [content, setContent] = useState(form.content); // ← CHANGED: content is now part of form state
+// const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+//  const applyFormat = (before: string, after: string = before) => {
+//   const textarea = textareaRef.current;
+//   console.log("Applying format:", { before, after, content });
+//   if (!textarea) return;
+
+//   const start = textarea.selectionStart;
+//   const end = textarea.selectionEnd;
+
+//   const selectedText = content.substring(start, end);
+
+//   const newText =
+//     content.substring(0, start) +
+//     before +
+//     selectedText +
+//     after +
+//     content.substring(end);
+
+//   setContent(newText);
+// };
+
+
 
   const patch = (update: Partial<typeof form>) =>
     setForm((prev) => ({ ...prev, ...update }));
@@ -503,10 +528,26 @@ Create a clear structure with short sections/headings and plain text output (no 
             {/* Rich Text Editor */}
             <div className="space-y-6">
               <div className="sticky top-[72px] flex items-center gap-2 p-2 bg-white border border-slate-100 shadow-xl shadow-slate-200/50 rounded-2xl z-20">
-                <ToolbarIcon icon={<Bold size={18} />} title="Bold" />
-                <ToolbarIcon icon={<Italic size={18} />} title="Italic" />
-                <ToolbarIcon icon={<Quote size={18} />} title="Quote" />
-                <ToolbarIcon icon={<List size={18} />} title="List" />
+                <ToolbarIcon
+                 icon={<Bold size={18} />}
+                 title="Bold"
+                  // onClick={() => applyFormat("**", "**")}
+                />
+                <ToolbarIcon
+                icon={<List size={18} />}
+               title="List"
+            //  onClick={() => applyFormat("\n- ", "")}
+            />
+               <ToolbarIcon
+               icon={<Italic size={18} />}
+             title="Italic"
+              // onClick={() => applyFormat("*", "*")}
+              />
+               <ToolbarIcon
+             icon={<Quote size={18} />}
+             title="Quote"
+            // onClick={() => applyFormat("> ", "")}
+                />
                 <div className="h-6 w-px bg-slate-200 mx-1" />
                 {/* ← CHANGED: AI Refine button triggers audit */}
                 <Button
@@ -527,6 +568,10 @@ Create a clear structure with short sections/headings and plain text output (no 
 
               {/* ← CHANGED: controlled value */}
               <Textarea
+              //  ref={textareaRef}
+              
+             
+
                 className="w-full min-h-[800px] border-none focus:ring-0 text-xl leading-relaxed font-serif placeholder:text-slate-200"
                 placeholder="Start writing..."
                 value={form.content}
