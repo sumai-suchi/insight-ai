@@ -1,9 +1,9 @@
 "use client";
 
-
-
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { toast } from "react-toastify";
+import { X, User, Mail, Upload, FileText, Shield, Zap, Loader2, CheckCircle2 } from "lucide-react";
+import { useuploadToCloudinary } from "@/app/Project-dashboard/hooks/useuploadToCloudinary"; // Adjust path as necessary
 
 type UserForm = {
   name: string;
@@ -22,11 +22,13 @@ type UserForm = {
 type Props = {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-   addUserToTable: (user: any) => void;
-
+  addUserToTable: (user: any) => void;
 };
 
-export default function AddUserModal({ isOpen, setIsOpen ,addUserToTable}: Props) {
+export default function AddUserModal({ isOpen, setIsOpen, addUserToTable }: Props) {
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const [user, setUser] = useState<UserForm>({
     name: "",
     email: "",
@@ -45,207 +47,200 @@ export default function AddUserModal({ isOpen, setIsOpen ,addUserToTable}: Props
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
-
     setUser((prev) => ({
       ...prev,
-      [name]:
-        type === "checkbox"
-          ? (e.target as HTMLInputElement).checked
-          : value,
+      [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
     }));
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const url = await useuploadToCloudinary(file);
+      setUser((prev) => ({ ...prev, image: url }));
+      toast.success("Profile image synced with Cloudinary!");
+    } catch (error: any) {
+      toast.error(error.message || "Upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting user:", user);
+    if (uploading) return toast.info("Please wait for image upload to finish.");
 
-    const newUser = {
-      ...user,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      joinedAt: new Date(),
-    };
-       
     const res = await fetch("/api/monitor/create-user", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newUser),
-  });
-   
-  console.log("API response:", res);
-   if (res.status === 409) {
-  toast.error("Email already exists!");
-  return;
-}
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...user, createdAt: new Date() }),
+    });
 
-    if(res.ok) {
-       toast.success("User added successfully!");
-       
-        const savedUser = await res.json();    
-   // Update parent state instantly
-    setIsOpen(false);
-     addUserToTable(savedUser);       // Close modal
-  } else {
-    console.error("Failed to add user");
-   toast.error("Failed to add user. Please try again.");
-  }
+    if (res.status === 409) return toast.error("Email already exists!");
 
-    console.log(res);
-
-    setIsOpen(false);
+    if (res.ok) {
+      toast.success("User initialized successfully!");
+      const savedUser = await res.json();
+      setIsOpen(false);
+      addUserToTable(savedUser);
+    } else {
+      toast.error("Failed to sync user data.");
+    }
   };
- 
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fadeIn">
-      {/* Modal Card */}
-      <div className="bg-white rounded-2xl rounded-t-4xl shadow-2xl w-full max-w-2xl p-8 animate-slideUp">
-        <h3 className="text-2xl font-bold mb-6 text-purple-700">✨ Add New User</h3>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-[#050a18]/80 backdrop-blur-md" onClick={() => setIsOpen(false)} />
 
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-2 gap-4"
-        >
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            className="input border p-2 w-full border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-            required
-          />
+      <div className="relative w-full max-w-2xl bg-[#0d1425] border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+        
+        {/* Glow Decor */}
+        <div className="absolute -top-24 -left-24 w-48 h-48 bg-blue-600/10 blur-[80px] rounded-full" />
+        
+        <div className="relative p-8 pb-0 flex justify-between items-start">
+          <div>
+            <h3 className="text-2xl font-black tracking-tight text-white uppercase italic">
+              Initialize <span className="text-blue-500">New Admin</span>
+            </h3>
+            <p className="text-gray-400 text-sm mt-1">Direct system-level account provisioning.</p>
+          </div>
+          <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-white/5 rounded-xl text-gray-500 hover:text-white transition-colors">
+            <X size={20} />
+          </button>
+        </div>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            className="input border p-2 w-full border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-            required
-          />
+        <form onSubmit={handleSubmit} className="relative p-8 grid grid-cols-2 gap-5">
+          
+          {/* Custom Cloudinary Upload Section */}
+          <div className="col-span-2">
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={handleFileUpload} 
+              className="hidden" 
+              accept="image/*" 
+            />
+            <div 
+              onClick={() => fileInputRef.current?.click()}
+              className={`group relative flex flex-col items-center justify-center border-2 border-dashed rounded-2xl p-6 transition-all cursor-pointer 
+                ${user.image ? 'border-green-500/40 bg-green-500/5' : 'border-white/10 bg-white/[0.02] hover:border-blue-500/50 hover:bg-blue-500/5'}`}
+            >
+              {uploading ? (
+                <div className="flex flex-col items-center gap-2">
+                  <Loader2 className="animate-spin text-blue-500" size={32} />
+                  <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">Uploading...</span>
+                </div>
+              ) : user.image ? (
+                <div className="flex flex-col items-center gap-2">
+                  <div className="relative">
+                    <img src={user.image} alt="Preview" className="w-16 h-16 rounded-xl object-cover ring-2 ring-green-500/50" />
+                    <div className="absolute -top-2 -right-2 bg-green-500 rounded-full p-1"><CheckCircle2 size={12} className="text-white"/></div>
+                  </div>
+                  <span className="text-[10px] font-bold text-green-400 uppercase">Change Image</span>
+                </div>
+              ) : (
+                <>
+                  <Upload className="text-gray-500 group-hover:text-blue-500 transition-colors mb-2" size={24} />
+                  <p className="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">Upload Avatar to Cloudinary</p>
+                  <p className="text-[10px] text-gray-600 uppercase mt-1">PNG, JPG up to 5MB</p>
+                </>
+              )}
+            </div>
+          </div>
 
-          <input
-            type="text"
-            name="image"
-            placeholder="Profile Image URL"
-            className="input border p-2 col-span-2 border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-          />
-
-          <textarea
-            name="bio"
-            placeholder="Bio"
-            className="textarea border p-2 col-span-2 border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-          />
-
-          <select
-            name="role"
-            className="select border p-2 border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-          >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-            <option value="editor">Editor</option>
-          </select>
-
-          <select
-            name="plan"
-            className="select border p-2 border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-          >
-            <option value="free">Free</option>
-            <option value="pro">Pro</option>
-            <option value="premium">Premium</option>
-          </select>
-
-          <select
-            name="status"
-            className="select border p-2 border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Suspended</option>
-            <option value="inactive">pending</option>
-          </select>
-
-          <input
-            type="number"
-            name="discount"
-            placeholder="Discount %"
-            className="input border border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-          />
-
-          <input
-            type="number"
-            name="article"
-            placeholder="Articles"
-            className="input border border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
-            onChange={handleChange}
-          />
-
-          <label className="flex items-center gap-2 mt-2">
+          <div className="relative group col-span-2 md:col-span-1">
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-500 transition-colors" size={16} />
             <input
-              type="checkbox"
-              name="emailVerified"
-              className="checkbox checkbox-primary"
+              type="text"
+              name="name"
+              placeholder="Display Name"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="relative group col-span-2 md:col-span-1">
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-500 transition-colors" size={16} />
+            <input
+              type="email"
+              name="email"
+              placeholder="System Email"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="relative group col-span-2">
+            <FileText className="absolute left-4 top-4 text-gray-500 group-focus-within:text-blue-500 transition-colors" size={16} />
+            <textarea
+              name="bio"
+              placeholder="Bio / System Notes"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-white focus:outline-none focus:border-blue-500/50 transition-all min-h-[90px]"
               onChange={handleChange}
             />
-            Email Verified
-          </label>
+          </div>
 
-          <label className="flex items-center gap-2 mt-2">
-            <input
-              type="checkbox"
-              name="isBlocked"
-              className="checkbox checkbox-error"
-              onChange={handleChange}
-            />
-            Block User
-          </label>
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] uppercase font-black tracking-[0.2em] text-gray-500 ml-1">Access Level</label>
+            <select name="role" className="bg-white/5 border border-white/10 rounded-xl p-3.5 text-white focus:outline-none appearance-none" onChange={handleChange}>
+              <option className="bg-[#0d1425]" value="user">User</option>
+              <option className="bg-[#0d1425]" value="admin">admin</option>
+              <option className="bg-[#0d1425]" value="editor">editor</option>
+            </select>
+          </div>
 
-          {/* Buttons */}
-          <div className="col-span-2 flex justify-end gap-4 mt-6">
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] uppercase font-black tracking-[0.2em] text-gray-500 ml-1">Plan</label>
+            <select name="plan" className="bg-white/5 border border-white/10 rounded-xl p-3.5 text-white focus:outline-none appearance-none" onChange={handleChange}>
+              <option className="bg-[#0d1425]" value="free">Free</option>
+              <option className="bg-[#0d1425]" value="pro">Pro</option>
+            </select>
+          </div>
+
+          {/* Toggles */}
+          <div className="col-span-2 flex flex-wrap gap-8 py-3 border-y border-white/5 my-2">
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <input type="checkbox" name="emailVerified" className="hidden peer" onChange={handleChange} />
+              <div className="w-5 h-5 rounded-md border border-white/20 flex items-center justify-center peer-checked:bg-blue-600 transition-all">
+                <Shield size={12} className="text-white" />
+              </div>
+              <span className="text-xs font-bold text-gray-400 group-hover:text-white transition-colors uppercase tracking-widest">Verify</span>
+            </label>
+
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <input type="checkbox" name="isBlocked" className="hidden peer" onChange={handleChange} />
+              <div className="w-5 h-5 rounded-md border border-white/20 flex items-center justify-center peer-checked:bg-red-600 transition-all">
+                <Zap size={12} className="text-white" />
+              </div>
+              <span className="text-xs font-bold text-gray-400 group-hover:text-white transition-colors uppercase tracking-widest">Restrict</span>
+            </label>
+          </div>
+
+          <div className="col-span-2 flex justify-end gap-4 pt-4">
             <button
               type="button"
-              className="btn btn-outline btn-md"
               onClick={() => setIsOpen(false)}
+              className="px-6 py-3 text-gray-500 hover:text-white font-bold transition-colors"
             >
-              Cancel
+              Discard
             </button>
-
             <button
               type="submit"
-              className="btn btn-primary p-2 roun btn-md bg-purple-600 text-white hover:bg-purple-700 transition-all"
-             
+              disabled={uploading}
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all flex items-center gap-2 disabled:opacity-50"
             >
-              Add User
+              {uploading ? "Uploading Assets..." : "Complete Setup"}
             </button>
           </div>
         </form>
       </div>
-
-      {/* Tailwind Animations */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.25s ease-out forwards;
-        }
-
-        @keyframes slideUp {
-          from { transform: translateY(50px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        .animate-slideUp {
-          animation: slideUp 0.35s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 }
