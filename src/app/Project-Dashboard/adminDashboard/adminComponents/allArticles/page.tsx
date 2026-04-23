@@ -17,7 +17,6 @@ const AllArticles = () => {
   const fetchArticles = useCallback(async () => {
     try {
       setIsLoading(true);
-      // API call with current page, limit and search term
       const res = await axios.get(
         `/api/articles?page=${currentPage}&limit=${limit}&search=${searchTerm}`,
       );
@@ -44,7 +43,8 @@ const AllArticles = () => {
     fetchArticles();
   }, [fetchArticles]);
 
-  const handleDelete = async (id: string, title: string) => {
+  
+  const handleDelete = async (id: string, title: string, slug: string) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
       text: `Do you want to delete "${title}"?`,
@@ -59,14 +59,23 @@ const AllArticles = () => {
 
     if (confirm.isConfirmed) {
       try {
-        const res = await axios.delete(`/api/articles/${id}`);
+        setIsLoading(true);
+        
+        const res = await axios.delete(`/api/articles/${slug}/engagement`);
+
         if (res.status === 200 || res.data?.success) {
           Swal.fire("Deleted!", "Article has been removed.", "success");
           fetchArticles();
         }
       } catch (err: any) {
         console.error("Delete Error:", err);
-        Swal.fire("Error", "Could not delete the article", "error");
+        Swal.fire(
+          "Error",
+          "Could not delete. Make sure the DELETE method exists in the API.",
+          "error",
+        );
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -84,7 +93,8 @@ const AllArticles = () => {
             </p>
           </div>
 
-          {/* <div className="relative">
+          {/* CHANGE 3: Uncommented Search Box */}
+          <div className="relative">
             <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
             <input
               type="text"
@@ -96,7 +106,7 @@ const AllArticles = () => {
                 setCurrentPage(1);
               }}
             />
-          </div> */}
+          </div>
         </div>
 
         <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden relative">
@@ -149,8 +159,13 @@ const AllArticles = () => {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <button
+                          // CHANGE 4: Passed 'article.slug' to the function
                           onClick={() =>
-                            handleDelete(article._id, article.title)
+                            handleDelete(
+                              article._id,
+                              article.title,
+                              article.slug,
+                            )
                           }
                           className="p-2 hover:bg-red-500/10 rounded-lg text-white/40 hover:text-red-500 transition-all border border-transparent hover:border-red-500/20"
                         >

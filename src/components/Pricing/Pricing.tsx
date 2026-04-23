@@ -68,17 +68,18 @@ export default function PricingPage() {
     },
   ];
 
-  // 🔥 FIXED CHECKOUT
-  const handleCheckout = async (planName: string) => {
-    if (planName === "Explorer") {
-      router.push("/signup");
-      return;
-    }
+  // // 🔥 FIXED CHECKOUT
+  // const handleCheckout = async (planName: string) => {
+  //   if (planName === "Explorer") {
+  //     router.push("/signup");
+  //     return;
+  //   }
 
-    if (planName === "Business") {
-      router.push("/contact");
-      return;
-    }
+  //   if (planName === "Business") {
+  //     router.push("/contact");
+  //     return;
+  //   } 
+  // }
 
   //     setCheckoutUrl(data.url);
   //   } catch (error) {
@@ -132,7 +133,7 @@ export default function PricingPage() {
 //   } finally {
 //     setLoadingPlan(null);
 //   }
-// };
+// }; }
 
 
 
@@ -190,74 +191,88 @@ const handleCheckout = async () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 items-start">
-        {plans.map((plan) => {
-          // 🔥 Define specific logic per card
-          const isBusiness = plan.name === "Business";
-          const isExplorer = plan.name === "Explorer";
 
-            <button
-              onClick={() => handleCheckout()}
-              disabled={loadingPlan === plan.name}
-              className={`w-full py-3 rounded-xl font-bold ${
-                plan.highlighted
-                  ? "border-blue-500 ring-4 ring-blue-500/10 scale-105 shadow-xl"
-                  : "border-slate-200"
-              }`}
+
+<div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 items-start">
+  {plans.map((plan) => {
+    const isBusiness = plan.name === "Business";
+    const isExplorer = plan.name === "Explorer";
+
+    return (
+      <div
+        key={plan.name}
+        className={`border rounded-2xl p-6 transition-all ${
+          plan.highlighted
+            ? "border-blue-500 ring-4 ring-blue-500/10 scale-105 shadow-xl"
+            : "border-slate-200"
+        }`}
+      >
+        <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3>
+
+        <p className="text-slate-500 mt-2 text-sm leading-relaxed">
+          {plan.description}
+        </p>
+
+        <div className="mt-6 flex items-baseline gap-1">
+          <span className="text-4xl font-bold text-slate-900">
+            ${plan.price}
+          </span>
+
+          <span className="text-slate-500 font-medium text-sm">
+            {isExplorer
+              ? " /month"
+              : isBusiness
+              ? " /one-time"
+              : isAnnual
+              ? " /year"
+              : " /month"}
+          </span>
+        </div>
+
+        <div className="mt-4 text-blue-600 text-xs font-bold flex items-center bg-blue-50 w-fit px-2 py-1 rounded">
+          <Zap size={12} className="mr-1 fill-blue-600" />
+          {plan.credits}
+        </div>
+
+        <ul className="my-8 space-y-3">
+          {plan.features.map((f) => (
+            <li
+              key={f}
+              className="flex items-start text-sm text-slate-600"
             >
-              <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3>
-              <p className="text-slate-500 mt-2 text-sm leading-relaxed">
-                {plan.description}
-              </p>
+              <Check className="w-4 h-4 text-green-500 mr-3 mt-0.5 shrink-0" />
+              {f}
+            </li>
+          ))}
+        </ul>
 
-              <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-4xl font-bold text-slate-900">
-                  ${plan.price}
-                </span>
-                <span className="text-slate-500 font-medium text-sm">
-                  {plan.name === "Explorer"
-                    ? " /month"
-                    : plan.name === "Business"
-                      ? " /one-time"
-                      : isAnnual
-                        ? " /year"
-                        : " /month"}
-                </span>
-              </div>
-
-              {/* ... Rest of the card (Credits, Features, Button) stays the same */}
-              <div className="mt-4 text-blue-600 text-xs font-bold flex items-center bg-blue-50 w-fit px-2 py-1 rounded">
-                <Zap size={12} className="mr-1 fill-blue-600" />
-                {plan.credits}
-              </div>
-
-              <ul className="my-8 space-y-3">
-                {plan.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-start text-sm text-slate-600"
-                  >
-                    <Check className="w-4 h-4 text-green-500 mr-3 mt-0.5 shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                onClick={() => handleCheckout(plan.name)}
-                disabled={loadingPlan === plan.name}
-                className={`w-full py-4 rounded-xl font-bold transition-all ${
-                  plan.highlighted
-                    ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200"
-                    : "bg-slate-100 text-slate-900 hover:bg-slate-200"
-                }`}
-              >
-                {loadingPlan === plan.name ? "Processing..." : plan.buttonText}
-              </button>
-            </div>
-          );
-        })}
+        <button
+          onClick={() => handleCheckout()}
+          disabled={loadingPlan === plan.name}
+          className={`w-full py-4 rounded-xl font-bold transition-all ${
+            plan.highlighted
+              ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200"
+              : "bg-slate-100 text-slate-900 hover:bg-slate-200"
+          }`}
+        >
+          {loadingPlan === plan.name ? "Processing..." : plan.buttonText}
+        </button>
       </div>
+    );
+  })}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+      
       {/* ... Footer Info */}
     </div>
   );

@@ -66,7 +66,7 @@ const NewsHero = ({
   clearSearch,
 }: NewsHeroProps) => {
   return (
-    <section className="w-full bg-gradient-to-r from-[#4c1d95] via-[#3b0764] to-[#1e1b4b] py-20 px-6 md:px-12 lg:px-24 mt-[-16]">
+    <section className="w-full bg-[#0F2854] py-20 px-6 md:px-12 lg:px-24 mt-[-16]">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-4">
         {/* Badge/Small Heading */}
         <div className="flex items-center gap-2 text-purple-200">

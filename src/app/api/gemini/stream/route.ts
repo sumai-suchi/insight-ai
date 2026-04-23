@@ -10,11 +10,11 @@ export async function POST(req: NextRequest) {
       return new Response("Prompt is required", { status: 400 });
     }
 
-    if (!process.env.GEMINI_API_KEY) {
+    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
       throw new Error("GEMINI_API_KEY is missing from environment variables");
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const encoder = new TextEncoder();

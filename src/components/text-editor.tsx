@@ -38,9 +38,6 @@ import {
   SelectValue,
 } from "./ui/select";
 
-// editorProps lets me customize the HTML element that Tiptap creates for the editor.
-// I add Tailwind’s prose classes so my editor text looks beautiful — with proper heading sizes, spacing, lists, blockquotes, and typography. Without this, the editor looks plain and unstyled
-
 const Tiptap = ({
   content,
   onChange,
@@ -48,7 +45,6 @@ const Tiptap = ({
   content?: string;
   onChange?: (content: string) => void;
 }) => {
-  // create a custom paragraph extension that outputs a <div> instead of <p>
   const CustomParagraph = Paragraph.extend({
     renderHTML() {
       return ["div", 0];
@@ -57,7 +53,6 @@ const Tiptap = ({
 
   const editor = useEditor({
     extensions: [
-      // disable default paragraph from StarterKit and replace with custom
       StarterKit.configure({ paragraph: false }),
       CustomParagraph,
       Highlight.configure({ multicolor: true }),
@@ -124,9 +119,9 @@ function LinkComponent({
 
   return (
     <Popover open={isLinkPopoverOpen} onOpenChange={setIsLinkPopoverOpen}>
-      <PopoverTrigger>{children}</PopoverTrigger>
-      {/* // this is the main */}
-      {/* trigger point */}
+      <PopoverTrigger asChild>
+        {children}
+      </PopoverTrigger>
       <PopoverContent className="w-80 p-4">
         <div className="flex flex-col gap-4">
           <h3 className="font-medium">Insert Link</h3>
@@ -232,7 +227,7 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
           size="sm"
           pressed={editorState.isItalic}
           onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-          aria-label="Toggle bold"
+          aria-label="Toggle italic"
         >
           <ItalicIcon className="h-4 w-4" />
         </Toggle>
@@ -246,7 +241,7 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
           <UnderlineIcon className="h-4 w-4" />
         </Toggle>
 
-        <Toggle
+        <Toggle 
           size="sm"
           pressed={editorState.isStrike}
           onPressedChange={() => editor.chain().focus().toggleStrike().run()}
@@ -317,7 +312,6 @@ const ToolBar = ({ editor }: { editor: Editor }) => {
       </div>
 
       <div className="flex items-center">
-        {" "}
         <Button
           type="button"
           size="sm"

@@ -88,16 +88,16 @@ function FormSection({ selectedTemplate }: PROPS) {
         width={70}
         height={70}
       />
-      <h2 className="text-xl font-bold mt-2 text-primary">
+      <h2 className="text-xl font-bold mt-2 text-[#BDE8F5]">
         {selectedTemplate?.name}
       </h2>
-      <p className="text-sm text-gray-500 mt-2">{selectedTemplate?.desc}</p>
+      <p className="text-sm text-[#BDE8F5] mt-2">{selectedTemplate?.desc}</p>
       <form onSubmit={onSubmit} className="mt-6">
         {selectedTemplate?.form?.map((field, index) => (
           <div key={index} className="my-4 flex flex-col gap-2 mb-7">
             <label
               htmlFor={field.name}
-              className="block  font-semibold text-gray-700"
+              className="block  font-semibold text-[#BDE8F5]"
             >
               {field.label}
             </label>
@@ -111,7 +111,7 @@ function FormSection({ selectedTemplate }: PROPS) {
             ) : null}
           </div>
         ))}
-        <Button type="submit" className="bg-primary text-white w-full py-6">
+        <Button type="submit" className="bg-[#1C4D8D] hover:bg-[#020408] text-white w-full py-6">
           Generate Content
         </Button>
       </form>
