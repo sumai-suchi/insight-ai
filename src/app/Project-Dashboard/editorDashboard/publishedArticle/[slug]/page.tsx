@@ -4,7 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 // Use an absolute URL for Server-side fetching
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const API_BASE = process.env.BETTER_AUTH_URL 
+
 
 async function getArticle(slug: string): Promise<ArticleType | null> {
   try {

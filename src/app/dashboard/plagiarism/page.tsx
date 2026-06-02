@@ -181,7 +181,7 @@ ${plainText}
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
-      <div className="flex flex-col flex-grow lg:w-3/5 text-center md:text-start border-r border-gray-200 pt-6 md:px-6 bg-(--brand-primary)">
+      <div className="flex flex-col flex-grow lg:w-3/5 text-center md:text-start border-r border-gray-200 pt-6 md:px-6 bg-[#0F2854]">
         <h2 className="text-2xl font-bold text-gray-300">Plagiarism Checker</h2>
         <p className="text-sm text-gray-300 mb-4">
           Check your text for plagiarism
@@ -190,7 +190,7 @@ ${plainText}
           <Tiptap onChange={setEditorContent} />
         </div>
       </div>
-      <div className="flex flex-col flex-grow lg:w-2/5 border p-6 bg-(--brand-secondary)">
+      <div className="flex flex-col flex-grow lg:w-2/5 border p-6 bg-[#0F2854]">
         <div className="grid grid-cols-2 gap-4 ">
           {options.map((option) => (
             <div
@@ -219,7 +219,7 @@ ${plainText}
           <button
             onClick={handleCheck}
             disabled={isChecking}
-            className="bg-(--brand-primary) text-gray-300 text-2xl mt-6 p-2 rounded-lg disabled:opacity-60"
+            className="bg-[#1C4D8D] text-gray-300 text-2xl mt-6 p-2 rounded-lg disabled:opacity-60"
           >
             {isChecking ? "Checking..." : "Check"}
           </button>

@@ -41,7 +41,7 @@ export default function Chart({ percentage = 0 }: { percentage?: number }) {
             y="48%"
             textAnchor="middle"
             dominantBaseline="central"
-            className="fill-gray-900 text-3xl font-bold"
+            className="fill-white text-3xl font-bold"
           >
             {clamped}%
           </text>

@@ -17,7 +17,7 @@ const EditorApplyForm = () => {
     linkedin: '',
     github: '',
     portfolio: '',
-  });
+  }); 
 
   // Mock initial data based on your provided info
   const userData = {
@@ -106,7 +106,7 @@ const EditorApplyForm = () => {
               <p className="text-xs text-[#1C4D8D] uppercase font-bold">Current Plan</p>
               <p className="text-lg font-semibold text-[#0F2854] capitalize">{userData.plan}</p>
             </div>
-            <div className="w-[1px] h-10 bg-[#4988C4]/30"></div>
+            <div className="w-px h-10 bg-[#4988C4]/30"></div>
             <div className="text-center flex-1">
               <p className="text-xs text-[#1C4D8D] uppercase font-bold">Total Articles</p>
               <p className="text-lg font-semibold text-[#0F2854]">{userData.articleCount}</p>

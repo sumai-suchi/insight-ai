@@ -6,10 +6,7 @@ import TemplateList from "./TemplateList";
 function Templates() {
   const [userSearchInput, setUserSearchInput] = useState<string>();
   return (
-    <section
-      className="flex flex-col min-h-screen"
-      style={{ background: "#0c234b" }}
-    >
+    <section className="flex flex-col bg-[#4988C4]">
       <SearchSection
         onSearchInput={(value: string) => setUserSearchInput(value)}
       />

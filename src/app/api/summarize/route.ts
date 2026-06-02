@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ summary: cache.get(text) });
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY!);
+    const genAI = new GoogleGenerativeAI(process.env.Next_PUBLIC_GEMINI_API_KEY!);
 
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash",

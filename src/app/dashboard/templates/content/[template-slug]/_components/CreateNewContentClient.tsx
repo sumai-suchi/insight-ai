@@ -13,12 +13,14 @@ interface PROPS {
 
 function CreateNewContentClient({ selectedTemplate }: PROPS) {
   return (
-    <TemplateOutputProvider>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5">
+   <div className="bg-[#0F2854] h-screen">
+     <TemplateOutputProvider>
+      <div className="grid grid-cols-1 lg:grid-cols-2  gap-5 p-5">
         <FormSection selectedTemplate={selectedTemplate} />
         <OutputSection />
       </div>
     </TemplateOutputProvider>
+   </div>
   );
 }
 

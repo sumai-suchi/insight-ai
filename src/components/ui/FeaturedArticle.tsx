@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
-import authClient from "@/lib/auth/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
+
 
 const FeaturedArticle = ({ data }: { data: INews }) => {
   if (!data) return null;

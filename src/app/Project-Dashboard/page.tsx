@@ -176,7 +176,7 @@ export default function DashboardPage() {
     },
   ];
 
-  if (user?.role === "user") return <UserDashboard></UserDashboard>;
+  // if (user?.role === "user") return <UserDashboard></UserDashboard>;
   if (user?.role === "admin") return <AdminDashboard></AdminDashboard>;
   if (user?.role === "editor") return <EditorDashboardPage></EditorDashboardPage>;
 }
