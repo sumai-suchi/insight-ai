@@ -25,8 +25,7 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
 
   // Menu items with labels, icons, and hrefs
   const menuItems = [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
-    // { icon: PenTool, label: "AI Editor", href: "/dashboard/ai-editor" },
+ 
 
     {
       icon: LayoutTemplate,
@@ -35,6 +34,7 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
     },
 
     { label: "Plagiarism", icon: ScrollText, href: "/dashboard/plagiarism" },
+  
   ];
   return (
     <aside

@@ -204,32 +204,23 @@ function FormSection({ selectedTemplate }: PROPS) {
   };
 
   return (
-    <div className="p-8 bg-[#0F2854] border border-white/10 rounded-3xl shadow-xl text-white">
-      {/* Icon & Title */}
-      <div className="flex items-center gap-4 mb-6">
-        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#1C4D8D] to-[#0F2854] flex items-center justify-center flex-shrink-0">
-          <Image
-            src={selectedTemplate?.icon || "/default-icon.png"}
-            alt="icon"
-            width={70}
-            height={70}
-            className="rounded-xl"
-          />
-        </div>
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">
-            {selectedTemplate?.name}
-          </h2>
-          <p className="text-gray-400 mt-1 text-lg">{selectedTemplate?.desc}</p>
-        </div>
-      </div>
-
-      <form onSubmit={onSubmit} className="space-y-8">
+    <div className="p-5 shadow-md border rounded-lg">
+      <Image
+        src={selectedTemplate?.icon || "/default-icon.png"}
+        alt="icon"
+        width={70}
+        height={70}
+      />
+      <h2 className="text-xl font-bold mt-2 text-[#BDE8F5]">
+        {selectedTemplate?.name}
+      </h2>
+      <p className="text-sm text-[#BDE8F5] mt-2">{selectedTemplate?.desc}</p>
+      <form onSubmit={onSubmit} className="mt-6">
         {selectedTemplate?.form?.map((field, index) => (
           <div key={index} className="flex flex-col gap-3">
             <label
               htmlFor={field.name}
-              className="block font-semibold text-gray-300 text-base"
+              className="block  font-semibold text-[#BDE8F5]"
             >
               {field.label}
             </label>
@@ -247,12 +238,7 @@ function FormSection({ selectedTemplate }: PROPS) {
             ) : null}
           </div>
         ))}
-
-        {/* Generate Button */}
-        <Button
-          type="submit"
-          className="w-full py-7 bg-[#1C4D8D] hover:bg-white hover:text-[#0F2854] text-lg font-semibold rounded-2xl transition-all duration-300 shadow-lg"
-        >
+        <Button type="submit" className="bg-[#1C4D8D] hover:bg-[#020408] text-white w-full py-6">
           Generate Content
         </Button>
       </form>

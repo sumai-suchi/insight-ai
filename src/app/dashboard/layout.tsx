@@ -22,14 +22,20 @@ function layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex bg-gray-50">
+     
       <div
-        className={`flex-1 transition-margin duration-300 ease-in-out md:ml-0 lg:ml-0`}
+        className={`flex-1 transition-margin duration-300 ease-in-out `}
       >
         {/* <DashboardNavbar onToggleSide={toggleSide} isOpen={sideOpen} /> */}
         {children}
       </div>
+      
     </div>
   );
 }
 
 export default layout;
+
+// {pathname !== "/dashboard/chat" && (
+//         <ChatBox open={chatOpen} onToggle={toggleChat} />
+//       )}

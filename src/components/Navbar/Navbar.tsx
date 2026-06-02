@@ -21,9 +21,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Menu, LayoutDashboard, FileText, Tag } from "lucide-react";
 
 const NAV_LINKS = [
-  { href: "/pricing", label: "Pricing", icon: Tag },
-  { href: "/Project-Dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/all-articles", label: "All Articles", icon: FileText },
+  { href: "/pricing",      label: "Pricing",     icon: Tag           },
+  { href: "/dashboard",    label: "Ai Genaration",   icon: LayoutDashboard },
+  { href: "/all-articles", label: "All Articles",icon: FileText      },
 ];
 
 const MOBILE_LINKS = [

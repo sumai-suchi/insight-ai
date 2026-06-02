@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Bookmark, Sparkles, ArrowUpRight } from "lucide-react"; // আইকনগুলো ইমপোর্ট করা হয়েছে
-import authClient from "@/lib/auth/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 
 export default function NewsCard({ news }: { news: INews }) {
   const [summary, setSummary] = useState("");

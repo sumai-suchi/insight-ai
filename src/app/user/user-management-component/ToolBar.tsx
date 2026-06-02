@@ -69,38 +69,37 @@ export default function UserToolbar({ onSearch }: Props) {
 
         <button
           onClick={() => handleFilter("all")}
-          className={`px-4 py-2 rounded-md ${
-            status === "all"
-              ? "bg-purple-500 text-white"
-              : "bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-md 
+           
+               "bg-black/20 text-white hover:text-black"
+          `}
         >
           All
         </button>
 
         <button
           onClick={() => handleFilter("active")}
-          className={`px-4 py-2 rounded-md ${
-            status === "active"
-              ? "bg-purple-500 text-white"
-              : "bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-md 
+         
+        
+              "bg-black/20 text-white hover:text-black"
+          `}
         >
           Active
         </button>
 
         <button
           onClick={() => handleFilter("blocked")}
-          className={`px-4 py-2 rounded-md ${
-            status === "suspended"
-              ? "bg-purple-500 text-white"
-              : "bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-md 
+           
+          
+               "bg-blue-500 text-white hover:text-black"
+          `}
         >
-          Suspended
+          Blocked
         </button>
 
-        <button
+        {/* <button
           onClick={() => handleFilter("pending")}
           className={`px-4 py-2 rounded-md ${
             status === "pending"
@@ -109,27 +108,27 @@ export default function UserToolbar({ onSearch }: Props) {
           }`}
         >
           Pending
-        </button>
+        </button> */}
 
       </div>
 
       {/* Export */}
-      <button
+      {/* <button
         onClick={exportUsers}
         className="ml-auto bg-gray-200 px-4 py-2 rounded-md"
       >
         Export
-      </button>
+      </button> */}
 
       {/* Import */}
-      <label className="bg-gray-200 px-4 py-2 rounded-md cursor-pointer">
+      {/* <label className="bg-gray-200 px-4 py-2 rounded-md cursor-pointer">
         Import
         <input
           type="file"
           hidden
           onChange={importUsers}
         />
-      </label>
+      </label> */}
       
 
     </div>

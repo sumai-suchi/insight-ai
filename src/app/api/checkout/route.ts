@@ -220,8 +220,8 @@ export async function POST() {
           quantity: 1,
         },
       ],
-       success_url: `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/pricing`,
+       success_url: `${process.env.BETTER_AUTH_URL}/success`,
+      cancel_url: `${process.env.BETTER_AUTH_URL}/pricing`,
     });
 
     return new Response(JSON.stringify({ url: session.url }), {

@@ -307,7 +307,7 @@ export default function HeroContent() {
           variants={fadeUp}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
-          <a href="/ai-editor">
+          <a href="/Project-dashboard/editorDashboard/editorComponents/editeArticle">
             <motion.button
               whileHover={{ scale: 1.04, boxShadow: "0 0 40px rgba(28,77,141,0.7)" }}
               whileTap={{ scale: 0.97 }}
@@ -322,18 +322,29 @@ export default function HeroContent() {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </a>
-
-          <motion.button
+          <a href="/Project-dashboard/adminDashboard">
+            <motion.button
+              whileHover={{ scale: 1.04, boxShadow: "0 0 40px rgba(28,77,141,0.7)" }}
+              whileTap={{ scale: 0.97 }}
+              className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-base text-white transition-all"
+              style={{
+                background: "linear-gradient(135deg, #1C4D8D 0%, #0F2854 100%)",
+                boxShadow: "0 8px 32px rgba(28,77,141,0.45), inset 0 1px 0 rgba(255,255,255,0.1)",
+                border: "1px solid rgba(28,77,141,0.6)",
+              }}
+            >
+              check here
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
+          </a>
+          {/* <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => setVideoOpen(true)}
+           
             className="inline-flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-base text-white/80 transition-all"
-            style={{
-              border: "1px solid rgba(28,77,141,0.4)",
-              background: "rgba(15,40,84,0.4)",
-              backdropFilter: "blur(10px)",
-            }}
+           
           >
+             <a href="/Project-dashboard/adminDashboard"></a>
             <span
               className="flex items-center justify-center w-7 h-7 rounded-full"
               style={{ background: "rgba(28,77,141,0.5)", border: "1px solid rgba(28,77,141,0.6)" }}
@@ -341,7 +352,7 @@ export default function HeroContent() {
               <Play className="w-3.5 h-3.5 fill-white text-white ml-0.5" />
             </span>
             Watch Demo
-          </motion.button>
+          </motion.button> */}
         </motion.div>
 
         {/* Trust note */}

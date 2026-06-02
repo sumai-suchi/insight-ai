@@ -39,7 +39,7 @@ export function TemplateOutputProvider({
   };
 
   return (
-    <TemplateOutputContext.Provider value={value}>
+    <TemplateOutputContext.Provider value={value} >
       {children}
     </TemplateOutputContext.Provider>
   );

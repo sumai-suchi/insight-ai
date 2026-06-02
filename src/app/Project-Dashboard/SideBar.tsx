@@ -40,33 +40,33 @@ const sidebarConfig = {
     {
       icon: <LayoutDashboard size={18} />,
       label: "Overview",
-      href: "/Project-Dashboard/adminDashboard/adminComponents/overview",
+      href: "/Project-dashboard/adminDashboard/adminComponents/overview",
     },
     { icon: <User size={18} />, label: "Manage Users", href: "/user" },
     {
       icon: <ShieldCheck size={18} />,
       label: "Roles & Permissions",
-      href: "/Project-Dashboard/adminDashboard/adminComponents/role-and-permision",
+      href: "/Project-dashboard/adminDashboard/adminComponents/role-and-permision",
     },
     {
       icon: <Newspaper size={18} />,
       label: "All Articles",
-      href: "/Project-Dashboard/adminDashboard/adminComponents/allArticles",
+      href: "/Project-dashboard/adminDashboard/adminComponents/allArticles",
     },
     {
       icon: <FileText size={18} />,
       label: "Reports",
-      href: "/Project-Dashboard/adminDashboard/adminComponents/reports",
+      href: "/Project-dashboard/adminDashboard/adminComponents/reports",
     },
     {
       icon: <Bell size={18} />,
       label: "Notifications",
-      href: "/Project-Dashboard/adminDashboard/adminComponents/notifications",
+      href: "/Project-dashboard/adminDashboard/adminComponents/notifications",
     },
     {
       icon: <Settings size={18} />,
       label: "System Settings",
-      href: "/Project-Dashboard/adminDashboard/adminComponents/system-settings",
+      href: "/Project-dashboard/adminDashboard/adminComponents/system-settings",
     },
   ],
   editor: [
@@ -182,11 +182,11 @@ const sidebarConfig = {
       label: "apply for editor",
       href: "/Project-Dashboard/userDashboard/useComponents/apply-for-editor",
     },
-    {
-      icon: <PencilLine size={18} />,
-      label: "apply for editor",
-      href: "/Project-dashboard/userDashboard/useComponents/apply-for-editor",
-    },
+    // {
+    //   icon: <PencilLine size={18} />,
+    //   label: "apply for editor",
+    //   href: "/Project-dashboard/userDashboard/useComponents/apply-for-editor",
+    // },
     {
       icon: <Settings size={18} />,
       label: "Settings",
