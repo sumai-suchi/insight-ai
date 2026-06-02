@@ -41,6 +41,7 @@ export async function GET(req: NextRequest) {
     //picing user id from search params
     const url = new URL(req.url);
     const userId = url.searchParams.get("userId");
+    console.log("morina");
 
     //find the user bookmark
     const bookmark = await Bookmark.find({ userId });
@@ -58,29 +59,49 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+// export async function DELETE(req: NextRequest) {
+//   try {
+//     const { searchParams } = new URL(req.url);
+//     const id = searchParams.get("id");
+//     await connectMongo();
+
+//     if (!id) {
+//       return NextResponse.json(
+//         { message: "History not found" },
+//         { status: 404 },
+//       );
+//     }
+
+//     await Bookmark.findByIdAndDelete(id);
+//     return NextResponse.json({
+//       success: true,
+//       message: "History deleted successfully",
+//     });
+//   } catch (error) {
+//     console.error(error);
+
+//     return NextResponse.json(
+//       { message: "Failed to delete history" },
+//       { status: 500 },
+//     );
+//   }
+// }
+export async function DELETE() {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
     await connectMongo();
 
-    if (!id) {
-      return NextResponse.json(
-        { message: "History not found" },
-        { status: 404 },
-      );
-    }
+    const result = await Bookmark.deleteMany({});
 
-    await Bookmark.findByIdAndDelete(id);
     return NextResponse.json({
       success: true,
-      message: "History deleted successfully",
+      message: "All history deleted successfully",
+      deletedCount: result.deletedCount,
     });
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
-      { message: "Failed to delete history" },
+      { message: "Failed to delete all history" },
       { status: 500 },
     );
   }

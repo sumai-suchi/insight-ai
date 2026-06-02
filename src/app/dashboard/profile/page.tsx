@@ -12,9 +12,10 @@ import {
   ChevronDown,
   Edit3,
 } from "lucide-react";
-import { authClient } from "@/lib/auth/auth-client";
+
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/Context/AuthContext";
+import authClient from "@/lib/auth/auth-client";
 
 const ProfileManagement = () => {
   const router = useRouter();

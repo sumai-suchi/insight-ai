@@ -6,7 +6,6 @@ import DashboardNavbar from "./_components/DashboardNavbar";
 import ChatBox from "./_components/ChatBox";
 
 function layout({ children }: { children: React.ReactNode }) {
-  const [sideOpen, setSideOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
 
   const router = useRouter();
@@ -20,8 +19,6 @@ function layout({ children }: { children: React.ReactNode }) {
       setChatOpen((o) => !o);
     }
   };
-
-  const pathname = usePathname();
 
   return (
     <div className="min-h-screen flex bg-gray-50">

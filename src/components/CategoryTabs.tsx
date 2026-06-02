@@ -23,8 +23,8 @@ export default function CategoryTabs({ active, onChange }: Props) {
           onClick={() => onChange(cat.value)}
           className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
             active === cat.value
-              ? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-md"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-linear-to-r from-primary to-secondary text-primary-foreground shadow-md shadow-primary/10"
+              : "bg-muted/70 text-gray-700 hover:bg-muted border border-primary/10"
           }`}
         >
           {cat.label}

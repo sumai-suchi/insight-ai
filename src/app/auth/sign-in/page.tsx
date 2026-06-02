@@ -306,6 +306,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense, useEffect } from "react";
 import { useAuth } from "@/Context/AuthContext";
+import authClient from "@/lib/auth/auth-client";
 
 function SignInForm() {
   const [email, setEmail] = useState("");

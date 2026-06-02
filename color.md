@@ -1,11 +1,11 @@
-primary  #9c30cc
-second   #5448f0
-text     #303030
-bg-light #f0e4e4
-gray     #90a8b4
-red      #f03c3c
-orenge   #FF6E00
-blue     #00B7DD
-green    #00BDA6
+--brand-primary: #0F2854;
+--brand-secondary: #4988C4;
+--brand-text: #1C4D8D;
+
+
+<!-- red #f03c3c
+orenge #FF6E00
+blue #00B7DD
+green #00BDA6
 distructive #E7000B
-constructive #22C55E
+constructive #22C55E -->

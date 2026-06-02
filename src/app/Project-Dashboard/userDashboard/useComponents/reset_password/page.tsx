@@ -1,7 +1,8 @@
 "use client";
-import { authClient } from "@/lib/auth/auth-client";
+
 import React, { useState } from "react";
 import { Lock, KeyRound, ShieldCheck, Loader2 } from "lucide-react"; // আইকন ব্যবহারের জন্য (ঐচ্ছিক)
+import authClient from "@/lib/auth/auth-client";
 
 const ResetPassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");

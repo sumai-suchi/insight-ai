@@ -55,7 +55,6 @@ const trendingItemVariants: Variants = {
   hover: { x: 8, transition: { duration: 0.3 } },
 };
 
-
 // ---- Article Card ----
 const ArticleCard = ({
   article,
@@ -65,6 +64,31 @@ const ArticleCard = ({
   priority?: boolean;
 }) => {
   const [liked, setLiked] = useState(false);
+  const { data: session } = authClient.useSession();
+
+  const handleBookmark = async (article: Article) => {
+    console.log(article);
+    try {
+      const res = await fetch("/api/bookmark", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: session?.user.id,
+          title: article.title,
+          articleId: article._id,
+          createdAt: new Date(),
+          description: article.excerpt,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert("Bookmark saved successfully ✅");
+      } else {
+        alert("Failed to save bookmark ❌");
+      }
+    } catch (err) {
+      alert("Error saving bookmark");
+    }
+  };
 
   // Inside your component...
 const [isBookmarking, setIsBookmarking] = useState(false);

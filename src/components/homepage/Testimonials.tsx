@@ -64,7 +64,6 @@ export default function Testimonials() {
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
         {/* Header */}
         <motion.div
           variants={fadeUp}
