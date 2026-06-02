@@ -81,33 +81,6 @@ export const SideNav = ({ onToggleSide, isOpen }: SideNavProps) => {
           ))}
         </ul>
       </div>
-
-      {/* Bottom Section */}
-      <div>
-        <Link
-          href="/dashboard/settings"
-          onClick={() => setActiveItem("Settings")}
-          className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl transition
-          ${
-            activeItem === "Settings"
-              ? "bg-white text-purple-700 font-semibold"
-              : "hover:bg-purple-800 text-purple-200"
-          }`}
-        >
-          <Settings size={18} />
-          Settings
-        </Link>
-
-        {/* Upgrade Card */}
-        <div className="mt-6 bg-purple-800 rounded-xl p-4 shadow-lg">
-          <p className="text-sm">Free Plan</p>
-          <p className="text-xs text-purple-200 mb-3">1,500 words remaining</p>
-
-          <button className="w-full py-2 rounded-lg bg-gradient-to-r from-fuchsia-500 to-purple-600 font-semibold">
-            Upgrade Now
-          </button>
-        </div>
-      </div>
     </aside>
   );
 };

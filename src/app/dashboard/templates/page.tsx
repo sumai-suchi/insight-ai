@@ -10,7 +10,9 @@ function Templates() {
       <SearchSection
         onSearchInput={(value: string) => setUserSearchInput(value)}
       />
-      <TemplateList userSearchInput={userSearchInput} />
+      <div className="flex-1 flex flex-col">
+        <TemplateList userSearchInput={userSearchInput} />
+      </div>
     </section>
   );
 }

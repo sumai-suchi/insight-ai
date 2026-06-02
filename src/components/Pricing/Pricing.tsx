@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Zap, BarChart3 } from "lucide-react";
+import { Check, Zap } from "lucide-react";
 
 type Plan = {
   name: string;
@@ -36,8 +36,7 @@ export default function PricingPage() {
     },
     {
       name: "Premium",
-      // 🔥 Logic only applies here
-      price: isAnnual ? 49 : 29,
+      price: isAnnual ? 490 : 49, // বা আপনার পছন্দের প্রাইস লজিক
       description: "Deep-dive tools for market professionals.",
       credits: "100 Insight Credits / mo",
       features: [
@@ -52,7 +51,6 @@ export default function PricingPage() {
     },
     {
       name: "Business",
-      // 🔥 Hardcoded static price
       price: 499,
       description: "Custom intelligence for elite teams.",
       credits: "Unlimited Credits",
@@ -163,29 +161,32 @@ const handleCheckout = async () => {
         <h2 className="text-base font-semibold text-blue-600 uppercase">
           Pricing
         </h2>
-
         <p className="mt-2 text-4xl font-bold text-slate-900 sm:text-5xl">
           Choose the plan that fuels your edge.
         </p>
 
         {/* Billing Toggle */}
         <div className="mt-10 flex justify-center items-center gap-4">
-          <span className={!isAnnual ? "font-bold" : "text-slate-500"}>
+          <span
+            className={
+              !isAnnual ? "font-bold text-slate-900" : "text-slate-500"
+            }
+          >
             Monthly
           </span>
-
           <button
             onClick={() => setIsAnnual(!isAnnual)}
-            className="relative w-14 h-7 bg-blue-600 rounded-full"
+            className="relative w-14 h-7 bg-blue-600 rounded-full transition-colors"
           >
             <div
-              className={`absolute top-1 left-1 bg-white w-5 h-5 rounded-full transition-transform ${
+              className={`absolute top-1 left-1 bg-white w-5 h-5 rounded-full transition-transform duration-200 ${
                 isAnnual ? "translate-x-7" : ""
               }`}
             />
           </button>
-
-          <span className={isAnnual ? "font-bold" : "text-slate-500"}>
+          <span
+            className={isAnnual ? "font-bold text-slate-900" : "text-slate-500"}
+          >
             Annual <span className="text-green-600">(Save 20%)</span>
           </span>
         </div>

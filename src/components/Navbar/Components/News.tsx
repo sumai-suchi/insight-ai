@@ -7,11 +7,10 @@ import { ListItem } from "./ListItem";
 
 const newsLinks = [
   { name: "Latest Updates", href: "/news" },
-  { name: "Technology", href: "/news?category=technology" },
+  { name: "Technology", href: "news?category=technology" },
   { name: "Business", href: "/news?category=business" },
-  { name: "Marketing", href: "/news?category=marketing" },
-  { name: "Startup", href: "/news?category=startup" },
-  // { name: "Sports", href: "/news?category=sports" },
+  { name: "Marketing", href: "/news?category=market" },
+  { name: "Startups", href: "/news?category=startups" },
 ];
 
 export default function News() {

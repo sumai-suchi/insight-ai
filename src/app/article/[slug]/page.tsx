@@ -259,6 +259,7 @@ export default function ArticleDetails({ params }: PageProps) {
             className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
             alt={article.title}
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F2854]/40 via-transparent to-transparent pointer-events-none"></div>
         </motion.div>
       </section>
 

@@ -53,9 +53,9 @@
 :root {
   --radius: 0.625rem;
   /* Brand palette (from color.md) */
-  --brand-primary: #9c30cc;
-  --brand-secondary: #5448f0;
-  --brand-text: #1b1414;
+--brand-primary: #0c234b;
+  --brand-secondary:#1C4D8D;
+  --brand-text:#0F172A;
   --brand-bg-light: #ffffff;
   --brand-gray: #90a8b4;
   --brand-red: #f03c3c;

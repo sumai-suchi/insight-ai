@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { authClient } from "@/lib/auth/auth-client";
+
 import {
   ComposedChart,
   Line,
@@ -26,6 +26,7 @@ import {
   FiPieChart,
   FiArrowRight,
 } from "react-icons/fi";
+import authClient from "@/lib/auth/auth-client";
 
 const COLORS = ["#3b82f6", "#8b5cf6", "#10b981", "#f59e0b"];
 
