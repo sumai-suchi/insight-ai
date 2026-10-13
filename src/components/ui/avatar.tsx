@@ -1,109 +1,84 @@
-"use client"
+/* eslint-disable @next/next/no-img-element */
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  BadgeCheckIcon,
+  BellIcon,
+  ChevronDown,
+  ChevronUp,
+  CreditCardIcon,
+  LayoutDashboard,
+  LogOutIcon,
+} from "lucide-react";
+import { authClient } from "@/lib/auth/auth-client";
+import Link from "next/link";
+import { useAuth } from "@/Context/AuthContext";
 
-import * as React from "react"
-import { Avatar as AvatarPrimitive } from "radix-ui"
-
-import { cn } from "@/lib/utils"
-
-function Avatar({
-  className,
-  size = "default",
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
-  size?: "default" | "sm" | "lg"
-}) {
+export function UserAvatar() {
+  const { session } = useAuth();
   return (
-    <AvatarPrimitive.Root
-      data-slot="avatar"
-      data-size={size}
-      className={cn(
-        "group/avatar relative flex size-8 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function AvatarImage({
-  className,
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
-  return (
-    <AvatarPrimitive.Image
-      data-slot="avatar-image"
-      className={cn("aspect-square size-full", className)}
-      {...props}
-    />
-  )
-}
-
-function AvatarFallback({
-  className,
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
-  return (
-    <AvatarPrimitive.Fallback
-      data-slot="avatar-fallback"
-      className={cn(
-        "bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
-  return (
-    <span
-      data-slot="avatar-badge"
-      className={cn(
-        "bg-primary text-primary-foreground ring-background absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full ring-2 select-none",
-        "group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
-        "group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
-        "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="avatar-group"
-      className={cn(
-        "*:data-[slot=avatar]:ring-background group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function AvatarGroupCount({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="avatar-group-count"
-      className={cn(
-        "bg-muted text-muted-foreground ring-background relative flex size-8 shrink-0 items-center justify-center rounded-full text-sm ring-2 group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-export {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-  AvatarBadge,
-  AvatarGroup,
-  AvatarGroupCount,
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        {/* fallback to empty string if image is missing */}
+        <div className="flex items-center justify-end px-4 lg:justify-between text-white">
+          <img
+            src={session?.user?.image || "/avatar.jpg"} // "" or null or undefined → fallback
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full"
+          />
+          <div className="ml-2 flex items-center">
+            <div className="">
+              <p className="text-lg text-whitefont-medium">
+                {session?.user?.name}
+              </p>
+              <p className="text-sm text-gray-500">{session?.user?.email}</p>
+            </div>
+            <div className="text-black">
+              <ChevronDown className="hidden lg:flex" />
+              <ChevronUp className="lg:hidden" />
+            </div>
+          </div>
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-50">
+        <DropdownMenuGroup>
+          <Link href="/Project-dashboard">
+            <DropdownMenuItem>
+              <LayoutDashboard />
+              Dashboard
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/dashboard/account">
+            <DropdownMenuItem>
+              <BadgeCheckIcon />
+              Account
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/dashboard/billing">
+            <DropdownMenuItem>
+              <CreditCardIcon />
+              Billing
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/dashboard/notifications">
+            <DropdownMenuItem>
+              <BellIcon />
+              Notifications
+            </DropdownMenuItem>
+          </Link>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => authClient.signOut()}>
+          <LogOutIcon />
+          Sign Out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }

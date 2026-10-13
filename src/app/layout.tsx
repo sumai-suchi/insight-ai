@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
-import { getSession } from "@/lib/auth/auth"; // server-side helper
+import "swiper/css";
+import "swiper/css/pagination";
+
+import { SessionProvider } from "@/lib/auth/session-context";
+import ConditionalLayout from "@/components/ConditionalLayout";
+import { AuthProvider } from "@/Context/AuthContext";
+import "react-toastify/dist/ReactToastify.css";
+import ProgressiveProfilingGate from "@/components/profiling/ProgressiveProfilingGate";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,25 +22,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SynapseNews",
-  description: "AI Content Writing & News Platform",
+  title: "Insight AI",
+  description: "AI Content Writing & News Platform for your business",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const sessionResult = await getSession();
-  const initialUser = sessionResult?.user ?? null;
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning={true}
       >
-        <Navbar initialUser={initialUser} />
-        {children}
+        <AuthProvider>
+          <SessionProvider>
+            <ProgressiveProfilingGate />
+            <ConditionalLayout>{children}</ConditionalLayout>
+            <Toaster richColors position="top-right" />
+          </SessionProvider>
+        </AuthProvider>
       </body>
     </html>
   );

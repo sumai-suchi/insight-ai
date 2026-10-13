@@ -8,6 +8,11 @@ export interface IUser extends Document {
   password: string;
   role: "user" | "admin" | "Author";
   photoURL?: string;
+  preferences?: {
+    categories: string[];
+    tags: string[];
+  };
+  readingHistory: string[];
   createdAt: Date;
 }
 
@@ -39,6 +44,14 @@ const UserSchema = new Schema<IUser>(
     photoURL: {
       type: String,
       default: "",
+    },
+    preferences: {
+      categories: { type: [String], default: [] },
+      tags: { type: [String], default: [] },
+    },
+    readingHistory: {
+      type: [String],
+      default: [],
     },
     createdAt: {
       type: Date,
@@ -73,6 +86,8 @@ UserSchema.pre("save", function (this: any) {
 
 // Prevent re-compilation during development
 const User: Model<IUser> =
-  mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
+  mongoose.models.User || mongoose.model<IUser>("User", UserSchema, "user");
 
 export default User;
+
+
